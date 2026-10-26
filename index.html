@@ -488,27 +488,52 @@
 
     /* Сам блок апгрейда */
     .upgrade-center{ display:flex; flex-direction:column; align-items:center; gap:14px; }
-    .gauge-wrap{ position:relative; width:250px; height:250px; }
-    .gauge{ width:100%; height:100%; }
-    .gauge__base{ fill:none; stroke:#26262a; stroke-width:12; }
+    /* ---------- Режимы прокрутки колеса ---------- */
+    .g-speed{
+      display:flex; gap:6px; justify-content:center; flex-wrap:wrap;
+      margin:2px auto 14px;
+      background:#0e0e10; border:1px solid #262626; border-radius:12px; padding:5px;
+      width:max-content; max-width:100%;
+    }
+    .gs-btn{
+      display:inline-flex; align-items:center; gap:6px;
+      background:transparent; color:var(--muted); border:1px solid transparent;
+      font-family:inherit; font-size:12.5px; font-weight:700; letter-spacing:.2px;
+      padding:8px 14px; border-radius:9px; cursor:pointer; transition:all .18s ease;
+    }
+    .gs-btn .ic{ width:14px; height:14px; }
+    .gs-btn:hover{ color:#e4e4e7; background:#1a1a1d; }
+    .gs-btn.active{
+      background:var(--accent); color:#0a0a0a; border-color:var(--accent);
+      box-shadow:0 0 14px rgba(163,230,53,.35), inset 0 0 0 1px rgba(255,255,255,.25);
+    }
+    .gs-btn.active .ic{ color:#0a0a0a; }
+
+    /* ---------- Колесо апгрейда ---------- */
+    .gauge-wrap{ position:relative; width:262px; max-width:100%; margin:0 auto; }
+    .gauge{ width:100%; height:100%; display:block; }
+    .gauge__base{ fill:none; stroke:#1c1c20; stroke-width:10; }
     .gauge__zone{
-      fill:none; stroke:var(--accent); stroke-width:12; stroke-linecap:round;
-      filter:drop-shadow(0 0 8px rgba(163,230,53,.6));
+      fill:none; stroke:var(--accent); stroke-width:10; stroke-linecap:round;
+      filter:drop-shadow(0 0 7px rgba(163,230,53,.4));
       transition:stroke-dashoffset .4s ease;
     }
-    .gauge__needle{
-      stroke:#fff; stroke-width:5; stroke-linecap:round;
-      filter:drop-shadow(0 0 5px rgba(255,255,255,.5));
+    .gauge__ticks line{ stroke:#2c2c31; stroke-width:2.5; stroke-linecap:round; }
+    .gauge__ticks line.big{ stroke:#52525b; stroke-width:3.5; }
+    .gauge__arrow{
+      fill:#fff; filter:drop-shadow(0 0 5px rgba(163,230,53,.65));
+      transition:none;
     }
-    /* Точка вращения стрелки — на группе, к которой применён JS-rotate */
+    .gauge__hub{ fill:#101012; stroke:#3f3f46; stroke-width:2; }
     #gaugeNeedle{ transform-origin:100px 100px; transform-box:view-box; }
-    .gauge-center{
-      position:absolute; inset:0; display:flex; flex-direction:column;
-      align-items:center; justify-content:center; gap:2px; pointer-events:none; text-align:center;
+    .gauge-legend{
+      display:flex; flex-direction:column; align-items:center; gap:5px;
+      text-align:center; margin-top:13px;
     }
-    .gauge-center .big{ font-size:27px; font-weight:900; }
-    .gauge-center .small{ font-size:11.5px; color:var(--muted); padding:0 30px; line-height:1.4; }
-    .gauge-center .b1{ color:#fff; }
+    .gauge-legend .big{ font-size:25px; font-weight:900; line-height:1; }
+    .gauge-legend .big .ic{ width:20px; height:20px; vertical-align:-3px; }
+    .gauge-legend .small{ font-size:12px; color:var(--muted); padding:0 24px; line-height:1.45; }
+    .gauge-legend .small b.b1{ color:#fff; }
 
     .up-chips{
       display:flex; flex-wrap:wrap; gap:8px; justify-content:center;
@@ -662,20 +687,258 @@
     .up-chip img.skin-img{ width:20px; height:17px; vertical-align:-3px; }
     .r-cell.win img.skin-img{ transform:scale(1.08); }
 
+    /* ---------- SVG-иконки базовый ---------- */
+    .ic{
+      width:1em; height:1em; display:inline-block; vertical-align:-0.14em;
+      fill:none; stroke:currentColor; stroke-width:2;
+      stroke-linecap:round; stroke-linejoin:round;
+    }
+    .btn .ic{ width:1.05em; height:1.05em; vertical-align:-0.2em; }
+    .tab-btn .ic{ width:1.1em; height:1.1em; vertical-align:-0.2em; }
+    h4 .ic{ width:1.05em; height:1.05em; color:var(--accent); vertical-align:-0.18em; }
+    .targets-head .ic{ color:var(--accent); }
+    .spin-result .emo svg.ic{ width:52px; height:52px; color:var(--accent); }
+    .daily-card__emo svg.ic{ width:46px; height:46px; color:var(--accent);
+      filter:drop-shadow(0 4px 12px rgba(163,230,53,.35)); }
+    .case-card__icon svg.ic{ width:46px; height:46px; color:var(--c);
+      filter:drop-shadow(0 0 10px color-mix(in srgb, var(--c) 45%, transparent)); }
+    .steam-modal .emo svg.ic{ width:56px; height:56px; color:var(--red); }
+    .skin-miss{ color:var(--rc, var(--muted)); font-size:inherit; display:inline-flex; }
+    .skin-miss svg.ic{ width:1.4em; height:1.4em; }
+    /* Фикс: картинка цели апгрейдера — компактная, а не гигантская */
+    .target-item .tg-img img.skin-img{ width:30px; height:24px; }
+    .target-item .tg-img svg.ic{ width:20px; height:18px; }
+    .up-chip img.skin-img{ width:20px; height:16px; vertical-align:-3px; }
+    /* Полиш апгрейдера */
+    .targets{ grid-template-columns:repeat(auto-fill, minmax(165px, 1fr)); max-height:220px; }
+    .up-chips{ gap:6px; }
+    .up-chip{ padding:5px 10px; font-size:12px; }
+    /* Полиш раскладки сайта */
+    .section-sub{ margin-bottom:24px; }
+    .stat-card .num{ font-size:22px; }
+    .stat-card{ padding:16px 18px; display:flex; flex-direction:column; justify-content:space-between; }
+    .item-card{ padding-bottom:14px; }
+    .item-card .emo img.skin-img{ width:58px; height:50px; }
+    .inv-mini{ padding:9px 5px; }
+    .inv-mini .emo img.skin-img{ width:26px; height:22px; }
+    .live-item .e img.skin-img{ width:20px; height:17px; }
+    .hist-item .e img.skin-img{ width:26px; height:22px; }
+    .r-cell__emoji img.skin-img{ width:42px; height:36px; }
+    .csi-item .e img.skin-img{ width:34px; height:28px; }
+    .spin-result .emo img.skin-img{ width:92px; height:76px; }
+
+    /* ---------- Вкладка «Пополнить» ---------- */
+    .deposit-layout{ display:grid; grid-template-columns:minmax(320px, 460px) 1fr; gap:20px; align-items:start; }
+    @media (max-width:900px){ .deposit-layout{ grid-template-columns:1fr; } }
+
+    .deposit-card{
+      border:1px solid color-mix(in srgb, var(--accent) 30%, var(--line));
+      background:
+        linear-gradient(140deg, rgba(163,230,53,.10), transparent 55%),
+        var(--panel);
+      box-shadow:0 10px 34px rgba(0,0,0,.5);
+      position:relative; overflow:hidden;
+    }
+    .deposit-card.success{ animation:cardWin .9s ease; }
+    @keyframes cardWin{
+      0%{ box-shadow:0 0 0 0 rgba(163,230,53,.55), 0 10px 34px rgba(0,0,0,.5); }
+      70%{ box-shadow:0 0 40px 8px rgba(163,230,53,.3), 0 10px 34px rgba(0,0,0,.5); }
+      100%{ box-shadow:0 10px 34px rgba(0,0,0,.5); }
+    }
+    .deposit-head{ display:flex; align-items:center; gap:14px; margin-bottom:18px; }
+    .dh-ic{ width:46px; height:46px; flex:0 0 46px; border-radius:14px;
+      display:flex; align-items:center; justify-content:center;
+      background:rgba(163,230,53,.12); border:1px solid color-mix(in srgb, var(--accent) 40%, var(--line));
+      color:var(--accent); }
+    .dh-ic .ic{ width:24px; height:24px; }
+    .dh-t{ font-weight:900; font-size:17px; letter-spacing:.3px; }
+    .dh-s{ color:var(--muted); font-size:12.5px; margin-top:2px; }
+    .d-lbl{ display:block; color:var(--muted); font-size:12.5px; font-weight:600; margin:14px 0 7px; }
+    .d-amount{
+      display:flex; align-items:center; gap:10px;
+      background:var(--panel-2); border:1.5px solid var(--line); border-radius:12px; padding:10px 14px;
+      transition:border-color var(--transition);
+    }
+    .d-amount:focus-within{ border-color:var(--accent); }
+    .d-gem{ color:var(--accent); display:inline-flex; }
+    .d-gem .ic{ width:19px; height:19px; }
+    .d-amount input{
+      flex:1; min-width:0; background:none; border:none; outline:none;
+      color:var(--text); font-family:inherit; font-size:22px; font-weight:800;
+      -moz-appearance:textfield;
+    }
+    .d-amount input::-webkit-outer-spin-button,
+    .d-amount input::-webkit-inner-spin-button{ -webkit-appearance:none; margin:0; }
+    .d-presets{ display:flex; gap:8px; margin-top:9px; flex-wrap:wrap; }
+    .d-preset{
+      flex:1; min-width:64px; padding:9px 0; border-radius:10px;
+      background:var(--panel-2); border:1.5px solid var(--line);
+      font-weight:800; font-size:13.5px; color:var(--muted);
+      transition:all var(--transition);
+    }
+    .d-preset:hover{ border-color:var(--accent); color:var(--accent); transform:translateY(-2px); }
+    .d-promo{ display:flex; gap:8px; }
+    .d-promo input{
+      flex:1; min-width:0; background:var(--panel-2); border:1.5px solid var(--line); border-radius:12px;
+      padding:10px 14px; color:var(--text); font-family:inherit; font-size:14px;
+      letter-spacing:1px; text-transform:uppercase; outline:none;
+      transition:border-color var(--transition);
+    }
+    .d-promo input:focus{ border-color:var(--accent); }
+    .d-summary{
+      margin-top:16px; padding:13px 16px; border-radius:12px;
+      background:rgba(163,230,53,.08); border:1px dashed color-mix(in srgb, var(--accent) 45%, transparent);
+      font-size:15px;
+    }
+    .d-summary small{ color:var(--muted); }
+    .btn-pay{ width:100%; margin-top:14px; padding:15px 0; font-size:16px; }
+    .pay-stage{
+      margin-top:14px; min-height:74px; border-radius:12px; padding:12px 16px;
+      background:var(--panel-2); border:1px solid var(--line);
+      display:flex; align-items:center; gap:14px;
+      visibility:hidden;
+    }
+    .pay-stage.active{ visibility:visible; }
+    .deposit-card.paying .pay-stage{ visibility:visible; animation:stageIn .3s ease; }
+    .deposit-card.success .pay-stage{ visibility:visible; animation:stageIn .3s ease; }
+    @keyframes stageIn{ from{ opacity:0; transform:translateY(6px); } }
+    .pay-gem{
+      width:34px; height:34px; flex:0 0 34px; border-radius:8px;
+      background:linear-gradient(135deg, var(--accent), var(--accent-2));
+      transform:rotate(45deg);
+      animation:gemPulse 1s ease infinite;
+    }
+    .pay-gem.success{ animation:gemSuccess .8s cubic-bezier(.2,.9,.3,1.4); }
+    @keyframes gemPulse{
+      0%,100%{ transform:rotate(45deg) scale(1); box-shadow:0 0 0 0 rgba(163,230,53,.5); }
+      50%{ transform:rotate(45deg) scale(1.12); box-shadow:0 0 0 8px rgba(163,230,53,0); }
+    }
+    @keyframes gemSuccess{
+      0%{ transform:rotate(45deg) scale(.4); }
+      55%{ transform:rotate(225deg) scale(1.35); box-shadow:0 0 26px 6px rgba(163,230,53,.55); }
+      100%{ transform:rotate(405deg) scale(1); box-shadow:0 0 0 0 rgba(163,230,53,0); }
+    }
+    .pay-txt{ color:var(--muted); font-size:13.5px; font-weight:600; display:flex; align-items:center; gap:7px; }
+    .pay-txt.ok{ color:#d4d4d8; }
+    .pay-txt.ok .ic{ color:var(--accent); }
+    .deposit-info h4 .ic{ color:var(--red); }
+    .d-list{ list-style:none; display:flex; flex-direction:column; gap:10px; }
+    .d-list li{
+      padding-left:20px; position:relative; color:#d4d4d8; font-size:13.5px; line-height:1.5;
+    }
+    .d-list li::before{
+      content:''; position:absolute; left:2px; top:7px;
+      width:7px; height:7px; border-radius:2px; background:var(--accent);
+      transform:rotate(45deg);
+    }
+    .d-note{
+      margin-top:16px; padding-top:14px; border-top:1px solid var(--line);
+      color:var(--muted); font-size:12.5px; font-style:italic;
+    }
+    /* Мобильный бар: кнопка пополнения не громоздкая */
+    @media (max-width:640px){
+      #depositHeaderBtn{ order:2; }
+    }
+
     /* ---------- Мобильная адаптация ---------- */
     @media (max-width:640px){
-      .header-inner{ flex-wrap:wrap; justify-content:center; row-gap:10px; }
-      .logo{ font-size:19px; }
-      nav.tabs{ justify-content:flex-start; padding:0 12px; }
-      .tab-btn{ padding:12px 18px; font-size:14px; }
-      .r-cell{ flex-basis:92px; width:92px; height:112px; }
-      .r-cell__emoji{ font-size:28px; }
-      .btn-upgrade{ padding:14px 30px; }
-      .roulette::before,.roulette::after{ width:40px; }
-      .daily-card{ padding:16px; gap:12px; }
-      .csi-item .rl{ display:none; }
-      #toasts{ left:16px; right:16px; align-items:flex-start; }
+      /* Шапка: компактный ряд */
+      .header-inner{ gap:8px; padding:10px 12px; }
+      .logo{ font-size:17px; letter-spacing:1px; }
+      .balance-pill{ padding:5px 10px; font-size:12px; }
+      #depositHeaderBtn{ padding:7px 10px !important; font-size:12px; }
+      .balance-pill .gem{ font-size:11px; }
+
+      /* Вкладки: горизонтальный скролл без скроллбара */
+      nav.tabs{ justify-content:flex-start; padding:0 8px; overflow-x:auto;
+        -webkit-overflow-scrolling:touch; scrollbar-width:none; }
+      nav.tabs::-webkit-scrollbar{ display:none; }
+      .tab-btn{ padding:10px 12px; font-size:13px; flex:0 0 auto; white-space:nowrap; }
+      .tab-btn .ic{ width:14px; height:14px; }
+
+      /* Колонки и отступы */
+      .container{ padding:0 12px; }
+      .section-title{ font-size:20px; margin:20px 0 6px; }
+      .section-sub{ font-size:13px; margin-bottom:16px; }
+      .panel{ padding:14px; }
+      .upgrade-layout{ gap:14px; }
+      .cases-grid{ gap:12px; }
+
+      /* Рулетка */
+      .r-cell{ flex-basis:88px; width:88px; height:108px; }
+      .roulette::before,.roulette::after{ width:36px; }
+      .spin-count{ gap:6px; flex-wrap:wrap; }
+      .count-btn{ padding:8px 13px; font-size:12.5px; }
+
+      /* Апгрейдер */
+      .btn-upgrade{ padding:14px 0; width:100%; }
+      .g-speed{ width:100%; padding:4px; gap:4px; }
+      .gs-btn{ flex:1; justify-content:center; padding:9px 6px; font-size:12px; min-height:37px; }
+      .gs-btn .ic{ width:13px; height:13px; }
+      .gauge-wrap{ width:212px; }
+      .gauge-legend .big{ font-size:21px; }
+      .gauge-legend .small{ padding:0 10px; font-size:11.5px; }
+      .up-chip{ font-size:11px; }
+      .targets-head{ flex-direction:column; align-items:stretch; gap:8px; }
+      #targetSearch{ width:100%; }
+
+      /* Страница кейса */
+      .cp-head{ gap:10px; margin-bottom:12px; }
+      .cp-title{ gap:12px; }
+      .cp-icon{ width:56px; height:56px; flex-basis:56px; border-radius:16px; }
+      .cp-icon .ic{ width:26px; height:26px; }
+      .cp-title .section-title{ font-size:19px; }
+      .cp-title .section-sub{ font-size:12.5px; }
+      .cp-actions{ flex-direction:column; align-items:stretch; gap:10px; }
+      .cp-actions .spin-count{ justify-content:center; }
+      #cpStart{ width:100%; padding:13px 0; justify-content:center; }
+      .cp-contents{ padding:14px; }
+      .csi-item{ gap:8px; }
+      .csi-item .e{ font-size:18px; }
+      .csi-item .ch{ min-width:64px; font-size:10.5px; }
+      .csi-item .vl{ min-width:64px; font-size:11px; }
+
+      /* Профиль */
+      .daily-card{ padding:14px; gap:10px; }
+      .daily-card .btn{ width:100%; }
+
+      /* Модалки */
+      .modal{ padding:16px 14px; width:min(96vw, 560px); }
+      .deposit-layout{ gap:14px; }
+      .d-amount input{ font-size:20px; }
+      .d-preset{ padding:8px 0; flex:1; font-size:12px; }
+      .d-presets{ gap:7px; }
+      .btn-pay{ font-size:15px; }
+      .roulette{ height:130px; }
+
+      /* Инвентарь и лента */
+      .live-bar{ padding:8px 10px; }
+      .live-bar__track{ gap:6px; }
+      #toasts{ left:10px; right:10px; top:10px; align-items:flex-start; }
+      .toast{ font-size:12.5px; }
     }
+    /* ---------- Страница кейса ---------- */
+    .cp-head{ display:flex; flex-direction:column; gap:14px; margin-bottom:16px; }
+    .cp-title{ display:flex; gap:18px; align-items:center; flex-wrap:wrap; }
+    .cp-title .section-title{ margin:0; }
+    .cp-title .section-sub{ margin:4px 0 0; }
+    .cp-icon{
+      width:76px; height:76px; flex:0 0 76px; border-radius:20px;
+      display:flex; align-items:center; justify-content:center;
+      border:1px solid #2a2a2a; box-shadow: inset 0 0 34px rgba(0,0,0,.55);
+    }
+    .cp-icon .ic{ width:36px; height:36px; color:#0a0a0a; }
+    .cp-actions{ display:flex; gap:12px; flex-wrap:wrap; align-items:center; margin-bottom:18px; }
+    .cp-actions .spin-count{ margin:0; }
+    .cp-contents{ padding:20px; }
+    .cp-contents h4{ display:flex; align-items:center; gap:9px; }
+    .cp-contents h4 .ic{ width:18px; height:18px; color:var(--accent); }
+
+    /* ---------- Модалка пополнения ---------- */
+    .deposit-modal{ max-width:880px; width:min(880px, 94vw); }
+    .balance-pill{ cursor:pointer; transition:border-color .2s ease; }
+    .balance-pill:hover{ border-color:var(--accent); }
+
   </style>
 </head>
 <body>
@@ -691,13 +954,14 @@
         <span class="gem">◆</span>
         <span id="balanceValue">0</span>
       </div>
+      <button class="btn btn--ghost" id="depositHeaderBtn" title="Пополнить баланс" style="padding:10px 16px;"><span data-ic="plus"></span> Пополнить</button>
       <button class="btn btn--primary" id="profileBtn" style="padding:10px 20px;">Профиль</button>
     </div>
     <!-- Вкладки -->
     <nav class="tabs" id="tabs">
-      <button class="tab-btn active" data-tab="cases">🎁 Кейсы</button>
-      <button class="tab-btn" data-tab="upgrader">⚡ Апгрейдер</button>
-      <button class="tab-btn" data-tab="profile">👤 Профиль<span class="tab-dot" id="dailyDot"></span></button>
+      <button class="tab-btn active" data-tab="cases"><span data-ic="gift"></span> Кейсы</button>
+      <button class="tab-btn" data-tab="upgrader"><span data-ic="bolt"></span> Апгрейдер</button>
+      <button class="tab-btn" data-tab="profile"><span data-ic="user"></span> Профиль<span class="tab-dot" id="dailyDot"></span></button>
     </nav>
   </header>
 
@@ -712,42 +976,54 @@
     <!-- ======================= КЕЙСЫ ======================= -->
     <section class="tab-section active" id="tab-cases">
       <h1 class="section-title">Открывай кейсы</h1>
-      <p class="section-sub">Играй бесплатно на виртуальных баллах. Именно столько, сколько стоил бы твой инвентарь, если бы это был не localStorage. Выигранные предметы падают в <b>инвентарь</b>. Клик на кейс — состав и шансы, кнопка «Открыть» — сразу в рулетку.</p>
+      <p class="section-sub">Играй бесплатно на виртуальных баллах. Именно столько, сколько стоил бы твой инвентарь, если бы это был не localStorage. Выигранные предметы падают в <b>инвентарь</b>. Клик на кейс — его страница: состав, шансы и настройки. Кнопка «Открыть» — сразу в рулетку.</p>
       <div class="cases-grid" id="casesGrid"><!-- рендерится из JS --></div>
     </section>
 
     <!-- ======================= АПГРЕЙДЕР ======================= -->
     <section class="tab-section" id="tab-upgrader">
       <h1 class="section-title">Апгрейдер</h1>
-      <p class="section-sub">Собери ставку до <b>6 предметов</b> из инвентаря, выбери множитель и жми. Успешно — получаешь одну дорогую вещь вместо нескольких. Провал — вся ставка красиво сгорает.</p>
+      <p class="section-sub">Собери ставку до <b>6 предметов</b> из инвентаря, выбери цель дороже ставки и жми. Успешно — получаешь одну дорогую вещь вместо нескольких. Провал — вся ставка красиво сгорает.</p>
 
       <div class="upgrade-layout">
         <!-- Левая колонка: инвентарь для мультивыбора -->
         <div class="panel">
-          <h4>📦 Инвентарь · выбери до 6 предметов</h4>
+          <h4><span data-ic="box"></span> Инвентарь · выбери до 6 предметов</h4>
           <p class="hint">Кликни предмет — добавишь в ставку. Повторный клик — уберёшь.</p>
           <div class="upgrade-inv" id="upgradeInv"></div>
         </div>
 
         <!-- Правая колонка: колесо и управление -->
         <div class="panel upgrade-center">
-          <h4>⚡ Колесо апгрейда</h4>
+          <h4><span data-ic="bolt"></span> Колесо апгрейда</h4>
 
           <!-- Чипсы выбранной ставки -->
           <div class="up-chips" id="upChips"></div>
           <div class="up-total" id="upTotal">Ставка не собрана</div>
 
+          <!-- Режим прокрутки колеса -->
+          <div class="g-speed" id="gaugeSpeed" title="Стиль прокрутки колеса">
+            <button class="gs-btn" data-gs="norm"><span data-ic="clock"></span> Обычный</button>
+            <button class="gs-btn" data-gs="fast"><span data-ic="bolt"></span> Быстрый</button>
+            <button class="gs-btn" data-gs="wild"><span data-ic="dice"></span> Непредсказуемый</button>
+          </div>
+
           <div class="gauge-wrap">
             <svg class="gauge" viewBox="0 0 200 200">
-              <circle class="gauge__base" cx="100" cy="100" r="84"></circle>
               <!-- Зелёная зона успеха (длина дуги задаётся из JS) -->
+              <circle class="gauge__base" cx="100" cy="100" r="84"></circle>
               <circle class="gauge__zone" id="gaugeZone" cx="100" cy="100" r="84"
                       transform="rotate(-90 100 100)"></circle>
+              <!-- Тик-рейка строится из JS -->
+              <g id="gaugeTicks"></g>
+              <!-- Стрелка-указатель сверху, вращается вокруг центра -->
               <g id="gaugeNeedle">
-                <line class="gauge__needle" x1="100" y1="100" x2="100" y2="24"></line>
+                <polygon class="gauge__arrow" points="100,10 92,34 108,34"></polygon>
               </g>
+              <circle class="gauge__hub" cx="100" cy="100" r="9"></circle>
             </svg>
-            <div class="gauge-center">
+            <!-- Вся информация — ПОД колесом, не внутри -->
+            <div class="gauge-legend">
               <span class="big" id="gaugeBig">—</span>
               <span class="small" id="gaugeSmall">Выбери предметы слева и множитель</span>
             </div>
@@ -755,15 +1031,20 @@
 
           <div class="targets-box">
             <div class="targets-head">
-              <span>🎯 Куда апгрейдим — цель дороже ставки</span>
+              <span><span data-ic="target"></span> Куда апгрейдим — цель дороже ставки</span>
               <input id="targetSearch" type="text" placeholder="поиск скина…" autocomplete="off">
             </div>
             <div class="targets" id="targetList"></div>
           </div>
 
-          <button class="btn btn--primary btn-upgrade" id="upgradeBtn" disabled>⚡ Апгрейд</button>
+          <button class="btn btn--primary btn-upgrade" id="upgradeBtn" disabled><span data-ic="bolt"></span> Апгрейд</button>
         </div>
       </div>
+    </section>
+
+    <!-- ======================= СТРАНИЦА КЕЙСА ======================= -->
+    <section class="tab-section" id="tab-casew">
+      <div id="casePageWrap"><!-- рендерится из JS --></div>
     </section>
 
     <!-- ======================= ПРОФИЛЬ ======================= -->
@@ -773,7 +1054,7 @@
 
       <!-- Ежедневный бонус -->
       <div class="daily-card" id="dailyCard">
-        <div class="daily-card__emo">🎁</div>
+        <div class="daily-card__emo" data-ic="gift"></div>
         <div class="daily-card__info">
           <div class="daily-card__title">Ежедневный бонус</div>
           <div class="daily-card__status" id="dailyStatus">—</div>
@@ -803,9 +1084,9 @@
 
       <!-- Инвентарь -->
       <div class="inv-head">
-        <h4>🎒 Инвентарь <span id="invCount"></span></h4>
+        <h4><span data-ic="box"></span> Инвентарь <span id="invCount"></span></h4>
         <div class="inv-head__btns">
-          <button class="btn btn--steam" id="steamBtn" title="Вывод баланса в Steam">🎮 Вывести в Steam</button>
+          <button class="btn btn--steam" id="steamBtn" title="Вывод баланса в Steam"><span data-ic="cart"></span> Вывести в Steam</button>
           <button class="btn btn--ghost btn--small" id="sellAllBtn">Продать всё</button>
         </div>
       </div>
@@ -813,12 +1094,12 @@
 
       <!-- История дропов -->
       <div class="inv-head">
-        <h4>📜 История дропов <span id="histCount"></span></h4>
+        <h4><span data-ic="list"></span> История дропов <span id="histCount"></span></h4>
       </div>
       <div class="history" id="dropHistory"></div>
 
       <div class="profile-actions">
-        <button class="btn btn--danger" id="resetBtn">🗑 Сбросить прогресс</button>
+        <button class="btn btn--danger" id="resetBtn"><span data-ic="trash"></span> Сбросить прогресс</button>
       </div>
     </section>
 
@@ -829,7 +1110,7 @@
     <div class="modal">
       <div class="modal__head">
         <div class="modal__title" id="caseModalTitle">Кейс</div>
-        <button class="modal__close" id="caseCloseBtn" title="Закрыть">✕</button>
+        <button class="modal__close" id="caseCloseBtn" title="Закрыть"><span data-ic="close"></span></button>
       </div>
 
       <!-- Выбор количества кейсов за раз -->
@@ -838,7 +1119,7 @@
         <button class="count-btn active" data-n="1">×1</button>
         <button class="count-btn" data-n="2">×2</button>
         <button class="count-btn" data-n="3">×3</button>
-        <button class="count-btn" id="fastBtn" style="margin-left:auto;" title="Ускоренная прокрутка (1.15 с вместо 5.4 с)">⚡ Быстро</button>
+        <button class="count-btn" id="fastBtn" style="margin-left:auto;" title="Ускоренная прокрутка (1.15 с вместо 5.4 с)"><span data-ic="bolt"></span> Быстро</button>
       </div>
 
       <div class="roulette" id="rouletteView">
@@ -847,7 +1128,7 @@
       </div>
 
       <div class="spin-result" id="spinResult">
-        <span style="color:var(--muted)">Крутим… удачи! 🍀</span>
+        <span style="color:var(--muted)">Крутим… удачи!</span>
       </div>
 
       <div class="session-note" id="sessionNote"></div>
@@ -859,17 +1140,60 @@
     </div>
   </div>
 
-  <!-- ======================= МОДАЛКА СОДЕРЖИМОГО КЕЙСА ======================= -->
-  <div class="overlay" id="caseInfoOverlay">
-    <div class="modal" style="max-width:680px;">
+  <!-- ======================= МОДАЛКА ПОПОЛНЕНИЯ (фейковая, поверх сайта) ======================= -->
+  <div class="overlay" id="depositOverlay">
+    <div class="modal deposit-modal">
       <div class="modal__head">
-        <div class="modal__title" id="caseInfoTitle">Кейс</div>
-        <button class="modal__close" id="caseInfoCloseBtn" title="Закрыть">✕</button>
+        <div class="modal__title"><span data-ic="cart"></span> Космоплатёж™</div>
+        <button class="modal__close" id="depCloseBtn" title="Закрыть"><span data-ic="close"></span></button>
       </div>
-      <p class="csi-footnote">Честные шансики. Как и все шансы в этом мире — примерно ровно наполовину свои.</p>
-      <div class="csi-list" id="caseInfoList"></div>
-      <div style="display:flex; justify-content:center; gap:12px; flex-wrap:wrap; margin-top:6px;">
-        <button class="btn btn--primary" id="caseInfoOpen" style="padding:14px 34px; font-size:15px;">Открыть кейс</button>
+      <p class="section-sub" style="margin:0 0 14px;">Сотая доля правды: это пополнение абсолютно <b>фейковое</b>. Ни рублей, ни банков, ни 3D-Secure — только баллы из воздуха и твоя безграничная вера в зелёный ромб.</p>
+
+      <div class="deposit-layout">
+        <div class="panel deposit-card">
+          <div class="deposit-head">
+            <span data-ic="coins" class="dh-ic"></span>
+            <div>
+              <div class="dh-t">Космоплатёж™</div>
+              <div class="dh-s">Оплата силой мысли · комиссия 0% · отказов не бывает</div>
+            </div>
+          </div>
+
+          <label class="d-lbl">Сумма пополнения</label>
+          <div class="d-amount">
+            <span class="d-gem" data-ic="gems"></span>
+            <input type="number" id="depAmount" min="1" step="1" placeholder="0" inputmode="numeric">
+          </div>
+          <div class="d-presets">
+            <button class="d-preset" data-a="100">100</button>
+            <button class="d-preset" data-a="500">500</button>
+            <button class="d-preset" data-a="1000">1000</button>
+            <button class="d-preset" data-a="5000">5000</button>
+          </div>
+
+          <label class="d-lbl">Промокод (если есть)</label>
+          <div class="d-promo">
+            <input type="text" id="depPromo" placeholder="есть подозрения — введи" autocomplete="off" spellcheck="false">
+            <button class="btn btn--ghost btn--small" id="depPromoBtn">Применить</button>
+          </div>
+
+          <div class="d-summary" id="depSummary">К зачислению: ◆ 0</div>
+
+          <button class="btn btn--primary btn-pay" id="depPayBtn">Оплатить силой мысли</button>
+
+          <div class="pay-stage" id="payStage"></div>
+        </div>
+
+        <div class="panel deposit-info">
+          <h4><span data-ic="skull"></span> Как это «работает»</h4>
+          <ul class="d-list">
+            <li>Любая сумма — зачислим хоть триллион. Кредитная история не требуется.</li>
+            <li>Промокоды существуют. Список засекречен и хранится в хешах — удачи в поиске.</li>
+            <li>Вывод — смотри кнопку в профиле. Там уже всё объяснили, повторять не будем.</li>
+            <li>После «оплаты» никаких чеков. Чек — это тост-уведомление и приятный звук.</li>
+          </ul>
+          <div class="d-note">Платёжного шлюза не существует. Банк даже не в курсе. Как и Steam.</div>
+        </div>
       </div>
     </div>
   </div>
@@ -877,11 +1201,11 @@
   <!-- ======================= МОДАЛКА «ВЫВОД В STEAM» ======================= -->
   <div class="overlay" id="steamOverlay">
     <div class="modal steam-modal">
-      <span class="emo">💀</span>
+      <span class="emo" data-ic="skull"></span>
       <div class="ttl">Вывод в Steam невозможен</div>
       <p id="steamMsg"></p>
       <div class="tries" id="steamCounter"></div>
-      <button class="btn btn--primary proceed" id="steamCloseBtn">Ну ладно... 🤝</button>
+      <button class="btn btn--primary proceed" id="steamCloseBtn">Ну ладно…</button>
     </div>
   </div>
 
@@ -928,91 +1252,150 @@
   */
   const CASES = [
     {
-      id:'bomzh', name:'Бомж Кейс', price:60, color:'#8b8f98', emo:'🥫',
-      tag:'Найдено у гаражей ещё той зимой. Гарантия — честное слово кота Барсика.',
+      id:'bomzh', name:'Бомж Кейс', price:30, color:'#8b8f98', icon:'cup',
+      tag:'Собран на чердаке бабушки Валентины. Прозрачный зал — гарантирую на слово.',
       items:[
-        { n:'M4A4 | Zubastick (Minimal Wear)', v:20, w:33.46, r:'trash', img:'https://community.cloudflare.steamstatic.com/economy/image/i0CoZ81Ui0m-9KwlBY1L_18myuGuq1wfhWSaZgMttyVfPaERSR0Wqmu7LAocGIGz3UqlXOLrxM-vMGmW8VNxu5Dx60noTyL8ypexwi8P7qaRcrFvIeOHB2Sb_uxhj-1gSCGn208j5WqDw9ascn6VOlQoCJV0RbVb5xO5l4fgY-Pk5waMitpHzS79jiJXrnE8cY5TeGQ' },
-        { n:'StatTrak™ Glock-18 | Warhawk (Battle-Scarred)', v:38, w:26.77, r:'trash', img:'https://community.cloudflare.steamstatic.com/economy/image/i0CoZ81Ui0m-9KwlBY1L_18myuGuq1wfhWSaZgMttyVfPaERSR0Wqmu7LAocGIGz3UqlXOLrxM-vMGmW8VNxu5Dx60noTyL2kpnj9h1c_M2pZKtuK8-HBnKexetkj-V8XD2MnRgmpSTLzdmhdXySOwcnCpVxQuANtRe7kIDgYurr5lPZjd5DyCWriH5L7X5p5PFCD_QWET8GLw' },
-        { n:'PP-Bizon | Space Cat (Minimal Wear)', v:61, w:16.73, r:'trash', img:'https://community.cloudflare.steamstatic.com/economy/image/i0CoZ81Ui0m-9KwlBY1L_18myuGuq1wfhWSaZgMttyVfPaERSR0Wqmu7LAocGIGz3UqlXOLrxM-vMGmW8VNxu5Dx60noTyLzl4zv8x1Y-s2sYb5iLs-AHmaTxO13pN5lRi67gVN04jvcmYv6IHnGbw51XsYmQO5ftBG9xoexNrix4gPYjIJEzX_2iX9I8G81tOIzQC5J' },
-        { n:'SSG 08 | Fever Dream (Field-Tested)', v:79, w:10.04, r:'trash', img:'https://community.cloudflare.steamstatic.com/economy/image/i0CoZ81Ui0m-9KwlBY1L_18myuGuq1wfhWSaZgMttyVfPaERSR0Wqmu7LAocGIGz3UqlXOLrxM-vMGmW8VNxu5Dx60noTyLijZGwpR1Y-s29e6M9eM-VC3GV09FyouRoQha-kBkupjDLw42qIHKRagAmWJR2QORZshK_xNC0Zuy3sVfZgokQzH73j39Bu3tj5fFCD_SStqkeXQ' },
-        { n:'XM1014 | Teclu Burner (Field-Tested)', v:115, w:7.81, r:'trash', img:'https://community.cloudflare.steamstatic.com/economy/image/i0CoZ81Ui0m-9KwlBY1L_18myuGuq1wfhWSaZgMttyVfPaERSR0Wqmu7LAocGIGz3UqlXOLrxM-vMGmW8VNxu5Dx60noTyLpk8ewrHZk7uORcKk8cKHHMW-f1dFkv-VWQiy3nAgq_WzWy9mpJC2WalAhXMRyReBf4xC7xNW1Mr634VaIio0UxSWr3H9N6n11o7FVzfmal4o' },
-        { n:'StatTrak™ M4A4 | Etch Lord (Minimal Wear)', v:180, w:3.9, r:'trash', img:'https://community.cloudflare.steamstatic.com/economy/image/i0CoZ81Ui0m-9KwlBY1L_18myuGuq1wfhWSaZgMttyVfPaERSR0Wqmu7LAocGIGz3UqlXOLrxM-vMGmW8VNxu5Dx60noTyL8ypexwi8P7qaRe6psK_WRB3OV_uJ_t-l9AXjnw0Qh5GqGn9b_dH3Cbg4nCcAhRLIM4BW7mtXmM7jjtAXai40WmHngznQeK6EUrpc' },
-        { n:'StatTrak™ Desert Eagle | Firebreathing (Field-Tested)', v:262, w:0.89, r:'trash', img:'https://community.cloudflare.steamstatic.com/economy/image/i0CoZ81Ui0m-9KwlBY1L_18myuGuq1wfhWSaZgMttyVfPaERSR0Wqmu7LAocGIGz3UqlXOLrxM-vMGmW8VNxu5Dx60noTyL1m5fn8Sdk6_evb6hoH_aaHGKS0-t3pOlgQS6MmBgjuiiI1N-qdnyUZgUgXJp3Q-cDshG_lNTkZLjltQ2Pj4pCyiirjXkYv3k6te0cEf1yeTwHsiQ' },
-        { n:'USP-S | Jawbreaker (Field-Tested)', v:303, w:0.39, r:'common', img:'https://community.cloudflare.steamstatic.com/economy/image/i0CoZ81Ui0m-9KwlBY1L_18myuGuq1wfhWSaZgMttyVfPaERSR0Wqmu7LAocGIGz3UqlXOLrxM-vMGmW8VNxu5Dx60noTyLkjYbf7itX6vytbbZSNeODHViUzulxqd5kSi26gBBp42mDz939J32VZwFyA8FxReBesRO8wdK0ZrzitQ2K2oMTzCWviCMb5jErvbgcxKeE5g' },
+        { n:'MAC-10 | Acid Hex (Factory New)', v:12, w:28.68, r:'trash', img:'https://community.cloudflare.steamstatic.com/economy/image/i0CoZ81Ui0m-9KwlBY1L_18myuGuq1wfhWSaZgMttyVfPaERSR0Wqmu7LAocGIGz3UqlXOLrxM-vMGmW8VNxu5Dx60noTyL8n5WxrR1T9veRb7ZoJf6sDWadztF6ueZhW2fhw09_6mjSw9r4cy6RPVV1DZZwE7UI4xDsl9CyNuvi4gHf2o1NnH7-kGoXuXqvgvHX' },
+        { n:'FAMAS | Meow 36 (Minimal Wear)', v:15, w:22.06, r:'trash', img:'https://community.cloudflare.steamstatic.com/economy/image/i0CoZ81Ui0m-9KwlBY1L_18myuGuq1wfhWSaZgMttyVfPaERSR0Wqmu7LAocGIGz3UqlXOLrxM-vMGmW8VNxu5Dx60noTyL3n5vh7h1c_M2oaalsM8-QAXWA_uNzv_ZWQyC0nQlp6jvVztaudCnEbAUgDsckFOAJsBLtlN2yP7zqslGMiooXyCX43H8Y5zErvbiVlZtU7g' },
+        { n:'SSG 08 | Memorial (Minimal Wear)', v:22, w:15.44, r:'trash', img:'https://community.cloudflare.steamstatic.com/economy/image/i0CoZ81Ui0m-9KwlBY1L_18myuGuq1wfhWSaZgMttyVfPaERSR0Wqmu7LAocGIGz3UqlXOLrxM-vMGmW8VNxu5Dx60noTyLijZGwpR1I_PX-MJtvMuWHD2uZ0vpJvOhuRz39x0UlsWmEnt37IHyfaFAkWZR5RuALtRKxlYKxMLnn4leL3t5FmSv9ijQJsHj6GwByAQ' },
+        { n:'MP9 | Modest Threat (Field-Tested)', v:25, w:11.03, r:'trash', img:'https://community.cloudflare.steamstatic.com/economy/image/i0CoZ81Ui0m-9KwlBY1L_18myuGuq1wfhWSaZgMttyVfPaERSR0Wqmu7LAocGIGz3UqlXOLrxM-vMGmW8VNxu5Dx60noTyL8js_f-jFk4uL3V6diLP-dFzfB_uNztOh8Qmfixh8mtTuGm9iocXKTbQEjWZAjRbNZshCwm9HvNLy04wPeidhCyX38kGoXua4ClY9d' },
+        { n:'StatTrak™ M249 | Bock Blocks (Minimal Wear)', v:38, w:7.72, r:'trash', img:'https://community.cloudflare.steamstatic.com/economy/image/i0CoZ81Ui0m-9KwlBY1L_18myuGuq1wfhWSaZgMttyVfPaERSR0Wqmu7LAocGIGz3UqlXOLrxM-vMGmW8VNxu5Dx60noTyL8zMK5wi8Ju6uRaqhiI_uAMXeF0_56td5lRi67gVNw4juHnIr_JSmeOwQnXsd1RbZYtkTpkoDjY7nm5Vfci4NDxS__jyoY8G81tOB68LmM' },
+        { n:'CZ75-Auto | Midnight Palm (Battle-Scarred)', v:40, w:5.52, r:'trash', img:'https://community.cloudflare.steamstatic.com/economy/image/i0CoZ81Ui0m-9KwlBY1L_18myuGuq1wfhWSaZgMttyVfPaERSR0Wqmu7LAocGIGz3UqlXOLrxM-vMGmW8VNxu5Dx60noTyLyhMG1_B1I_82-aahgH_6aCW-E_uZzsfdwAXDqwktw5mvQzov7dH-RP1J2Asd1FuAM5BS8lNTiZOiz4QXXj4xCyCngznQegViS_YE' },
+        { n:'P90 | Traction (Field-Tested)', v:50, w:3.86, r:'trash', img:'https://community.cloudflare.steamstatic.com/economy/image/i0CoZ81Ui0m-9KwlBY1L_18myuGuq1wfhWSaZgMttyVfPaERSR0Wqmu7LAocGIGz3UqlXOLrxM-vMGmW8VNxu5Dx60noTyLhx8bf-jFk_6v-V7B_JfGXMWqVxedjva9tF3_lkEpx4DjSn96hcSqWbgIgCsZ1Q-4KtUS5w4blP-Lj7lGN3Y5C02yg2T6bpjdP' },
+        { n:'CZ75-Auto | Polymer (Field-Tested)', v:59, w:2.76, r:'trash', img:'https://community.cloudflare.steamstatic.com/economy/image/i0CoZ81Ui0m-9KwlBY1L_18myuGuq1wfhWSaZgMttyVfPaERSR0Wqmu7LAocGIGz3UqlXOLrxM-vMGmW8VNxu5Dx60noTyLyhMG1_B1a4s2tcrI_H_2VMWqVxedjva88GHyyxRh_tmTWno2qIC_FZlQmXsZ1Qudes0a8l4DiN-vlsVDY34pA02yg2TwPUpIh' },
+        { n:'Desert Eagle | Firebreathing (Field-Tested)', v:85, w:1.77, r:'trash', img:'https://community.cloudflare.steamstatic.com/economy/image/i0CoZ81Ui0m-9KwlBY1L_18myuGuq1wfhWSaZgMttyVfPaERSR0Wqmu7LAocGIGz3UqlXOLrxM-vMGmW8VNxu5Dx60noTyL1m5fn8Sdk6_evb6hoH_aaHGKS0-t3pOlgQS6MmBgjuiiI1N-qdnyUZgUgXJp3Q-cDshG_lNTkZLjltQ2Pj4pCyiirjXkYv3k6te0cEf1yeTwHsiQ' },
+        { n:'StatTrak™ Glock-18 | Sacrifice (Minimal Wear)', v:95, w:0.66, r:'trash', img:'https://community.cloudflare.steamstatic.com/economy/image/i0CoZ81Ui0m-9KwlBY1L_18myuGuq1wfhWSaZgMttyVfPaERSR0Wqmu7LAocGIGz3UqlXOLrxM-vMGmW8VNxu5Dx60noTyL2kpnj9h1Y-s2pZKtuK8-bC3Wf_uJ_t-l9AXHixRlytW7Ty4queH_DZlMlX5UjF-dZsUPqk9LhY-Lk5waMjdlCmSzgznQeEFBQhB0' },
+        { n:'P250 | Vino Primo (Field-Tested)', v:122, w:0.33, r:'trash', img:'https://community.cloudflare.steamstatic.com/economy/image/i0CoZ81Ui0m-9KwlBY1L_18myuGuq1wfhWSaZgMttyVfPaERSR0Wqmu7LAocGIGz3UqlXOLrxM-vMGmW8VNxu5Dx60noTyLhzMOwwiVI0OL8PfRSI_iWDWyV09F7teVgWiT9wkt25WvXyN2rdnKSbgRyXpMlReULtxjql4XkY-LhtlCM2YNEn3qr2zQJsHi0fYnaHg' },
+        { n:'M4A1-S | Solitude (Field-Tested)', v:140, w:0.17, r:'trash', img:'https://community.cloudflare.steamstatic.com/economy/image/i0CoZ81Ui0m-9KwlBY1L_18myuGuq1wfhWSaZgMttyVfPaERSR0Wqmu7LAocGIGz3UqlXOLrxM-vMGmW8VNxu5Dx60noTyL8ypexwjFS4_ega6F_H-OcDW-vzOFjvvVoRiegqhBzsmyWpYL8JSLSMxgmXJB5Qe8O5hLrkoDlNOix5wTcg4JHzXr5inxJvy5vtr4CV6Ytq63fkUifZonb9V4d' },
       ],
     },
     {
-      id:'musor', name:'Мусорка Фортуны', price:90, color:'#A3E635', emo:'🗑️',
-      tag:'Мусор, который кто-то хранил тысячу лет. Теперь он твой. Поздравляем.',
+      id:'pelmeni', name:'Пельмень Прайм', price:50, color:'#f97316', icon:'bowl',
+      tag:'Пельмешек с предсказанием: внутри не фарш, а твои адреналиновые надежды.',
       items:[
-        { n:'StatTrak™ UMP-45 | Oscillator (Field-Tested)', v:31, w:33.46, r:'trash', img:'https://community.cloudflare.steamstatic.com/economy/image/i0CoZ81Ui0m-9KwlBY1L_18myuGuq1wfhWSaZgMttyVfPaERSR0Wqmu7LAocGIGz3UqlXOLrxM-vMGmW8VNxu5Dx60noTyLkk4a0qB1a4s27ZbQ5dc-WAmKT1fx5p-B_Sha-kBkupjDLmdevcHjGbVMgWZZ3R7Rb5xXuk93iYePh4QGIiI1EmCqtjikb5ytpt_FCD_RHfTtqUQ' },
-        { n:'Nova | Wurst Hölle (Minimal Wear)', v:53, w:26.77, r:'trash', img:'https://community.cloudflare.steamstatic.com/economy/image/i0CoZ81Ui0m-9KwlBY1L_18myuGuq1wfhWSaZgMttyVfPaERSR0Wqmu7LAocGIGz3UqlXOLrxM-vMGmW8VNxu5Dx60noTyL_kYDhwiFO0P24bbZ9IeOAMXCF0_1ij-9mWSiMmRQguynLytutd33BbgV1DpdwEOYC5hSwwNPjYr_ksVHdjotGxH742yNL5yk6sfFCD_SvUSZNdg' },
-        { n:'StatTrak™ M249 | System Lock (Minimal Wear)', v:89, w:16.73, r:'trash', img:'https://community.cloudflare.steamstatic.com/economy/image/i0CoZ81Ui0m-9KwlBY1L_18myuGuq1wfhWSaZgMttyVfPaERSR0Wqmu7LAocGIGz3UqlXOLrxM-vMGmW8VNxu5Dx60noTyL8zMK5wiFO0P_8PP1SM_WYGmiC_uJ_t-l9AXzhzEt25Wjcn4n4dHKebgMlCMB2RO5b40S-x9TnN-KztFDf3ohDzirgznQedTUXMuU' },
-        { n:'Glock-18 | Coral Bloom (Factory New)', v:118, w:10.04, r:'trash', img:'https://community.cloudflare.steamstatic.com/economy/image/i0CoZ81Ui0m-9KwlBY1L_18myuGuq1wfhWSaZgMttyVfPaERSR0Wqmu7LAocGIGz3UqlXOLrxM-vMGmW8VNxu5Dx60noTyL2kpnj9h1I4PeReqt-JeOsAm6Xyfo45edtFiyywExztjjdzNegIHuRaVImDpZ3RuJcshDpxtLhNOKw7gbci5UFk3s8sl0gEQ' },
-        { n:'Five-SeveN | Triumvirate (Field-Tested)', v:148, w:7.81, r:'trash', img:'https://community.cloudflare.steamstatic.com/economy/image/i0CoZ81Ui0m-9KwlBY1L_18myuGuq1wfhWSaZgMttyVfPaERSR0Wqmu7LAocGIGz3UqlXOLrxM-vMGmW8VNxu5Dx60noTyL3l4Dl7idN6vyRa7FSJvmFC3SV1-t4j-B8SCS2mwkitwKIn4vwNCaJO1cpWZRwTLQC4RHrxtLhMeri4QeL2I5DnHiq2yIc6nps5-hRU6Uir7qX0V_LRffo9g' },
-        { n:'Zeus x27 | Olympus (Field-Tested)', v:270, w:3.9, r:'trash', img:'https://community.cloudflare.steamstatic.com/economy/image/i0CoZ81Ui0m-9KwlBY1L_18myuGuq1wfhWSaZgMttyVfPaERSR0Wqmu7LAocGIGz3UqlXOLrxM-vMGmW8VNxu5Dx60noTyLln4Xl7x1B6ue9V7BlNf6XC3WvxuFyj-xsSyCmmFMk52SBw9qhJH6QOlAhWcEjQ-8I5BOwxNDlN-LntAyMg91DziWth3tI8G81tJsBsl6E' },
-        { n:'Glock-18 | Vogue (Field-Tested)', v:338, w:0.89, r:'common', img:'https://community.cloudflare.steamstatic.com/economy/image/i0CoZ81Ui0m-9KwlBY1L_18myuGuq1wfhWSaZgMttyVfPaERSR0Wqmu7LAocGIGz3UqlXOLrxM-vMGmW8VNxu5Dx60noTyL2kpnj9h1Y-s2pZKtuK8-WF2KTzuBiseJ9cCS2kRQyvnOEwtb6dHyUOAEhWJdxTbELsxi4mtHuN-jr7wXfi44Xni2vjSsd7ydo_a9cBrvZd2pE' },
-        { n:'P250 | Mint Kimono (Field-Tested)', v:419, w:0.39, r:'common', img:'https://community.cloudflare.steamstatic.com/economy/image/i0CoZ81Ui0m-9KwlBY1L_18myuGuq1wfhWSaZgMttyVfPaERSR0Wqmu7LAocGIGz3UqlXOLrxM-vMGmW8VNxu5Dx60noTyLhzMOwwjFL0PmnZatjL8-XB2adzuByo95kSi26gBBpsjmAntuudXKQPwNxDZp1Ru4Mthe-lNTgN7u25VGI2YJGn3_2ji9OvzErvbiyWTgtdg' },
+        { n:'MP9 | Modest Threat (Field-Tested)', v:25, w:28.68, r:'trash', img:'https://community.cloudflare.steamstatic.com/economy/image/i0CoZ81Ui0m-9KwlBY1L_18myuGuq1wfhWSaZgMttyVfPaERSR0Wqmu7LAocGIGz3UqlXOLrxM-vMGmW8VNxu5Dx60noTyL8js_f-jFk4uL3V6diLP-dFzfB_uNztOh8Qmfixh8mtTuGm9iocXKTbQEjWZAjRbNZshCwm9HvNLy04wPeidhCyX38kGoXua4ClY9d' },
+        { n:'P250 | Verdigris (Minimal Wear)', v:30, w:22.06, r:'trash', img:'https://community.cloudflare.steamstatic.com/economy/image/i0CoZ81Ui0m-9KwlBY1L_18myuGuq1wfhWSaZgMttyVfPaERSR0Wqmu7LAocGIGz3UqlXOLrxM-vMGmW8VNxu5Dx60noTyLhzMOwwiNK0OL8PfRSNvWBCm6X0-dlj-1gSCGn20R35DnRn42udXiVOg91CpZ4ReACthC4wYexZuuw5VeIjdkUzyqq3CNXrnE8Cr6wnKw' },
+        { n:'StatTrak™ Glock-18 | Warhawk (Battle-Scarred)', v:38, w:15.44, r:'trash', img:'https://community.cloudflare.steamstatic.com/economy/image/i0CoZ81Ui0m-9KwlBY1L_18myuGuq1wfhWSaZgMttyVfPaERSR0Wqmu7LAocGIGz3UqlXOLrxM-vMGmW8VNxu5Dx60noTyL2kpnj9h1c_M2pZKtuK8-HBnKexetkj-V8XD2MnRgmpSTLzdmhdXySOwcnCpVxQuANtRe7kIDgYurr5lPZjd5DyCWriH5L7X5p5PFCD_QWET8GLw' },
+        { n:'M4A1-S | Nitro (Battle-Scarred)', v:41, w:11.03, r:'trash', img:'https://community.cloudflare.steamstatic.com/economy/image/i0CoZ81Ui0m-9KwlBY1L_18myuGuq1wfhWSaZgMttyVfPaERSR0Wqmu7LAocGIGz3UqlXOLrxM-vMGmW8VNxu5Dx60noTyL8ypexwjFS4_ega6F_H-OcMWiCwOBxtd5oTCq2mwk0jDWAm5ngb3jCZgZ2CJN3QbMC4EG4lIeyP-O34lPbj9pGznmqiCof7n5i4b5UAKQ7uvqACRl2MWo' },
+        { n:'StatTrak™ Galil AR | Connexion (Well-Worn)', v:59, w:7.72, r:'trash', img:'https://community.cloudflare.steamstatic.com/economy/image/i0CoZ81Ui0m-9KwlBY1L_18myuGuq1wfhWSaZgMttyVfPaERSR0Wqmu7LAocGIGz3UqlXOLrxM-vMGmW8VNxu5Dx60noTyL2n5rp8SNJ0PW9V6NsLPmfMXeYzut4uflWQiy3nAgq_WyEmd3_cSqVbgV1D5J3QrEPskW9mtLiPu7k7wWL2owQnyT6hn8YvX11o7FVmll_Ct8' },
+        { n:'Desert Eagle | Trigger Discipline (Field-Tested)', v:68, w:5.52, r:'trash', img:'https://community.cloudflare.steamstatic.com/economy/image/i0CoZ81Ui0m-9KwlBY1L_18myuGuq1wfhWSaZgMttyVfPaERSR0Wqmu7LAocGIGz3UqlXOLrxM-vMGmW8VNxu5Dx60noTyL1m5fn8Sdk7OeRbKFsJ8-HHG6Xxutkj-VgXCq6hREuvTi6l4r9KD7KcFcmD8R0QecNtkTsw9HgPrzgtAGMjo0TmX2r2y4duiZutesLBKZ2r6zJz1aWAJe-_z0' },
+        { n:'StatTrak™ Dual Berettas | Flora Carnivora (Field-Tested)', v:74, w:3.86, r:'trash', img:'https://community.cloudflare.steamstatic.com/economy/image/i0CoZ81Ui0m-9KwlBY1L_18myuGuq1wfhWSaZgMttyVfPaERSR0Wqmu7LAocGIGz3UqlXOLrxM-vMGmW8VNxu5Dx60noTyL0kp_0-B1Y-s2qfaVhH_WfB3OV0tFzpuhlcC-_mg8mjDCAnobsLGWfPw4hCpJwQuYN40S4xtGyYe7rsQzY2I8Ryn3-jS9Bu31v4-4HVvUk5OSJ2FMPTUdt' },
+        { n:'StatTrak™ SSG 08 | Abyss (Field-Tested)', v:90, w:2.76, r:'trash', img:'https://community.cloudflare.steamstatic.com/economy/image/i0CoZ81Ui0m-9KwlBY1L_18myuGuq1wfhWSaZgMttyVfPaERSR0Wqmu7LAocGIGz3UqlXOLrxM-vMGmW8VNxu5Dx60noTyLijZGwpR1a_s2ibbJkIeSbD2mvzOtyufRkAXCxlk9-t23WnNagIyqWaFd1WZZ0ELRZsxHtk9SzP-iw7gLc2opBy3ngznQeqIWvbC4' },
+        { n:'XM1014 | Ziggy (Minimal Wear)', v:124, w:1.77, r:'trash', img:'https://community.cloudflare.steamstatic.com/economy/image/i0CoZ81Ui0m-9KwlBY1L_18myuGuq1wfhWSaZgMttyVfPaERSR0Wqmu7LAocGIGz3UqlXOLrxM-vMGmW8VNxu5Dx60noTyLpk8ewrHZk7uORcKk8cKHHMX2Zxulvj-BnTjuwnQQYvzSCkpu3In6XPA4lAsZ5E-JbukWwwd3nY-zn4gLe2thNmCiv2ixK6SZs5ucHVb1lpPO5jVz-xA' },
+        { n:'M4A1-S | Solitude (Field-Tested)', v:140, w:0.66, r:'trash', img:'https://community.cloudflare.steamstatic.com/economy/image/i0CoZ81Ui0m-9KwlBY1L_18myuGuq1wfhWSaZgMttyVfPaERSR0Wqmu7LAocGIGz3UqlXOLrxM-vMGmW8VNxu5Dx60noTyL8ypexwjFS4_ega6F_H-OcDW-vzOFjvvVoRiegqhBzsmyWpYL8JSLSMxgmXJB5Qe8O5hLrkoDlNOix5wTcg4JHzXr5inxJvy5vtr4CV6Ytq63fkUifZonb9V4d' },
+        { n:'StatTrak™ Nova | Rising Sun (Minimal Wear)', v:149, w:0.33, r:'trash', img:'https://community.cloudflare.steamstatic.com/economy/image/i0CoZ81Ui0m-9KwlBY1L_18myuGuq1wfhWSaZgMttyVfPaERSR0Wqmu7LAocGIGz3UqlXOLrxM-vMGmW8VNxu5Dx60noTyL_kYDhwixU-fOReq1-Kf6UMXSFz9F6ueZhW2eyzB9z4WjTzt77JXKVaQcnC5sjTLEMthDpwdzkMr_lsVbW34lGmyj5kGoXuV-iSbwM' },
+        { n:'AWP | Phobos (Minimal Wear)', v:225, w:0.17, r:'trash', img:'https://community.cloudflare.steamstatic.com/economy/image/i0CoZ81Ui0m-9KwlBY1L_18myuGuq1wfhWSaZgMttyVfPaERSR0Wqmu7LAocGIGz3UqlXOLrxM-vMGmW8VNxu5Dx60noTyLwiYbf-jFk7uW-V7RlL_KcHVicyOl-pK84GXHmwk115D6GzdqudHyUbwRxW5R3ROZbtEG8wYDiY7-x5VOKgotB02yg2bdJjfAf' },
       ],
     },
     {
-      id:'street', name:'Дворовый Стиль', price:240, color:'#f97316', emo:'🧱',
-      tag:'Ассортимент барахолки бизнесмена, чей бизнес закрылся вместе с пятиэтажкой.',
+      id:'musor', name:'Мусорка Фортуны', price:130, color:'#A3E635', icon:'trash',
+      tag:'Мусор, который кто-то хранил тысячу лет. Теперь он твой. Не благодари.',
       items:[
-        { n:'StatTrak™ Dual Berettas | Flora Carnivora (Field-Tested)', v:74, w:33.46, r:'trash', img:'https://community.cloudflare.steamstatic.com/economy/image/i0CoZ81Ui0m-9KwlBY1L_18myuGuq1wfhWSaZgMttyVfPaERSR0Wqmu7LAocGIGz3UqlXOLrxM-vMGmW8VNxu5Dx60noTyL0kp_0-B1Y-s2qfaVhH_WfB3OV0tFzpuhlcC-_mg8mjDCAnobsLGWfPw4hCpJwQuYN40S4xtGyYe7rsQzY2I8Ryn3-jS9Bu31v4-4HVvUk5OSJ2FMPTUdt' },
-        { n:'XM1014 | Ziggy (Minimal Wear)', v:124, w:26.77, r:'trash', img:'https://community.cloudflare.steamstatic.com/economy/image/i0CoZ81Ui0m-9KwlBY1L_18myuGuq1wfhWSaZgMttyVfPaERSR0Wqmu7LAocGIGz3UqlXOLrxM-vMGmW8VNxu5Dx60noTyLpk8ewrHZk7uORcKk8cKHHMX2Zxulvj-BnTjuwnQQYvzSCkpu3In6XPA4lAsZ5E-JbukWwwd3nY-zn4gLe2thNmCiv2ixK6SZs5ucHVb1lpPO5jVz-xA' },
-        { n:'StatTrak™ Desert Eagle | Firebreathing (Field-Tested)', v:262, w:16.73, r:'trash', img:'https://community.cloudflare.steamstatic.com/economy/image/i0CoZ81Ui0m-9KwlBY1L_18myuGuq1wfhWSaZgMttyVfPaERSR0Wqmu7LAocGIGz3UqlXOLrxM-vMGmW8VNxu5Dx60noTyL1m5fn8Sdk6_evb6hoH_aaHGKS0-t3pOlgQS6MmBgjuiiI1N-qdnyUZgUgXJp3Q-cDshG_lNTkZLjltQ2Pj4pCyiirjXkYv3k6te0cEf1yeTwHsiQ' },
-        { n:'StatTrak™ UMP-45 | Wild Child (Field-Tested)', v:336, w:10.04, r:'common', img:'https://community.cloudflare.steamstatic.com/economy/image/i0CoZ81Ui0m-9KwlBY1L_18myuGuq1wfhWSaZgMttyVfPaERSR0Wqmu7LAocGIGz3UqlXOLrxM-vMGmW8VNxu5Dx60noTyLkk4a0qB1Y-s27ZbRSI_yGGmSY_uV_s-pWQiy3nAgq_T6AyNasJ3iePQByW5NwTeEKsxbqw9LhYePitlbZ34wWxXqsjyhPvy11o7FVOjdBjQA' },
-        { n:'P250 | Mint Kimono (Field-Tested)', v:419, w:7.81, r:'common', img:'https://community.cloudflare.steamstatic.com/economy/image/i0CoZ81Ui0m-9KwlBY1L_18myuGuq1wfhWSaZgMttyVfPaERSR0Wqmu7LAocGIGz3UqlXOLrxM-vMGmW8VNxu5Dx60noTyLhzMOwwjFL0PmnZatjL8-XB2adzuByo95kSi26gBBpsjmAntuudXKQPwNxDZp1Ru4Mthe-lNTgN7u25VGI2YJGn3_2ji9OvzErvbiyWTgtdg' },
-        { n:'M4A1-S | Party Animal (Field-Tested)', v:617, w:3.9, r:'common', img:'https://community.cloudflare.steamstatic.com/economy/image/i0CoZ81Ui0m-9KwlBY1L_18myuGuq1wfhWSaZgMttyVfPaERSR0Wqmu7LAocGIGz3UqlXOLrxM-vMGmW8VNxu5Dx60noTyL8ypexwjFS4_ega6F_H_iKC1iRz-d7se1WXzu6mwkY6m2WpYL8JSLSMxgkCZZ1ELIOuxe5lNfuP-ng4VCIiYkWnCr4jyhO73lp4OwCAPZz8vLUkUifZtSPDRSF' },
-        { n:'StatTrak™ AWP | Worm God (Factory New)', v:668, w:0.89, r:'common', img:'https://community.cloudflare.steamstatic.com/economy/image/i0CoZ81Ui0m-9KwlBY1L_18myuGuq1wfhWSaZgMttyVfPaERSR0Wqmu7LAocGIGz3UqlXOLrxM-vMGmW8VNxu5Dx60noTyLwiYbf_DNk7uW-V7B6Kf6WMWuZxuZi_uRoGH3iw0wh4j7cnt6ucSqSZwUkCMB5TLIPsES_kNbuYeOwtgXai4NbjXKpZ4kj0o0' },
-        { n:'P2000 | Wicked Sick (Factory New)', v:1083, w:0.39, r:'rare', img:'https://community.cloudflare.steamstatic.com/economy/image/i0CoZ81Ui0m-9KwlBY1L_18myuGuq1wfhWSaZgMttyVfPaERSR0Wqmu7LAocGIGz3UqlXOLrxM-vMGmW8VNxu5Dx60noTyL5lYayrXIL0PG7V7Q_cKDDMWOVwuJ_vuRWQyC0nQlp4jnTyNqodHyXOlQkDZtzF-UN4BjukYeyZuLn5Qbaj4NEzy3_3ywd5zErvbh-3lU8Iw' },
+        { n:'StatTrak™ Galil AR | Control (Field-Tested)', v:68, w:28.68, r:'trash', img:'https://community.cloudflare.steamstatic.com/economy/image/i0CoZ81Ui0m-9KwlBY1L_18myuGuq1wfhWSaZgMttyVfPaERSR0Wqmu7LAocGIGz3UqlXOLrxM-vMGmW8VNxu5Dx60noTyL2n5rp8SNJ0PWvZK1hH_OcAHOCzuJJo_V7RiK2qhAitzSQl8GqdCmSalcgDsYhQLYOskG5wIfnP-zltFPZ3t5AnHn-j3kduHs65elRT-N7rfTwl0Ej' },
+        { n:'SSG 08 | Fever Dream (Field-Tested)', v:79, w:22.06, r:'trash', img:'https://community.cloudflare.steamstatic.com/economy/image/i0CoZ81Ui0m-9KwlBY1L_18myuGuq1wfhWSaZgMttyVfPaERSR0Wqmu7LAocGIGz3UqlXOLrxM-vMGmW8VNxu5Dx60noTyLijZGwpR1Y-s29e6M9eM-VC3GV09FyouRoQha-kBkupjDLw42qIHKRagAmWJR2QORZshK_xNC0Zuy3sVfZgokQzH73j39Bu3tj5fFCD_SStqkeXQ' },
+        { n:'StatTrak™ Glock-18 | Sacrifice (Minimal Wear)', v:95, w:15.44, r:'trash', img:'https://community.cloudflare.steamstatic.com/economy/image/i0CoZ81Ui0m-9KwlBY1L_18myuGuq1wfhWSaZgMttyVfPaERSR0Wqmu7LAocGIGz3UqlXOLrxM-vMGmW8VNxu5Dx60noTyL2kpnj9h1Y-s2pZKtuK8-bC3Wf_uJ_t-l9AXHixRlytW7Ty4queH_DZlMlX5UjF-dZsUPqk9LhY-Lk5waMjdlCmSzgznQeEFBQhB0' },
+        { n:'Glock-18 | Coral Bloom (Factory New)', v:118, w:11.03, r:'trash', img:'https://community.cloudflare.steamstatic.com/economy/image/i0CoZ81Ui0m-9KwlBY1L_18myuGuq1wfhWSaZgMttyVfPaERSR0Wqmu7LAocGIGz3UqlXOLrxM-vMGmW8VNxu5Dx60noTyL2kpnj9h1I4PeReqt-JeOsAm6Xyfo45edtFiyywExztjjdzNegIHuRaVImDpZ3RuJcshDpxtLhNOKw7gbci5UFk3s8sl0gEQ' },
+        { n:'StatTrak™ Nova | Rising Sun (Minimal Wear)', v:149, w:7.72, r:'trash', img:'https://community.cloudflare.steamstatic.com/economy/image/i0CoZ81Ui0m-9KwlBY1L_18myuGuq1wfhWSaZgMttyVfPaERSR0Wqmu7LAocGIGz3UqlXOLrxM-vMGmW8VNxu5Dx60noTyL_kYDhwixU-fOReq1-Kf6UMXSFz9F6ueZhW2eyzB9z4WjTzt77JXKVaQcnC5sjTLEMthDpwdzkMr_lsVbW34lGmyj5kGoXuV-iSbwM' },
+        { n:'Five-SeveN | Kami (Field-Tested)', v:208, w:5.52, r:'trash', img:'https://community.cloudflare.steamstatic.com/economy/image/i0CoZ81Ui0m-9KwlBY1L_18myuGuq1wfhWSaZgMttyVfPaERSR0Wqmu7LAocGIGz3UqlXOLrxM-vMGmW8VNxu5Dx60noTyL3l4Dl7idN6vyRYL1SK_GeB1idxOp_pewnTX7izEwl5j_WzdeqIn3CbwRxWJR2ROYOthS-xNThZbvksgza3otDnjK-0H1tAD0p8A' },
+        { n:'StatTrak™ Nova | Koi (Minimal Wear)', v:241, w:3.86, r:'trash', img:'https://community.cloudflare.steamstatic.com/economy/image/i0CoZ81Ui0m-9KwlBY1L_18myuGuq1wfhWSaZgMttyVfPaERSR0Wqmu7LAocGIGz3UqlXOLrxM-vMGmW8VNxu5Dx60noTyL_kYDhwiFO0PyhfqVSK_-aMWuZxuZi_rBqGCu3xEoksm_SzomhcHiQP1QjD8BxQuAN50TtlIK1Yri05lDeiY5bjXKpu6W3YF0' },
+        { n:'StatTrak™ Desert Eagle | Firebreathing (Field-Tested)', v:262, w:2.76, r:'trash', img:'https://community.cloudflare.steamstatic.com/economy/image/i0CoZ81Ui0m-9KwlBY1L_18myuGuq1wfhWSaZgMttyVfPaERSR0Wqmu7LAocGIGz3UqlXOLrxM-vMGmW8VNxu5Dx60noTyL1m5fn8Sdk6_evb6hoH_aaHGKS0-t3pOlgQS6MmBgjuiiI1N-qdnyUZgUgXJp3Q-cDshG_lNTkZLjltQ2Pj4pCyiirjXkYv3k6te0cEf1yeTwHsiQ' },
+        { n:'StatTrak™ UMP-45 | Wild Child (Field-Tested)', v:336, w:1.77, r:'common', img:'https://community.cloudflare.steamstatic.com/economy/image/i0CoZ81Ui0m-9KwlBY1L_18myuGuq1wfhWSaZgMttyVfPaERSR0Wqmu7LAocGIGz3UqlXOLrxM-vMGmW8VNxu5Dx60noTyLkk4a0qB1Y-s27ZbRSI_yGGmSY_uV_s-pWQiy3nAgq_T6AyNasJ3iePQByW5NwTeEKsxbqw9LhYePitlbZ34wWxXqsjyhPvy11o7FVOjdBjQA' },
+        { n:'StatTrak™ Sawed-Off | Kiss♥Love (Well-Worn)', v:368, w:0.66, r:'common', img:'https://community.cloudflare.steamstatic.com/economy/image/i0CoZ81Ui0m-9KwlBY1L_18myuGuq1wfhWSaZgMttyVfPaERSR0Wqmu7LAocGIGz3UqlXOLrxM-vMGmW8VNxu5Dx60noTyLin4Hl-S1d6c2tfZt-IeeWCmiWx9F9ufJ6QyalkCIqtjmMj4K3IHOfbVQlDsZ0Fu8Pt0S8xNGzMunn4QTagoNGyC_5iHhL7nput70GWb1lpPNuwc0NDw' },
+        { n:'AK-47 | Jungle Spray (Battle-Scarred)', v:418, w:0.33, r:'common', img:'https://community.cloudflare.steamstatic.com/economy/image/i0CoZ81Ui0m-9KwlBY1L_18myuGuq1wfhWSaZgMttyVfPaERSR0Wqmu7LAocGIGz3UqlXOLrxM-vMGmW8VNxu5Dx60noTyLwlcK3wjFL0OG-eqV0H_qGAGCcxNF-teB_Vme2w0oi4zzVmdz8dCjGagIkDMN1RrYOshm6m4DgML7q5FPajYhDzSivkGoXuScz1P4u' },
+        { n:'XM1014 | XOXO (Minimal Wear)', v:478, w:0.17, r:'common', img:'https://community.cloudflare.steamstatic.com/economy/image/i0CoZ81Ui0m-9KwlBY1L_18myuGuq1wfhWSaZgMttyVfPaERSR0Wqmu7LAocGIGz3UqlXOLrxM-vMGmW8VNxu5Dx60noTyLpk8ewrHZk7uORcKk8cKHHMXeFz-VJvOhuRz39xE8j5GXQztepd3OUOwJ2C5JwELYKsULslobuY-7htlDditkUnyn73zQJsHgY6bTDGg' },
       ],
     },
     {
-      id:'neon', name:'Неон Форт', price:1000, color:'#22d3ee', emo:'🎰',
-      tag:'Автоматы уже просчитали, что ты закроешь это в ноль. Докажи обратное.',
+      id:'street', name:'Дворовый Стиль', price:310, color:'#f97316', icon:'grid',
+      tag:'Барахолка у пятиэтажки. Торгуются все, олени в том числе.',
       items:[
-        { n:'StatTrak™ SSG 08 | Dark Water (Field-Tested)', v:289, w:33.46, r:'trash', img:'https://community.cloudflare.steamstatic.com/economy/image/i0CoZ81Ui0m-9KwlBY1L_18myuGuq1wfhWSaZgMttyVfPaERSR0Wqmu7LAocGIGz3UqlXOLrxM-vMGmW8VNxu5Dx60noTyLijZGwpR1a4s20baZ_Ic-XD3Wb_uNztOh8Qme2zU5xsW3cytj9dnLEPQEhApQhF7Fc4BSwl4ezNuy07wHZg90Rn3j_kGoXubOr6m8C' },
-        { n:'AK-47 | Jungle Spray (Battle-Scarred)', v:418, w:26.77, r:'common', img:'https://community.cloudflare.steamstatic.com/economy/image/i0CoZ81Ui0m-9KwlBY1L_18myuGuq1wfhWSaZgMttyVfPaERSR0Wqmu7LAocGIGz3UqlXOLrxM-vMGmW8VNxu5Dx60noTyLwlcK3wjFL0OG-eqV0H_qGAGCcxNF-teB_Vme2w0oi4zzVmdz8dCjGagIkDMN1RrYOshm6m4DgML7q5FPajYhDzSivkGoXuScz1P4u' },
-        { n:'P250 | Asiimov (Field-Tested)', v:1046, w:16.73, r:'rare', img:'https://community.cloudflare.steamstatic.com/economy/image/i0CoZ81Ui0m-9KwlBY1L_18myuGuq1wfhWSaZgMttyVfPaERSR0Wqmu7LAocGIGz3UqlXOLrxM-vMGmW8VNxu5Dx60noTyLhzMOwwiFO0OL8PfRSIeOaB2qf19F7teVgWiT9wxx36mWHzIuseXnCOlUgXsclQONf5Bi4x4bhNru34VPejdgXyS3-3DQJsHj2UM_3gw' },
-        { n:'SSG 08 | Turbo Peek (Field-Tested)', v:1433, w:10.04, r:'rare', img:'https://community.cloudflare.steamstatic.com/economy/image/i0CoZ81Ui0m-9KwlBY1L_18myuGuq1wfhWSaZgMttyVfPaERSR0Wqmu7LAocGIGz3UqlXOLrxM-vMGmW8VNxu5Dx60noTyLijZGwpR1Y-s29e6NSL-aWHHORyutJveRtRjy-20pz5DzRnoqucy-ePAR0CMAjRrYOsRe6wYLgMevh4wKL3o0TxC2s3H5XrnE8_hLO63A' },
-        { n:'Tec-9 | Decimator (Field-Tested)', v:1514, w:7.81, r:'rare', img:'https://community.cloudflare.steamstatic.com/economy/image/i0CoZ81Ui0m-9KwlBY1L_18myuGuq1wfhWSaZgMttyVfPaERSR0Wqmu7LAocGIGz3UqlXOLrxM-vMGmW8VNxu5Dx60noTyLlm5W5wiVI0Oara_1SJPWQB2qR1eFkj-xsSyCmmFMk6zzVnIqpJC2UbAd2CZF3EOYPtRe9kNThMey0s1GK3Y5CzS_7hy1B8G81tL7z0l3A' },
-        { n:'★ Survival Knife | Boreal Forest (Battle-Scarred)', v:4184, w:3.9, r:'legend', img:'https://community.cloudflare.steamstatic.com/economy/image/i0CoZ81Ui0m-9KwlBY1L_18myuGuq1wfhWSaZgMttyVfPaERSR0Wqmu7LAocGIGz3UqlXOLrxM-vMGmW8VNxu5Dx60noTyL6kJ_m-B1Y7vyne5tlOc-VAXWV0vpJsu57Sii_qhUisiuc1Nz8JSrEaQIhCJV0QuEJ5kGxwdbuZe-z51Ddio4Xzy383Xgc5ixpsekcEf1y0FjIJTY' },
-        { n:'AWP | Printstream (Minimal Wear)', v:5727, w:0.89, r:'legend', img:'https://community.cloudflare.steamstatic.com/economy/image/i0CoZ81Ui0m-9KwlBY1L_18myuGuq1wfhWSaZgMttyVfPaERSR0Wqmu7LAocGIGz3UqlXOLrxM-vMGmW8VNxu5Dx60noTyLwiYbf_DVL0OK8Yap5M-SBC2ad_uJ_t-l9AX_qlk4k5GyAzo6ocC-QZgZxX8AjEbZY5xnrxtPjM7vnsgGIj9oTmXngznQeg3pfcPs' },
-        { n:'★ Nomad Knife | Rust Coat (Battle-Scarred)', v:8538, w:0.39, r:'legend', img:'https://community.cloudflare.steamstatic.com/economy/image/i0CoZ81Ui0m-9KwlBY1L_18myuGuq1wfhWSaZgMttyVfPaERSR0Wqmu7LAocGIGz3UqlXOLrxM-vMGmW8VNxu5Dx60noTyL6kJ_m-B1U-uaqZ6t_H_GCMXSExOt6j-pnRi-2qhUisiuc1Nz8eS3BbgMgXpNzFLNYsUXqltPlYr7kslPXidpCmH-viylB6n1u4bocEf1ytubkyVg' },
+        { n:'StatTrak™ Nova | Rising Sun (Minimal Wear)', v:149, w:28.68, r:'trash', img:'https://community.cloudflare.steamstatic.com/economy/image/i0CoZ81Ui0m-9KwlBY1L_18myuGuq1wfhWSaZgMttyVfPaERSR0Wqmu7LAocGIGz3UqlXOLrxM-vMGmW8VNxu5Dx60noTyL_kYDhwixU-fOReq1-Kf6UMXSFz9F6ueZhW2eyzB9z4WjTzt77JXKVaQcnC5sjTLEMthDpwdzkMr_lsVbW34lGmyj5kGoXuV-iSbwM' },
+        { n:'AWP | Phobos (Minimal Wear)', v:225, w:22.06, r:'trash', img:'https://community.cloudflare.steamstatic.com/economy/image/i0CoZ81Ui0m-9KwlBY1L_18myuGuq1wfhWSaZgMttyVfPaERSR0Wqmu7LAocGIGz3UqlXOLrxM-vMGmW8VNxu5Dx60noTyLwiYbf-jFk7uW-V7RlL_KcHVicyOl-pK84GXHmwk115D6GzdqudHyUbwRxW5R3ROZbtEG8wYDiY7-x5VOKgotB02yg2bdJjfAf' },
+        { n:'Five-SeveN | Kami (Minimal Wear)', v:261, w:15.44, r:'trash', img:'https://community.cloudflare.steamstatic.com/economy/image/i0CoZ81Ui0m-9KwlBY1L_18myuGuq1wfhWSaZgMttyVfPaERSR0Wqmu7LAocGIGz3UqlXOLrxM-vMGmW8VNxu5Dx60noTyL3l4Dl7idN6vyRYL1SK_GeB1icyOl-pK9oGnHnk012sT_XzNv4eXuUawUlDpEkQOIN40XskIHmP-mx4wOLio1B02yg2SJzf1Vk' },
+        { n:'StatTrak™ Galil AR | Crimson Tsunami (Field-Tested)', v:287, w:11.03, r:'trash', img:'https://community.cloudflare.steamstatic.com/economy/image/i0CoZ81Ui0m-9KwlBY1L_18myuGuq1wfhWSaZgMttyVfPaERSR0Wqmu7LAocGIGz3UqlXOLrxM-vMGmW8VNxu5Dx60noTyL2n5rp8SNJ0OG-V6NsLPmfMXCR1-tJveRtRjy-20tz52nTy9ypdX_GOFR0DJIiRrVY4ELrl4XuMeqztVfajIwXnn72iHtXrnE8XZr0AZY' },
+        { n:'StatTrak™ UMP-45 | Wild Child (Field-Tested)', v:336, w:7.72, r:'common', img:'https://community.cloudflare.steamstatic.com/economy/image/i0CoZ81Ui0m-9KwlBY1L_18myuGuq1wfhWSaZgMttyVfPaERSR0Wqmu7LAocGIGz3UqlXOLrxM-vMGmW8VNxu5Dx60noTyLkk4a0qB1Y-s27ZbRSI_yGGmSY_uV_s-pWQiy3nAgq_T6AyNasJ3iePQByW5NwTeEKsxbqw9LhYePitlbZ34wWxXqsjyhPvy11o7FVOjdBjQA' },
+        { n:'StatTrak™ AK-47 | Elite Build (Well-Worn)', v:365, w:5.52, r:'common', img:'https://community.cloudflare.steamstatic.com/economy/image/i0CoZ81Ui0m-9KwlBY1L_18myuGuq1wfhWSaZgMttyVfPaERSR0Wqmu7LAocGIGz3UqlXOLrxM-vMGmW8VNxu5Dx60noTyLwlcK3wiFO0POlPPNSLfGAGmKC2NF7teVgWiT9zEUjt2WEyN-tdy6TbFBxWJZ1QOBZsxfrm4DkM-uzslPX399Hni783zQJsHgxq_XV0g' },
+        { n:'AK-47 | Jungle Spray (Battle-Scarred)', v:418, w:3.86, r:'common', img:'https://community.cloudflare.steamstatic.com/economy/image/i0CoZ81Ui0m-9KwlBY1L_18myuGuq1wfhWSaZgMttyVfPaERSR0Wqmu7LAocGIGz3UqlXOLrxM-vMGmW8VNxu5Dx60noTyLwlcK3wjFL0OG-eqV0H_qGAGCcxNF-teB_Vme2w0oi4zzVmdz8dCjGagIkDMN1RrYOshm6m4DgML7q5FPajYhDzSivkGoXuScz1P4u' },
+        { n:'XM1014 | XOXO (Minimal Wear)', v:478, w:2.76, r:'common', img:'https://community.cloudflare.steamstatic.com/economy/image/i0CoZ81Ui0m-9KwlBY1L_18myuGuq1wfhWSaZgMttyVfPaERSR0Wqmu7LAocGIGz3UqlXOLrxM-vMGmW8VNxu5Dx60noTyLpk8ewrHZk7uORcKk8cKHHMXeFz-VJvOhuRz39xE8j5GXQztepd3OUOwJ2C5JwELYKsULslobuY-7htlDditkUnyn73zQJsHgY6bTDGg' },
+        { n:'StatTrak™ AWP | Worm God (Factory New)', v:668, w:1.77, r:'common', img:'https://community.cloudflare.steamstatic.com/economy/image/i0CoZ81Ui0m-9KwlBY1L_18myuGuq1wfhWSaZgMttyVfPaERSR0Wqmu7LAocGIGz3UqlXOLrxM-vMGmW8VNxu5Dx60noTyLwiYbf_DNk7uW-V7B6Kf6WMWuZxuZi_uRoGH3iw0wh4j7cnt6ucSqSZwUkCMB5TLIPsES_kNbuYeOwtgXai4NbjXKpZ4kj0o0' },
+        { n:'P250 | Asiimov (Field-Tested)', v:1046, w:0.66, r:'rare', img:'https://community.cloudflare.steamstatic.com/economy/image/i0CoZ81Ui0m-9KwlBY1L_18myuGuq1wfhWSaZgMttyVfPaERSR0Wqmu7LAocGIGz3UqlXOLrxM-vMGmW8VNxu5Dx60noTyLhzMOwwiFO0OL8PfRSIeOaB2qf19F7teVgWiT9wxx36mWHzIuseXnCOlUgXsclQONf5Bi4x4bhNru34VPejdgXyS3-3DQJsHj2UM_3gw' },
+        { n:'P2000 | Wicked Sick (Factory New)', v:1083, w:0.33, r:'rare', img:'https://community.cloudflare.steamstatic.com/economy/image/i0CoZ81Ui0m-9KwlBY1L_18myuGuq1wfhWSaZgMttyVfPaERSR0Wqmu7LAocGIGz3UqlXOLrxM-vMGmW8VNxu5Dx60noTyL5lYayrXIL0PG7V7Q_cKDDMWOVwuJ_vuRWQyC0nQlp4jnTyNqodHyXOlQkDZtzF-UN4BjukYeyZuLn5Qbaj4NEzy3_3ywd5zErvbh-3lU8Iw' },
+        { n:'Dual Berettas | Hemoglobin (Field-Tested)', v:1095, w:0.17, r:'rare', img:'https://community.cloudflare.steamstatic.com/economy/image/i0CoZ81Ui0m-9KwlBY1L_18myuGuq1wfhWSaZgMttyVfPaERSR0Wqmu7LAocGIGz3UqlXOLrxM-vMGmW8VNxu5Dx60noTyL0kp_0-B1a4s2he7dkJumsHGKU_uNztOh8Qme2lxsj4TjdntugIi2WZwAgWJojE7ML5xjukYbuPum2tleNg99NxSn2kGoXuSy1xkxW' },
       ],
     },
     {
-      id:'royal', name:'Алмазный Король', price:3000, color:'#ef4444', emo:'👑',
-      tag:'Для тех, у кого мопед «Дельта» ещё не продался наперёд. Почти люкс.',
+      id:'neon', name:'Неон Форт', price:1000, color:'#22d3ee', icon:'diamonds',
+      tag:'Автоматы уже посчитали твой банкролл. Они не считают себя должными вежливыми.',
       items:[
-        { n:'P2000 | Wicked Sick (Factory New)', v:1083, w:33.46, r:'rare', img:'https://community.cloudflare.steamstatic.com/economy/image/i0CoZ81Ui0m-9KwlBY1L_18myuGuq1wfhWSaZgMttyVfPaERSR0Wqmu7LAocGIGz3UqlXOLrxM-vMGmW8VNxu5Dx60noTyL5lYayrXIL0PG7V7Q_cKDDMWOVwuJ_vuRWQyC0nQlp4jnTyNqodHyXOlQkDZtzF-UN4BjukYeyZuLn5Qbaj4NEzy3_3ywd5zErvbh-3lU8Iw' },
-        { n:'StatTrak™ AWP | Atheris (Minimal Wear)', v:1440, w:26.77, r:'rare', img:'https://community.cloudflare.steamstatic.com/economy/image/i0CoZ81Ui0m-9KwlBY1L_18myuGuq1wfhWSaZgMttyVfPaERSR0Wqmu7LAocGIGz3UqlXOLrxM-vMGmW8VNxu5Dx60noTyLwiYbf_jdk7uW-V7JkMPWBMWuZxuZi_rZsS3zgzU8isW3dnIr6eHKfPVAhDpojEe9YsUW4xta1Nuzm5FDci4NbjXKpmWVQppo' },
-        { n:'★ Survival Knife | Boreal Forest (Battle-Scarred)', v:4184, w:16.73, r:'legend', img:'https://community.cloudflare.steamstatic.com/economy/image/i0CoZ81Ui0m-9KwlBY1L_18myuGuq1wfhWSaZgMttyVfPaERSR0Wqmu7LAocGIGz3UqlXOLrxM-vMGmW8VNxu5Dx60noTyL6kJ_m-B1Y7vyne5tlOc-VAXWV0vpJsu57Sii_qhUisiuc1Nz8JSrEaQIhCJV0QuEJ5kGxwdbuZe-z51Ddio4Xzy383Xgc5ixpsekcEf1y0FjIJTY' },
-        { n:'M4A1-S | Vaporwave (Field-Tested)', v:4586, w:10.04, r:'legend', img:'https://community.cloudflare.steamstatic.com/economy/image/i0CoZ81Ui0m-9KwlBY1L_18myuGuq1wfhWSaZgMttyVfPaERSR0Wqmu7LAocGIGz3UqlXOLrxM-vMGmW8VNxu5Dx60noTyL8ypexwjFS4_ega6F_H_3HDzaD_vh3oO57WCilkCIqtjmMj4K3d3OWbVIkW5p4R7YDu0PrlIHjYbyzsweKi49GmC3_2n8b5yY_6-sAVL1lpPOGYu6esg' },
-        { n:'AWP | Printstream (Minimal Wear)', v:5727, w:7.81, r:'legend', img:'https://community.cloudflare.steamstatic.com/economy/image/i0CoZ81Ui0m-9KwlBY1L_18myuGuq1wfhWSaZgMttyVfPaERSR0Wqmu7LAocGIGz3UqlXOLrxM-vMGmW8VNxu5Dx60noTyLwiYbf_DVL0OK8Yap5M-SBC2ad_uJ_t-l9AX_qlk4k5GyAzo6ocC-QZgZxX8AjEbZY5xnrxtPjM7vnsgGIj9oTmXngznQeg3pfcPs' },
-        { n:'★ StatTrak™ Survival Knife | Damascus Steel (Minimal Wear)', v:6715, w:3.9, r:'legend', img:'https://community.cloudflare.steamstatic.com/economy/image/i0CoZ81Ui0m-9KwlBY1L_18myuGuq1wfhWSaZgMttyVfPaERSR0Wqmu7LAocGIGz3UqlXOLrxM-vMGmW8VNxu5Dx60noTyL6kJ_m-B1Y7vyne5tsMc-XD2qR0u1jo95lRi67gVNw6myGnN6teHyTbFV1DMQhTeFYsBa7xtHhZb-z5gfejN4Un3-si3wf8G81tKX6O3VS' },
-        { n:'★ StatTrak™ Classic Knife | Forest DDPAT (Battle-Scarred)', v:8550, w:0.89, r:'legend', img:'https://community.cloudflare.steamstatic.com/economy/image/i0CoZ81Ui0m-9KwlBY1L_18myuGuq1wfhWSaZgMttyVfPaERSR0Wqmu7LAocGIGz3UqlXOLrxM-vMGmW8VNxu5Dx60noTyL6kJ_m-B1Y_OGRYL1SJPSDD3Ovyet3pvgnHiq1whsmtmXRwtj6JHmWP1J1W5R0FOZcukTrwNfgN-izs1Pd3YJByDK-0H0Pqdb3Nw' },
-        { n:'★ Navaja Knife | Ultraviolet (Factory New)', v:16041, w:0.39, r:'mythic', img:'https://community.cloudflare.steamstatic.com/economy/image/i0CoZ81Ui0m-9KwlBY1L_18myuGuq1wfhWSaZgMttyVfPaERSR0Wqmu7LAocGIGz3UqlXOLrxM-vMGmW8VNxu5Dx60noTyL6kJ_m-B1c9uK9cZtnIfOYBWmZx-tJo-5WXzyhhREijDGMnYftby3FOgUhAsYjTeZetBm4xtXkNbiw5lPbi9pGxCr92itB7C9q4ekDU6c7uvqA74P7bNU' },
+        { n:'Glock-18 | Mirror Mosaic (Field-Tested)', v:510, w:28.68, r:'common', img:'https://community.cloudflare.steamstatic.com/economy/image/i0CoZ81Ui0m-9KwlBY1L_18myuGuq1wfhWSaZgMttyVfPaERSR0Wqmu7LAocGIGz3UqlXOLrxM-vMGmW8VNxu5Dx60noTyL2kpnj9h1c4_2tY5tgKeKBAXWvzO9std5_HRajkBw1vwKIn4vwNCaJagYiWJFzQ-cOuhC6w93lYby34wHb39oXmSz2iyhAvS9usexRUKcm-rqX0V-HCRcuyA' },
+        { n:'Glock-18 | Vogue (Minimal Wear)', v:538, w:22.06, r:'common', img:'https://community.cloudflare.steamstatic.com/economy/image/i0CoZ81Ui0m-9KwlBY1L_18myuGuq1wfhWSaZgMttyVfPaERSR0Wqmu7LAocGIGz3UqlXOLrxM-vMGmW8VNxu5Dx60noTyL2kpnj9h1Y-s2pZKtuK8-WF2KTzuBiseJ9cCW6khUz_T-GyNavdCqRawN1CMFwTOcO5hO7loXiY-zmsQKPi44QzHj22ikcvy11o7FVfFOBmfY' },
+        { n:'StatTrak™ Nova | Rising Sun (Factory New)', v:621, w:15.44, r:'common', img:'https://community.cloudflare.steamstatic.com/economy/image/i0CoZ81Ui0m-9KwlBY1L_18myuGuq1wfhWSaZgMttyVfPaERSR0Wqmu7LAocGIGz3UqlXOLrxM-vMGmW8VNxu5Dx60noTyL_kYDhwixU-fOReq1-Kf6UMXSFz9F6ueZhW2eyzB9z4WjTzt77JXKVaQcnC5sjTLEMthDpwdzkMr_lsVbW34lGmyj5kGoXuV-iSbwM' },
+        { n:'StatTrak™ AWP | Worm God (Factory New)', v:668, w:11.03, r:'common', img:'https://community.cloudflare.steamstatic.com/economy/image/i0CoZ81Ui0m-9KwlBY1L_18myuGuq1wfhWSaZgMttyVfPaERSR0Wqmu7LAocGIGz3UqlXOLrxM-vMGmW8VNxu5Dx60noTyLwiYbf_DNk7uW-V7B6Kf6WMWuZxuZi_uRoGH3iw0wh4j7cnt6ucSqSZwUkCMB5TLIPsES_kNbuYeOwtgXai4NbjXKpZ4kj0o0' },
+        { n:'SSG 08 | Turbo Peek (Field-Tested)', v:1433, w:7.72, r:'rare', img:'https://community.cloudflare.steamstatic.com/economy/image/i0CoZ81Ui0m-9KwlBY1L_18myuGuq1wfhWSaZgMttyVfPaERSR0Wqmu7LAocGIGz3UqlXOLrxM-vMGmW8VNxu5Dx60noTyLijZGwpR1Y-s29e6NSL-aWHHORyutJveRtRjy-20pz5DzRnoqucy-ePAR0CMAjRrYOsRe6wYLgMevh4wKL3o0TxC2s3H5XrnE8_hLO63A' },
+        { n:'StatTrak™ MP7 | Smoking Kills (Field-Tested)', v:1436, w:5.52, r:'rare', img:'https://community.cloudflare.steamstatic.com/economy/image/i0CoZ81Ui0m-9KwlBY1L_18myuGuq1wfhWSaZgMttyVfPaERSR0Wqmu7LAocGIGz3UqlXOLrxM-vMGmW8VNxu5Dx60noTyL8jsHf8DIM0OGjZ69kLvesBW6czf1JprNWQiy3nAgq_TjSyIn8cy2eb1UjW5p4R-JeuhC_xIC1P-zn7wOIjItCn3383Hgf6n11o7FVl5bdg0g' },
+        { n:'Tec-9 | Decimator (Field-Tested)', v:1514, w:3.86, r:'rare', img:'https://community.cloudflare.steamstatic.com/economy/image/i0CoZ81Ui0m-9KwlBY1L_18myuGuq1wfhWSaZgMttyVfPaERSR0Wqmu7LAocGIGz3UqlXOLrxM-vMGmW8VNxu5Dx60noTyLlm5W5wiVI0Oara_1SJPWQB2qR1eFkj-xsSyCmmFMk6zzVnIqpJC2UbAd2CZF3EOYPtRe9kNThMey0s1GK3Y5CzS_7hy1B8G81tL7z0l3A' },
+        { n:'M4A1-S | Decimator (Minimal Wear)', v:1666, w:2.76, r:'rare', img:'https://community.cloudflare.steamstatic.com/economy/image/i0CoZ81Ui0m-9KwlBY1L_18myuGuq1wfhWSaZgMttyVfPaERSR0Wqmu7LAocGIGz3UqlXOLrxM-vMGmW8VNxu5Dx60noTyL8ypexwjFS4_ega6F_H_eAMWrEwL9JtORqRiSygRI1jDGMnYftb3iUb1dxW5ImFLNftxCxktflZLm2tgaP2otGyn_-hytOvy9q5elQV_A7uvqA6CRSoZY' },
+        { n:'★ Survival Knife | Boreal Forest (Battle-Scarred)', v:4184, w:1.77, r:'legend', img:'https://community.cloudflare.steamstatic.com/economy/image/i0CoZ81Ui0m-9KwlBY1L_18myuGuq1wfhWSaZgMttyVfPaERSR0Wqmu7LAocGIGz3UqlXOLrxM-vMGmW8VNxu5Dx60noTyL6kJ_m-B1Y7vyne5tlOc-VAXWV0vpJsu57Sii_qhUisiuc1Nz8JSrEaQIhCJV0QuEJ5kGxwdbuZe-z51Ddio4Xzy383Xgc5ixpsekcEf1y0FjIJTY' },
+        { n:'M4A1-S | Vaporwave (Field-Tested)', v:4586, w:0.66, r:'legend', img:'https://community.cloudflare.steamstatic.com/economy/image/i0CoZ81Ui0m-9KwlBY1L_18myuGuq1wfhWSaZgMttyVfPaERSR0Wqmu7LAocGIGz3UqlXOLrxM-vMGmW8VNxu5Dx60noTyL8ypexwjFS4_ega6F_H_3HDzaD_vh3oO57WCilkCIqtjmMj4K3d3OWbVIkW5p4R7YDu0PrlIHjYbyzsweKi49GmC3_2n8b5yY_6-sAVL1lpPOGYu6esg' },
+        { n:'★ Navaja Knife | Blue Steel (Minimal Wear)', v:5614, w:0.33, r:'legend', img:'https://community.cloudflare.steamstatic.com/economy/image/i0CoZ81Ui0m-9KwlBY1L_18myuGuq1wfhWSaZgMttyVfPaERSR0Wqmu7LAocGIGz3UqlXOLrxM-vMGmW8VNxu5Dx60noTyL6kJ_m-B1c9uK9cZtnIfOYBWmZx-tJsfBWTSWmkBkYvzSCkpu3JCqUaFIjCpV4ReAD50S9w4bgZO7h4Vba399DmC36jHlI6yo_tr0LB71lpPNA0Lycxg' },
+        { n:'★ Huntsman Knife | Freehand (Battle-Scarred)', v:6536, w:0.17, r:'legend', img:'https://community.cloudflare.steamstatic.com/economy/image/i0CoZ81Ui0m-9KwlBY1L_18myuGuq1wfhWSaZgMttyVfPaERSR0Wqmu7LAocGIGz3UqlXOLrxM-vMGmW8VNxu5Dx60noTyL6kJ_m-B1P7vG6YadsLM-SA1idwPx9teVWWjmMzE0YuziEjJa3dC3EPQAgCZF3R-9Yt0W9kNbkN-_htgeKg9pBzCv-2HhM7Xti5L0GVr1lpPMKnW3UEw' },
       ],
     },
     {
-      id:'black', name:'Чёрный Ящик', price:10500, color:'#a855f7', emo:'⚔️',
-      tag:'Откроешь — станешь легендой двора. Не откроешь — будешь просто человеком с мечтой.',
+      id:'garazh', name:'Гараж Миллиардера', price:3500, color:'#22c55e', icon:'wrench',
+      tag:'Инструменты настоящие. Миллионер — виртуальный. Как и твои баллы.',
       items:[
-        { n:'★ Survival Knife | Boreal Forest (Battle-Scarred)', v:4184, w:33.46, r:'legend', img:'https://community.cloudflare.steamstatic.com/economy/image/i0CoZ81Ui0m-9KwlBY1L_18myuGuq1wfhWSaZgMttyVfPaERSR0Wqmu7LAocGIGz3UqlXOLrxM-vMGmW8VNxu5Dx60noTyL6kJ_m-B1Y7vyne5tlOc-VAXWV0vpJsu57Sii_qhUisiuc1Nz8JSrEaQIhCJV0QuEJ5kGxwdbuZe-z51Ddio4Xzy383Xgc5ixpsekcEf1y0FjIJTY' },
-        { n:'★ Huntsman Knife | Freehand (Battle-Scarred)', v:6536, w:26.77, r:'legend', img:'https://community.cloudflare.steamstatic.com/economy/image/i0CoZ81Ui0m-9KwlBY1L_18myuGuq1wfhWSaZgMttyVfPaERSR0Wqmu7LAocGIGz3UqlXOLrxM-vMGmW8VNxu5Dx60noTyL6kJ_m-B1P7vG6YadsLM-SA1idwPx9teVWWjmMzE0YuziEjJa3dC3EPQAgCZF3R-9Yt0W9kNbkN-_htgeKg9pBzCv-2HhM7Xti5L0GVr1lpPMKnW3UEw' },
-        { n:'AK-47 | Fuel Injector (Well-Worn)', v:9001, w:16.73, r:'mythic', img:'https://community.cloudflare.steamstatic.com/economy/image/i0CoZ81Ui0m-9KwlBY1L_18myuGuq1wfhWSaZgMttyVfPaERSR0Wqmu7LAocGIGz3UqlXOLrxM-vMGmW8VNxu5Dx60noTyLwlcK3wiVI0POlPPNSM-WDC3WTye9kt-RtcCS2kRQyvnPczdutIHzCPQ52DZV2TbIOshG7ltOyM7vg71GPioMUmHr6iyxJ6C5o_a9cBpypIj3h' },
-        { n:'M4A4 | Hellfire (Minimal Wear)', v:14452, w:10.04, r:'mythic', img:'https://community.cloudflare.steamstatic.com/economy/image/i0CoZ81Ui0m-9KwlBY1L_18myuGuq1wfhWSaZgMttyVfPaERSR0Wqmu7LAocGIGz3UqlXOLrxM-vMGmW8VNxu5Dx60noTyL8ypexwiFO0P_6afBSKPWfAmGZ0-tJvOhuRz39zEp24GTXmImsInqWP1AkXpBwE7FetUTswdfkPu7h5QXXithBy32t2DQJsHhDPmtuAA' },
-        { n:'★ Navaja Knife | Ultraviolet (Factory New)', v:16041, w:7.81, r:'mythic', img:'https://community.cloudflare.steamstatic.com/economy/image/i0CoZ81Ui0m-9KwlBY1L_18myuGuq1wfhWSaZgMttyVfPaERSR0Wqmu7LAocGIGz3UqlXOLrxM-vMGmW8VNxu5Dx60noTyL6kJ_m-B1c9uK9cZtnIfOYBWmZx-tJo-5WXzyhhREijDGMnYftby3FOgUhAsYjTeZetBm4xtXkNbiw5lPbi9pGxCr92itB7C9q4ekDU6c7uvqA74P7bNU' },
-        { n:'★ StatTrak™ Stiletto Knife | Damascus Steel (Factory New)', v:26011, w:3.9, r:'mythic', img:'https://community.cloudflare.steamstatic.com/economy/image/i0CoZ81Ui0m-9KwlBY1L_18myuGuq1wfhWSaZgMttyVfPaERSR0Wqmu7LAocGIGz3UqlXOLrxM-vMGmW8VNxu5Dx60noTyL6kJ_m-B1I-_uibbB5L8-SH1iUwON3o-J8XBajhxQ0vjy6lob-KT-JZw52XpsiQuADtxjsm4GxPum37lSLjINBni7-iS1K7S9v5OkAUKIlq7qX0V-S_V0ZqQ' },
-        { n:'★ StatTrak™ Karambit | Freehand (Well-Worn)', v:64393, w:0.89, r:'mythic', img:'https://community.cloudflare.steamstatic.com/economy/image/i0CoZ81Ui0m-9KwlBY1L_18myuGuq1wfhWSaZgMttyVfPaERSR0Wqmu7LAocGIGz3UqlXOLrxM-vMGmW8VNxu5Dx60noTyL6kJ_m-B1Q7uCvZaZkNM-SA1idwPx9teVWWjmMkxQptgKIn4vwNCaJblMnXJV2QrFY5xDtkIexNOm05FHf2Y1NnimtjSxN6yhp4u0LBacjqLqX0V-sadF3yw' },
-        { n:'★ Karambit | Stained (Field-Tested)', v:71911, w:0.39, r:'mythic', img:'https://community.cloudflare.steamstatic.com/economy/image/i0CoZ81Ui0m-9KwlBY1L_18myuGuq1wfhWSaZgMttyVfPaERSR0Wqmu7LAocGIGz3UqlXOLrxM-vMGmW8VNxu5Dx60noTyL6kJ_m-B1Q7uCvZaZkNM-SH1iWzvx1teVWQiy3nAgq_WzRzIyvJy6QOwAkCJN4Re8D4EK4lNbuMbmxtQePjokRxCSq2yJA6Sl1o7FVSPbGsq0' },
+        { n:'P2000 | Wicked Sick (Factory New)', v:1083, w:28.68, r:'rare', img:'https://community.cloudflare.steamstatic.com/economy/image/i0CoZ81Ui0m-9KwlBY1L_18myuGuq1wfhWSaZgMttyVfPaERSR0Wqmu7LAocGIGz3UqlXOLrxM-vMGmW8VNxu5Dx60noTyL5lYayrXIL0PG7V7Q_cKDDMWOVwuJ_vuRWQyC0nQlp4jnTyNqodHyXOlQkDZtzF-UN4BjukYeyZuLn5Qbaj4NEzy3_3ywd5zErvbh-3lU8Iw' },
+        { n:'SSG 08 | Turbo Peek (Field-Tested)', v:1433, w:22.06, r:'rare', img:'https://community.cloudflare.steamstatic.com/economy/image/i0CoZ81Ui0m-9KwlBY1L_18myuGuq1wfhWSaZgMttyVfPaERSR0Wqmu7LAocGIGz3UqlXOLrxM-vMGmW8VNxu5Dx60noTyLijZGwpR1Y-s29e6NSL-aWHHORyutJveRtRjy-20pz5DzRnoqucy-ePAR0CMAjRrYOsRe6wYLgMevh4wKL3o0TxC2s3H5XrnE8_hLO63A' },
+        { n:'StatTrak™ AWP | Atheris (Minimal Wear)', v:1440, w:15.44, r:'rare', img:'https://community.cloudflare.steamstatic.com/economy/image/i0CoZ81Ui0m-9KwlBY1L_18myuGuq1wfhWSaZgMttyVfPaERSR0Wqmu7LAocGIGz3UqlXOLrxM-vMGmW8VNxu5Dx60noTyLwiYbf_jdk7uW-V7JkMPWBMWuZxuZi_rZsS3zgzU8isW3dnIr6eHKfPVAhDpojEe9YsUW4xta1Nuzm5FDci4NbjXKpmWVQppo' },
+        { n:'M4A1-S | Decimator (Minimal Wear)', v:1666, w:11.03, r:'rare', img:'https://community.cloudflare.steamstatic.com/economy/image/i0CoZ81Ui0m-9KwlBY1L_18myuGuq1wfhWSaZgMttyVfPaERSR0Wqmu7LAocGIGz3UqlXOLrxM-vMGmW8VNxu5Dx60noTyL8ypexwjFS4_ega6F_H_eAMWrEwL9JtORqRiSygRI1jDGMnYftb3iUb1dxW5ImFLNftxCxktflZLm2tgaP2otGyn_-hytOvy9q5elQV_A7uvqA6CRSoZY' },
+        { n:'★ Kukri Knife | Urban Masked (Field-Tested)', v:4403, w:7.72, r:'legend', img:'https://community.cloudflare.steamstatic.com/economy/image/i0CoZ81Ui0m-9KwlBY1L_18myuGuq1wfhWSaZgMttyVfPaERSR0Wqmu7LAocGIGz3UqlXOLrxM-vMGmW8VNxu5Dx60noTyL6kJ_m-B1Q-vm8YZt-MM-HD3eV_vtksuBncCS2kRQyvnODw9r8cHjEalckXMR3TbYLuhi8lN2yP-zhsw3c2o8Uny723Swd6no-_a9cBqiVIvRG' },
+        { n:'★ Navaja Knife | Blue Steel (Minimal Wear)', v:5614, w:5.52, r:'legend', img:'https://community.cloudflare.steamstatic.com/economy/image/i0CoZ81Ui0m-9KwlBY1L_18myuGuq1wfhWSaZgMttyVfPaERSR0Wqmu7LAocGIGz3UqlXOLrxM-vMGmW8VNxu5Dx60noTyL6kJ_m-B1c9uK9cZtnIfOYBWmZx-tJsfBWTSWmkBkYvzSCkpu3JCqUaFIjCpV4ReAD50S9w4bgZO7h4Vba399DmC36jHlI6yo_tr0LB71lpPNA0Lycxg' },
+        { n:'★ StatTrak™ Survival Knife | Damascus Steel (Minimal Wear)', v:6715, w:3.86, r:'legend', img:'https://community.cloudflare.steamstatic.com/economy/image/i0CoZ81Ui0m-9KwlBY1L_18myuGuq1wfhWSaZgMttyVfPaERSR0Wqmu7LAocGIGz3UqlXOLrxM-vMGmW8VNxu5Dx60noTyL6kJ_m-B1Y7vyne5tsMc-XD2qR0u1jo95lRi67gVNw6myGnN6teHyTbFV1DMQhTeFYsBa7xtHhZb-z5gfejN4Un3-si3wf8G81tKX6O3VS' },
+        { n:'★ StatTrak™ Classic Knife | Forest DDPAT (Battle-Scarred)', v:8550, w:2.76, r:'legend', img:'https://community.cloudflare.steamstatic.com/economy/image/i0CoZ81Ui0m-9KwlBY1L_18myuGuq1wfhWSaZgMttyVfPaERSR0Wqmu7LAocGIGz3UqlXOLrxM-vMGmW8VNxu5Dx60noTyL6kJ_m-B1Y_OGRYL1SJPSDD3Ovyet3pvgnHiq1whsmtmXRwtj6JHmWP1J1W5R0FOZcukTrwNfgN-izs1Pd3YJByDK-0H0Pqdb3Nw' },
+        { n:'M4A4 | Hellfire (Minimal Wear)', v:14452, w:1.77, r:'mythic', img:'https://community.cloudflare.steamstatic.com/economy/image/i0CoZ81Ui0m-9KwlBY1L_18myuGuq1wfhWSaZgMttyVfPaERSR0Wqmu7LAocGIGz3UqlXOLrxM-vMGmW8VNxu5Dx60noTyL8ypexwiFO0P_6afBSKPWfAmGZ0-tJvOhuRz39zEp24GTXmImsInqWP1AkXpBwE7FetUTswdfkPu7h5QXXithBy32t2DQJsHhDPmtuAA' },
+        { n:'★ StatTrak™ Stiletto Knife | Damascus Steel (Factory New)', v:26011, w:0.66, r:'mythic', img:'https://community.cloudflare.steamstatic.com/economy/image/i0CoZ81Ui0m-9KwlBY1L_18myuGuq1wfhWSaZgMttyVfPaERSR0Wqmu7LAocGIGz3UqlXOLrxM-vMGmW8VNxu5Dx60noTyL6kJ_m-B1I-_uibbB5L8-SH1iUwON3o-J8XBajhxQ0vjy6lob-KT-JZw52XpsiQuADtxjsm4GxPum37lSLjINBni7-iS1K7S9v5OkAUKIlq7qX0V-S_V0ZqQ' },
+        { n:'★ StatTrak™ Karambit | Freehand (Well-Worn)', v:64393, w:0.33, r:'mythic', img:'https://community.cloudflare.steamstatic.com/economy/image/i0CoZ81Ui0m-9KwlBY1L_18myuGuq1wfhWSaZgMttyVfPaERSR0Wqmu7LAocGIGz3UqlXOLrxM-vMGmW8VNxu5Dx60noTyL6kJ_m-B1Q7uCvZaZkNM-SA1idwPx9teVWWjmMkxQptgKIn4vwNCaJblMnXJV2QrFY5xDtkIexNOm05FHf2Y1NnimtjSxN6yhp4u0LBacjqLqX0V-sadF3yw' },
+        { n:'★ Karambit | Stained (Field-Tested)', v:71911, w:0.17, r:'mythic', img:'https://community.cloudflare.steamstatic.com/economy/image/i0CoZ81Ui0m-9KwlBY1L_18myuGuq1wfhWSaZgMttyVfPaERSR0Wqmu7LAocGIGz3UqlXOLrxM-vMGmW8VNxu5Dx60noTyL6kJ_m-B1Q7uCvZaZkNM-SH1iWzvx1teVWQiy3nAgq_WzRzIyvJy6QOwAkCJN4Re8D4EK4lNbuMbmxtQePjokRxCSq2yJA6Sl1o7FVSPbGsq0' },
+      ],
+    },
+    {
+      id:'royal', name:'Алмазный Король', price:11000, color:'#ef4444', icon:'crown',
+      tag:'Корона в комплект не входит, но вести себя по-королевски заставит.',
+      items:[
+        { n:'★ Navaja Knife | Blue Steel (Minimal Wear)', v:5614, w:28.68, r:'legend', img:'https://community.cloudflare.steamstatic.com/economy/image/i0CoZ81Ui0m-9KwlBY1L_18myuGuq1wfhWSaZgMttyVfPaERSR0Wqmu7LAocGIGz3UqlXOLrxM-vMGmW8VNxu5Dx60noTyL6kJ_m-B1c9uK9cZtnIfOYBWmZx-tJsfBWTSWmkBkYvzSCkpu3JCqUaFIjCpV4ReAD50S9w4bgZO7h4Vba399DmC36jHlI6yo_tr0LB71lpPNA0Lycxg' },
+        { n:'★ StatTrak™ Survival Knife | Damascus Steel (Minimal Wear)', v:6715, w:22.06, r:'legend', img:'https://community.cloudflare.steamstatic.com/economy/image/i0CoZ81Ui0m-9KwlBY1L_18myuGuq1wfhWSaZgMttyVfPaERSR0Wqmu7LAocGIGz3UqlXOLrxM-vMGmW8VNxu5Dx60noTyL6kJ_m-B1Y7vyne5tsMc-XD2qR0u1jo95lRi67gVNw6myGnN6teHyTbFV1DMQhTeFYsBa7xtHhZb-z5gfejN4Un3-si3wf8G81tKX6O3VS' },
+        { n:'★ StatTrak™ Kukri Knife | Urban Masked (Minimal Wear)', v:7490, w:15.44, r:'legend', img:'https://community.cloudflare.steamstatic.com/economy/image/i0CoZ81Ui0m-9KwlBY1L_18myuGuq1wfhWSaZgMttyVfPaERSR0Wqmu7LAocGIGz3UqlXOLrxM-vMGmW8VNxu5Dx60noTyL6kJ_m-B1Q-vm8YZt-MM-HD3eV_vtksuBncCW6khUz_W2GmdupJ3mfPA8jW5ZwR-QN4UKxmtOyN7y25lfW2YtNziX8jCtN7Xp1o7FVXby906g' },
+        { n:'★ StatTrak™ Classic Knife | Forest DDPAT (Battle-Scarred)', v:8550, w:11.03, r:'legend', img:'https://community.cloudflare.steamstatic.com/economy/image/i0CoZ81Ui0m-9KwlBY1L_18myuGuq1wfhWSaZgMttyVfPaERSR0Wqmu7LAocGIGz3UqlXOLrxM-vMGmW8VNxu5Dx60noTyL6kJ_m-B1Y_OGRYL1SJPSDD3Ovyet3pvgnHiq1whsmtmXRwtj6JHmWP1J1W5R0FOZcukTrwNfgN-izs1Pd3YJByDK-0H0Pqdb3Nw' },
+        { n:'StatTrak™ SG 553 | Ultraviolet (Factory New)', v:8641, w:7.72, r:'legend', img:'https://community.cloudflare.steamstatic.com/economy/image/i0CoZ81Ui0m-9KwlBY1L_18myuGuq1wfhWSaZgMttyVfPaERSR0Wqmu7LAocGIGz3UqlXOLrxM-vMGmW8VNxu5Dx60noTyLimcO1qx1I4M2-fbZ9LPWsAm6Xyfo44bQ-Tn7gwRt-t2uAw96tIn7FOAF1CsckQLUJ4xXskdO2NLzrtAyIi5UFk3tU_MwgmA' },
+        { n:'AK-47 | Fuel Injector (Well-Worn)', v:9001, w:5.52, r:'mythic', img:'https://community.cloudflare.steamstatic.com/economy/image/i0CoZ81Ui0m-9KwlBY1L_18myuGuq1wfhWSaZgMttyVfPaERSR0Wqmu7LAocGIGz3UqlXOLrxM-vMGmW8VNxu5Dx60noTyLwlcK3wiVI0POlPPNSM-WDC3WTye9kt-RtcCS2kRQyvnPczdutIHzCPQ52DZV2TbIOshG7ltOyM7vg71GPioMUmHr6iyxJ6C5o_a9cBpypIj3h' },
+        { n:'★ Navaja Knife | Ultraviolet (Factory New)', v:16041, w:3.86, r:'mythic', img:'https://community.cloudflare.steamstatic.com/economy/image/i0CoZ81Ui0m-9KwlBY1L_18myuGuq1wfhWSaZgMttyVfPaERSR0Wqmu7LAocGIGz3UqlXOLrxM-vMGmW8VNxu5Dx60noTyL6kJ_m-B1c9uK9cZtnIfOYBWmZx-tJo-5WXzyhhREijDGMnYftby3FOgUhAsYjTeZetBm4xtXkNbiw5lPbi9pGxCr92itB7C9q4ekDU6c7uvqA74P7bNU' },
+        { n:'★ StatTrak™ Stiletto Knife | Damascus Steel (Factory New)', v:26011, w:2.76, r:'mythic', img:'https://community.cloudflare.steamstatic.com/economy/image/i0CoZ81Ui0m-9KwlBY1L_18myuGuq1wfhWSaZgMttyVfPaERSR0Wqmu7LAocGIGz3UqlXOLrxM-vMGmW8VNxu5Dx60noTyL6kJ_m-B1I-_uibbB5L8-SH1iUwON3o-J8XBajhxQ0vjy6lob-KT-JZw52XpsiQuADtxjsm4GxPum37lSLjINBni7-iS1K7S9v5OkAUKIlq7qX0V-S_V0ZqQ' },
+        { n:'★ StatTrak™ Karambit | Ultraviolet (Field-Tested)', v:61085, w:1.77, r:'mythic', img:'https://community.cloudflare.steamstatic.com/economy/image/i0CoZ81Ui0m-9KwlBY1L_18myuGuq1wfhWSaZgMttyVfPaERSR0Wqmu7LAocGIGz3UqlXOLrxM-vMGmW8VNxu5Dx60noTyL6kJ_m-B1Q7uCvZaZkNM-AAViA1PxmvORWQiy3nAgq_WyAmYqtIn-ebABzDMElRORYt0W9l92zNrzk4Q3YiopNn3n7inlA7X11o7FVJz6p7dU' },
+        { n:'★ StatTrak™ Karambit | Freehand (Well-Worn)', v:64393, w:0.66, r:'mythic', img:'https://community.cloudflare.steamstatic.com/economy/image/i0CoZ81Ui0m-9KwlBY1L_18myuGuq1wfhWSaZgMttyVfPaERSR0Wqmu7LAocGIGz3UqlXOLrxM-vMGmW8VNxu5Dx60noTyL6kJ_m-B1Q7uCvZaZkNM-SA1idwPx9teVWWjmMkxQptgKIn4vwNCaJblMnXJV2QrFY5xDtkIexNOm05FHf2Y1NnimtjSxN6yhp4u0LBacjqLqX0V-sadF3yw' },
+        { n:'★ Karambit | Black Laminate (Well-Worn)', v:67277, w:0.33, r:'mythic', img:'https://community.cloudflare.steamstatic.com/economy/image/i0CoZ81Ui0m-9KwlBY1L_18myuGuq1wfhWSaZgMttyVfPaERSR0Wqmu7LAocGIGz3UqlXOLrxM-vMGmW8VNxu5Dx60noTyL6kJ_m-B1Q7uCvZaZkNM-QG1ibwPx3vd56Wya9kAomoDW6l4r9KD7KcAdyCZcjEecDu0G7k4DlN-rlswfZjo5DyCSt2Cgf6ChssLsHUfEsrqLJz1aWM9kY8Bw' },
+        { n:'★ Karambit | Stained (Field-Tested)', v:71911, w:0.17, r:'mythic', img:'https://community.cloudflare.steamstatic.com/economy/image/i0CoZ81Ui0m-9KwlBY1L_18myuGuq1wfhWSaZgMttyVfPaERSR0Wqmu7LAocGIGz3UqlXOLrxM-vMGmW8VNxu5Dx60noTyL6kJ_m-B1Q7uCvZaZkNM-SH1iWzvx1teVWQiy3nAgq_WzRzIyvJy6QOwAkCJN4Re8D4EK4lNbuMbmxtQePjokRxCSq2yJA6Sl1o7FVSPbGsq0' },
+      ],
+    },
+    {
+      id:'black', name:'Чёрный Ящик', price:8000, color:'#a855f7', icon:'skull',
+      tag:'Откроешь — расскажешь внукам. Не откроешь — будешь просто человеком с мечтой.',
+      items:[
+        { n:'StatTrak™ AWP | Atheris (Minimal Wear)', v:1440, w:28.68, r:'rare', img:'https://community.cloudflare.steamstatic.com/economy/image/i0CoZ81Ui0m-9KwlBY1L_18myuGuq1wfhWSaZgMttyVfPaERSR0Wqmu7LAocGIGz3UqlXOLrxM-vMGmW8VNxu5Dx60noTyLwiYbf_jdk7uW-V7JkMPWBMWuZxuZi_rZsS3zgzU8isW3dnIr6eHKfPVAhDpojEe9YsUW4xta1Nuzm5FDci4NbjXKpmWVQppo' },
+        { n:'AK-47 | Legion of Anubis (Minimal Wear)', v:3301, w:22.06, r:'legend', img:'https://community.cloudflare.steamstatic.com/economy/image/i0CoZ81Ui0m-9KwlBY1L_18myuGuq1wfhWSaZgMttyVfPaERSR0Wqmu7LAocGIGz3UqlXOLrxM-vMGmW8VNxu5Dx60noTyLwlcK3wiFO0POlPPNSIf6GDG6D_uJ_t-l9AX_nzBhw4TvWwo6udC2QbgZyWcN2RuMP4xHrlYDnYezm7geP3d5FyH3gznQeY_Oe4QY' },
+        { n:'StatTrak™ FAMAS | Bad Trip (Minimal Wear)', v:5040, w:15.44, r:'legend', img:'https://community.cloudflare.steamstatic.com/economy/image/i0CoZ81Ui0m-9KwlBY1L_18myuGuq1wfhWSaZgMttyVfPaERSR0Wqmu7LAocGIGz3UqlXOLrxM-vMGmW8VNxu5Dx60noTyL3n5vh7h1d7v-ve5tvIfSHHG6A_uJ_t-l9AX6xzExytWndzdj6eCrGb1MkWZB2TOBc4xK8mtHkZezrsQOPjoITyi_gznQezHhrR0c' },
+        { n:'★ StatTrak™ Survival Knife | Damascus Steel (Minimal Wear)', v:6715, w:11.03, r:'legend', img:'https://community.cloudflare.steamstatic.com/economy/image/i0CoZ81Ui0m-9KwlBY1L_18myuGuq1wfhWSaZgMttyVfPaERSR0Wqmu7LAocGIGz3UqlXOLrxM-vMGmW8VNxu5Dx60noTyL6kJ_m-B1Y7vyne5tsMc-XD2qR0u1jo95lRi67gVNw6myGnN6teHyTbFV1DMQhTeFYsBa7xtHhZb-z5gfejN4Un3-si3wf8G81tKX6O3VS' },
+        { n:'★ Nomad Knife | Rust Coat (Battle-Scarred)', v:8538, w:7.72, r:'legend', img:'https://community.cloudflare.steamstatic.com/economy/image/i0CoZ81Ui0m-9KwlBY1L_18myuGuq1wfhWSaZgMttyVfPaERSR0Wqmu7LAocGIGz3UqlXOLrxM-vMGmW8VNxu5Dx60noTyL6kJ_m-B1U-uaqZ6t_H_GCMXSExOt6j-pnRi-2qhUisiuc1Nz8eS3BbgMgXpNzFLNYsUXqltPlYr7kslPXidpCmH-viylB6n1u4bocEf1ytubkyVg' },
+        { n:'StatTrak™ SG 553 | Ultraviolet (Factory New)', v:8641, w:5.52, r:'legend', img:'https://community.cloudflare.steamstatic.com/economy/image/i0CoZ81Ui0m-9KwlBY1L_18myuGuq1wfhWSaZgMttyVfPaERSR0Wqmu7LAocGIGz3UqlXOLrxM-vMGmW8VNxu5Dx60noTyLimcO1qx1I4M2-fbZ9LPWsAm6Xyfo44bQ-Tn7gwRt-t2uAw96tIn7FOAF1CsckQLUJ4xXskdO2NLzrtAyIi5UFk3tU_MwgmA' },
+        { n:'M4A4 | Hellfire (Minimal Wear)', v:14452, w:3.86, r:'mythic', img:'https://community.cloudflare.steamstatic.com/economy/image/i0CoZ81Ui0m-9KwlBY1L_18myuGuq1wfhWSaZgMttyVfPaERSR0Wqmu7LAocGIGz3UqlXOLrxM-vMGmW8VNxu5Dx60noTyL8ypexwiFO0P_6afBSKPWfAmGZ0-tJvOhuRz39zEp24GTXmImsInqWP1AkXpBwE7FetUTswdfkPu7h5QXXithBy32t2DQJsHhDPmtuAA' },
+        { n:'★ StatTrak™ Stiletto Knife | Damascus Steel (Factory New)', v:26011, w:2.76, r:'mythic', img:'https://community.cloudflare.steamstatic.com/economy/image/i0CoZ81Ui0m-9KwlBY1L_18myuGuq1wfhWSaZgMttyVfPaERSR0Wqmu7LAocGIGz3UqlXOLrxM-vMGmW8VNxu5Dx60noTyL6kJ_m-B1I-_uibbB5L8-SH1iUwON3o-J8XBajhxQ0vjy6lob-KT-JZw52XpsiQuADtxjsm4GxPum37lSLjINBni7-iS1K7S9v5OkAUKIlq7qX0V-S_V0ZqQ' },
+        { n:'★ StatTrak™ Karambit | Ultraviolet (Field-Tested)', v:61085, w:1.77, r:'mythic', img:'https://community.cloudflare.steamstatic.com/economy/image/i0CoZ81Ui0m-9KwlBY1L_18myuGuq1wfhWSaZgMttyVfPaERSR0Wqmu7LAocGIGz3UqlXOLrxM-vMGmW8VNxu5Dx60noTyL6kJ_m-B1Q7uCvZaZkNM-AAViA1PxmvORWQiy3nAgq_WyAmYqtIn-ebABzDMElRORYt0W9l92zNrzk4Q3YiopNn3n7inlA7X11o7FVJz6p7dU' },
+        { n:'★ StatTrak™ Karambit | Freehand (Well-Worn)', v:64393, w:0.66, r:'mythic', img:'https://community.cloudflare.steamstatic.com/economy/image/i0CoZ81Ui0m-9KwlBY1L_18myuGuq1wfhWSaZgMttyVfPaERSR0Wqmu7LAocGIGz3UqlXOLrxM-vMGmW8VNxu5Dx60noTyL6kJ_m-B1Q7uCvZaZkNM-SA1idwPx9teVWWjmMkxQptgKIn4vwNCaJblMnXJV2QrFY5xDtkIexNOm05FHf2Y1NnimtjSxN6yhp4u0LBacjqLqX0V-sadF3yw' },
+        { n:'★ Karambit | Black Laminate (Well-Worn)', v:67277, w:0.33, r:'mythic', img:'https://community.cloudflare.steamstatic.com/economy/image/i0CoZ81Ui0m-9KwlBY1L_18myuGuq1wfhWSaZgMttyVfPaERSR0Wqmu7LAocGIGz3UqlXOLrxM-vMGmW8VNxu5Dx60noTyL6kJ_m-B1Q7uCvZaZkNM-QG1ibwPx3vd56Wya9kAomoDW6l4r9KD7KcAdyCZcjEecDu0G7k4DlN-rlswfZjo5DyCSt2Cgf6ChssLsHUfEsrqLJz1aWM9kY8Bw' },
+        { n:'★ Karambit | Stained (Field-Tested)', v:71911, w:0.17, r:'mythic', img:'https://community.cloudflare.steamstatic.com/economy/image/i0CoZ81Ui0m-9KwlBY1L_18myuGuq1wfhWSaZgMttyVfPaERSR0Wqmu7LAocGIGz3UqlXOLrxM-vMGmW8VNxu5Dx60noTyL6kJ_m-B1Q7uCvZaZkNM-SH1iWzvx1teVWQiy3nAgq_WzRzIyvJy6QOwAkCJN4Re8D4EK4lNbuMbmxtQePjokRxCSq2yJA6Sl1o7FVSPbGsq0' },
       ],
     },
 ];
-
 
   /* ============================================================
      2. СОСТОЯНИЕ (localStorage)
@@ -1094,28 +1477,86 @@
     return days === 1 ? 'вчера' : days + ' дн назад';
   }
 
-  // Эмодзи-фолбэк: если картинка скина не загрузилась
-  function emojiFor(name) {
-    if (!name) return '🔫';
-    if (/★|[Kk]nife|Karambit|Bayonet|Butterfly|Dagger|Falchion|Huntsman|Navaja|Nomad|Skeleton|Stiletto|Talon|Ursus|Kukri|Nautilus/.test(name)) return '🔪';
-    if (/[Gg]loves|Mitts|Wraps/.test(name)) return '🧤';
-    if (/AWP/.test(name)) return '🎯';
-    return '🔫';
+  /* ---------- SVG-иконки (ваниль, без эмодзи и библиотек) ---------- */
+  const ICONS = {
+    gift:      '<path d="M4 11h16v9a1 1 0 0 1-1 1H5a1 1 0 0 1-1-1v-9Z"/><path d="M12 11v10"/><path d="M12 11c-2.5 0-4.5-1-4.5-3S9 5.5 12 8c3-2.5 4.5-2 4.5 0S14.5 11 12 11Z"/><path d="M12 11c2.5 0 4.5-1 4.5-3S15 5.5 12 8c-3-2.5-4.5-2-4.5 0S9.5 11 12 11Z"/>',
+    box:       '<path d="M3 8h18v12H3V8Z"/><path d="m3 8 2-4h14l2 4"/><path d="M10 12h4"/>',
+    bolt:      '<path d="M13 2 4 14h6l-1 8 9-12h-6l1-8Z"/>',
+    user:      '<circle cx="12" cy="8" r="4"/><path d="M4 21c1.5-4 4.5-6 8-6s6.5 2 8 6"/>',
+    crosshair: '<circle cx="12" cy="12" r="7"/><path d="M12 3v4M12 17v4M3 12h4M17 12h4"/>',
+    knife:     '<path d="M14 3l7 7-9 9-5 2-2-2 2-5Z"/><path d="m9 15 6-6"/>',
+    glove:     '<path d="M6 12V6a2 2 0 0 1 4 0v5h1V4a2 2 0 0 1 4 0v7h1V6a2 2 0 0 1 4 0v9a6 6 0 0 1-6 6h-2a6 6 0 0 1-6-6v-4Z"/>',
+    flame:     '<path d="M12 3c2 3 5 5 5 9a5 5 0 0 1-10 0c0-2 .8-3.4 2-5 .6 1.2 1.4 2 2.5 2.4C11 7.5 11.5 5 12 3Z"/>',
+    skull:     '<path d="M12 3a7 7 0 0 0-7 7c0 2.5 1.2 4.2 3 5.4V19h8v-3.6c1.8-1.2 3-2.9 3-5.4a7 7 0 0 0-7-7Z"/><circle cx="9" cy="10.5" r="1.3"/><circle cx="15" cy="10.5" r="1.3"/><path d="M10 19v2M14 19v2"/>',
+    plane:     '<path d="M22 2 11 13"/><path d="M22 2 15 22l-4-9-9-4Z"/>',
+    check:     '<path d="m4.5 12.5 5 5L20 7"/>',
+    clock:     '<circle cx="12" cy="12" r="8.5"/><path d="M12 7v5l3.5 2"/>',
+    dice:      '<rect x="3.5" y="3.5" width="17" height="17" rx="3"/><circle cx="8.5" cy="8.5" r="1"/><circle cx="15.5" cy="8.5" r="1"/><circle cx="12" cy="12" r="1"/><circle cx="8.5" cy="15.5" r="1"/><circle cx="15.5" cy="15.5" r="1"/>',
+    rocket:    '<path d="M12 3c4 2 6 6 6 10l-3 3h-6l-3-3c0-4 2-8 6-10Z"/><circle cx="12" cy="10" r="1.6"/><path d="M9 16c-1 1.5-3 2-3 5 3 0 4.5-1 6-2.5"/>',
+    star:      '<path d="m12 3 2.6 5.4 5.9.8-4.3 4.1 1 5.9L12 16.5l-5.2 2.7 1-5.9L3.5 9.2l5.9-.8L12 3Z"/>',
+    target:    '<circle cx="12" cy="12" r="8"/><circle cx="12" cy="12" r="4.5"/><circle cx="12" cy="12" r="1.2"/>',
+    cart:      '<circle cx="9" cy="20" r="1.4"/><circle cx="17" cy="20" r="1.4"/><path d="M3 4h2l2.4 12h10.2l2.4-9H6"/>',
+    crown:     '<path d="m4 17-1-9 5 3.5L12 5l4 6.5L21 8l-1 9H4Z"/><path d="M5 21h14"/>',
+    wrench:    '<path d="M14.8 4.2a5.5 5.5 0 0 0-7 6.7L3 15.6 8.4 21l4.7-4.8a5.5 5.5 0 0 0 6.7-7l-3.1 3.1-2.5-2.5 3.1-3.1Z"/>',
+    trash:     '<path d="M4 7h16"/><path d="M9 7V4h6v3"/><path d="m6 7 1 13h10l1-13"/><path d="M10 11v6M14 11v6"/>',
+    grid:      '<rect x="4" y="4" width="7" height="7"/><rect x="13" y="4" width="7" height="7"/><rect x="4" y="13" width="7" height="7"/><rect x="13" y="13" width="7" height="7"/>',
+    diamonds:  '<path d="M12 2 20 12 12 22 4 12Z"/><path d="M12 2v20M4 12h16"/>',
+    cup:       '<path d="M4 8h12v6a6 6 0 0 1-12 0V8Z"/><path d="M16 9h2.5a2.5 2.5 0 0 1 0 5H16"/><path d="M5 21h10"/><path d="M8 3.5c1.5-2 4-1 4 1"/>',
+    bowl:      '<path d="M4 12h16a8 8 0 0 1-4 7h-8a8 8 0 0 1-4-7Z"/><path d="M8 8c1.5-2 4-2 5 0 1-1.5 3.5-1.5 4-.5"/><path d="m7 21-1 1M17 21l1 1"/>',
+    coins:     '<circle cx="9" cy="9" r="5"/><path d="M14.5 6.5a5 5 0 1 1-8 5"/><path d="M7 9h4M9 7v4"/>',
+    hand:      '<path d="M8 12V6a1.5 1.5 0 0 1 3 0v5m0-6a1.5 1.5 0 0 1 3 0v6m0-5a1.5 1.5 0 0 1 3 0v8a6 6 0 0 1-6 6h-1a6 6 0 0 1-6-6v-2a1.5 1.5 0 0 1 3 0"/>',
+    gems:      '<path d="M12 2 22 12 12 22 2 12 12 2Z"/><path d="M12 5v14M5 12h14"/>',
+    plus:      '<path d="M12 5v14M5 12h14"/>',
+    sparkle:   '<path d="M12 4v4M12 16v4M4 12h4M16 12h4m-9-5 2 2m4 4 2 2m-8 0 2-2m4-4 2-2"/>',
+    list:      '<path d="M8 6h12M8 12h12M8 18h12"/><path d="M4 6h.01M4 12h.01M4 18h.01"/>',
+    close:     '<path d="M6 6l12 12M18 6 6 18"/>',
+  };
+  // SVG-иконка по имени; класс .ic задаёт размер 1em
+  function ic(name, cls) {
+    const p = ICONS[name] || ICONS.sparkle;
+    return `<svg class="ic ${cls || ''}" viewBox="0 0 24 24" aria-hidden="true">${p}</svg>`;
   }
 
-  // Картинка скина из Steam CDN либо эмодзи-фолбэк
-  function skinVisual(item, cls) {
-    const fb = item.emoji || emojiFor(item.name || item.n || '');
-    if (!item.img) return fb;
-    return `<img class="skin-img ${cls || ''}" src="${item.img}" alt="" loading="lazy" data-fb="${fb}" onerror="this.replaceWith(document.createTextNode(this.dataset.fb))">`;
+  // SVG-иконка-фолбэк для скинов, если картинка не загрузилась
+  function emojiFor(name) {
+    if (!name) return ic('crosshair');
+    if (/★|[Kk]nife|Karambit|Bayonet|Butterfly|Dagger|Falchion|Huntsman|Navaja|Nomad|Skeleton|Stiletto|Talon|Ursus|Kukri|Nautilus/.test(name)) return ic('knife');
+    if (/[Gg]loves|Mitts|Wraps/.test(name)) return ic('glove');
+    return ic('crosshair');
   }
+
+  // Картинка скина из Steam CDN либо SVG-иконка-фолбэк
+  function skinVisual(item, cls) {
+    if (!item.img) return item.emoji || emojiFor(item.name || item.n);
+    return `<img class="skin-img ${cls || ''}" src="${item.img}" alt="" loading="lazy" onerror="imgFail(this)">`;
+  }
+  // ПКМ-фолбэк при ошибке загрузки: скрещиваем в прицел
+  function imgFail(el) {
+    const span = document.createElement('span');
+    span.className = 'skin-miss';
+    span.innerHTML = ic('crosshair');
+    el.replaceWith(span);
+  }
+
+  // Рофл-строки, пока крутится рулетка
+  const SPIN_JOKES = [
+    'Крутим… совет: открывай на пустой желудок, так честнее',
+    'Если выпадет голда — молчи. Вот прям никому не говори',
+    'Технически предмет уже выпал. Но впечатление дороже',
+    'В этот момент кто-то открыл тот же кейс и обжёгся. Не ты, но кто-то',
+    'Скрещиваю пальцы… свои, твои всё равно в кармане',
+    'Статистически ты можешь всё. Статистически же — не можешь',
+    'Открывай спокойно: бабушкин чайник уже 60 лет против нас',
+    'Рулетка не решает всё. Но 92% — точно',
+  ];
+  function spinJoke() { return SPIN_JOKES[Math.floor(Math.random() * SPIN_JOKES.length)]; }
 
   // Тосты
   function toast(text, type = 'ok') {
     const box = $('#toasts');
     const el = document.createElement('div');
     el.className = 'toast' + (type === 'err' ? ' err' : type === 'info' ? ' info' : '');
-    el.textContent = text;
+    el.innerHTML = text;
     box.appendChild(el);
     setTimeout(() => { el.classList.add('hide'); setTimeout(() => el.remove(), 350); }, 3200);
   }
@@ -1152,6 +1593,12 @@
     if (btn) switchTab(btn.dataset.tab);
   });
   $('#profileBtn').addEventListener('click', () => switchTab('profile'));
+  $('#depositHeaderBtn').addEventListener('click', openDeposit);
+  $('#balancePill').addEventListener('click', () => openDeposit());
+  $('#depCloseBtn').addEventListener('click', () => closeOverlay('#depositOverlay'));
+  $('#depositOverlay').addEventListener('click', (e) => {
+    if (e.target === $('#depositOverlay')) closeOverlay('#depositOverlay');
+  });
   $('#logo').addEventListener('click', () => switchTab('cases'));
 
   /* ============================================================
@@ -1227,7 +1674,7 @@
       card.className = 'case-card';
       card.style.setProperty('--c', c.color);
       card.innerHTML = `
-        <div class="case-card__icon">${c.emo}</div>
+        <div class="case-card__icon">${ic(c.icon)}</div>
         <h3>${c.name}</h3>
         <p class="case-card__tag">${c.tag}</p>
         <div class="case-card__tops">
@@ -1240,7 +1687,7 @@
           </button>
         </div>`;
       // Клик вне кнопки → страница содержания кейса
-      card.addEventListener('click', () => openCaseInfo(c));
+      card.addEventListener('click', () => openCasePage(c));
       card.querySelector('.case-card__open').addEventListener('click', (e) => {
         e.stopPropagation();
         startSession(c);
@@ -1249,38 +1696,88 @@
     });
   }
 
-  // Страница кейса: все предметы с шансами выпадения
-  let infoCase = null; // кейс, открытый на странице содержания
-  function openCaseInfo(c) {
-    infoCase = c;
-    $('#caseInfoTitle').innerHTML = `${c.emo} ${c.name} <span class="price">· ◆ ${fmt(c.price)}</span>`;
-    $('#caseInfoOpen').innerHTML = `Открыть кейс · <b style="font-weight:900;">◆</b> ${fmt(c.price)}`;
+  // Полноформатная страница кейса: описание, настройки, состав и шансы
+  let cpCase = null; // кейс, открытый на отдельной странице
 
+  function openCasePage(c) {
+    cpCase = c;
+    renderCasePage();
+    switchTab('casew');
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  }
+
+  function renderCasePage() {
+    const c = cpCase;
+    if (!c) return;
     const totalW = c.items.reduce((s, i) => s + i.w, 0);
-    const list = $('#caseInfoList');
-    list.innerHTML = '';
-    c.items.forEach((it) => {
+    const wrap = $('#casePageWrap');
+
+    const rows = c.items.map((it) => {
       const chance = it.w / totalW * 100;
       const chTxt = chance < 1 ? chance.toFixed(2) : chance.toFixed(chance < 10 ? 1 : 0);
-      const row = document.createElement('div');
-      row.className = 'csi-item';
-      row.style.setProperty('--rc', RARITY[it.r].color);
-      row.innerHTML = `
+      return `
         <span class="e">${skinVisual(it)}</span>
         <span class="nm">${it.n}<br><span class="rl">${RARITY[it.r].name}</span></span>
         <span class="ch"><b>${chTxt}%</b> шанс</span>
         <span class="vl">◆ ${fmt(it.v)}</span>`;
-      list.appendChild(row);
     });
-    openOverlay('#caseInfoOverlay');
+
+    wrap.innerHTML = `
+      <div class="cp-head">
+        <button class="btn btn--ghost cp-back" id="cpBack" style="align-self:flex-start;"><span data-ic="grid"></span> Все кейсы</button>
+        <div class="cp-title">
+          <span class="cp-icon" style="background:linear-gradient(135deg, ${c.color}, ${c.color}66)">${ic(c.icon)}</span>
+          <div>
+            <h1 class="section-title">${c.name}</h1>
+            <p class="section-sub">${c.tag}<br>Цена: <b>◆ ${fmt(c.price)}</b> · предметов: <b>${c.items.length}</b> · баланс: <b>◆ ${fmt(state.balance)}</b></p>
+          </div>
+        </div>
+      </div>
+
+      <div class="cp-actions">
+        <div class="spin-count">
+          <span class="lbl">Кейсов за раз:</span>
+          <button class="count-btn ${multiCount === 1 ? 'active' : ''}" data-n="1">×1</button>
+          <button class="count-btn ${multiCount === 2 ? 'active' : ''}" data-n="2">×2</button>
+          <button class="count-btn ${multiCount === 3 ? 'active' : ''}" data-n="3">×3</button>
+        </div>
+        <button class="count-btn ${state.fast ? 'active' : ''}" id="cpFast" title="Ускоренная прокрутка (1.15 с вместо 5.4 с)"><span data-ic="bolt"></span> Быстро</button>
+        <button class="btn btn--primary" id="cpStart" style="padding:12px 28px;">Крутить · <b style="font-weight:900;">◆</b> ${fmt(c.price * multiCount)}</button>
+      </div>
+
+      <div class="panel cp-contents">
+        <h4><span data-ic="list"></span> Что внутри</h4>
+        <p class="hint">Честные шансики. Как и все шансы в этом мире — примерно ровно наполовину свои.</p>
+        <div class="csi-list">
+          ${c.items.map((it, k) => {
+            const r = rows[k].trim();
+            return '<div class="csi-item" style="--rc:' + RARITY[it.r].color + '">' + r + '</div>';
+          }).join('')}
+        </div>
+      </div>`;
+
+    // Гидратация иконок в вставленной разметке
+    wrap.querySelectorAll('[data-ic]').forEach(el => { el.innerHTML = ic(el.dataset.ic); });
+
+    $('#cpBack').addEventListener('click', () => switchTab('cases'));
+    wrap.querySelectorAll('.count-btn[data-n]').forEach((b) => {
+      b.addEventListener('click', () => {
+        if (spinning) return;
+        multiCount = +b.dataset.n;
+        $$('.count-btn[data-n]').forEach(x => x.classList.toggle('active', x === b));
+        $('#cpStart').innerHTML = 'Крутить · <b style="font-weight:900;">◆</b> ' + fmt(c.price * multiCount);
+      });
+    });
+    $('#cpFast').addEventListener('click', () => {
+      if (spinning) return;
+      state.fast = !state.fast;
+      saveState();
+      $('#cpFast').classList.toggle('active', state.fast);
+      $('#fastBtn').classList.toggle('active', state.fast);
+      toast(state.fast ? ic('bolt') + ' Быстрая прокрутка включена: 1.15 с вместо 5.4 с' : ic('clock') + ' Вернули нормальную прокрутку. Медитативно.', 'info');
+    });
+    $('#cpStart').addEventListener('click', () => startSession(c));
   }
-  $('#caseInfoCloseBtn').addEventListener('click', () => closeOverlay('#caseInfoOverlay'));
-  $('#caseInfoOverlay').addEventListener('click', (e) => {
-    if (e.target === $('#caseInfoOverlay')) closeOverlay('#caseInfoOverlay');
-  });
-  $('#caseInfoOpen').addEventListener('click', () => {
-    if (infoCase) startSession(infoCase);
-  });
 
   /* ============================================================
      7. РУЛЕТКА: спины и серии открытия (×1 ×2 ×3)
@@ -1306,11 +1803,10 @@
       if (card) { card.classList.add('shake'); setTimeout(() => card.classList.remove('shake'), 450); }
       return;
     }
-    closeOverlay('#caseInfoOverlay'); // если открыли со страницы содержания
     session = { c, total: multiCount, done: 0, prizes: [] };
     openOverlay('#caseOverlay');
-    $('#caseModalTitle').innerHTML = `${c.emo} ${c.name} <span class="price">· ◆ ${fmt(c.price)} за кейс</span>`;
-    $('#sessionNote').textContent = session.total > 1 ? `Серия: ${session.total} кейсов. Поехали! 🚀` : '';
+    $('#caseModalTitle').innerHTML = ic(c.icon) + ' ' + c.name + ` <span class="price">· ◆ ${fmt(c.price)} за кейс</span>`;
+    $('#sessionNote').textContent = session.total > 1 ? `Серия: ${session.total} кейсов.` : '';
     runSpin();
   }
 
@@ -1332,8 +1828,7 @@
   // Собираем ленту рулетки и запускаем анимацию
   function buildRoulette(c, winner) {
     lastPrizeInfo = null;
-    $('#spinActions').style.display = 'none';
-    $('#spinResult').innerHTML = '<span style="color:var(--muted)">Крутим… удачи! 🍀</span>';
+    $('#spinActions').style.display = 'none';      $('#spinResult').innerHTML = '<span style="color:var(--muted)">' + ic('dice') + ' ' + spinJoke() + '</span>';
 
     const ribbon = $('#rouletteRibbon');
     const view = $('#rouletteView');
@@ -1391,7 +1886,7 @@
 
     // Тост по редкости
     if (winner.r === 'legend' || winner.r === 'mythic') {
-      toast('💥 ДЖЕКПОТ: ' + winner.n + ' (+' + fmt(winner.v) + ')!');
+      toast(ic('star') + ' ДЖЕКПОТ: ' + winner.n + ' (+' + fmt(winner.v) + ')!');
     } else {
       toast('Дроп: ' + emojiFor(winner.n) + ' ' + winner.n, winner.v >= c.price ? 'ok' : 'info');
     }
@@ -1472,13 +1967,12 @@
   /* ---------- Кнопки рулетки ---------- */
 
   $('#caseCloseBtn').addEventListener('click', () => {
-    if (spinning) { toast('Рулетка ещё крутится — подожди пару секунд 😉', 'info'); return; }
+    if (spinning) { toast(ic('clock') + ' Рулетка ещё крутится — подожди пару секунд', 'info'); return; }
     session = null;
     closeOverlay('#caseOverlay');
   });
   $('#caseOverlay').addEventListener('click', (e) => {
-    if (e.target !== $('#caseOverlay')) return;
-    if (spinning) { toast('Рулетка ещё крутится!', 'info'); return; }
+    if (e.target !== $('#caseOverlay')) return;      if (spinning) { toast(ic('clock') + ' Рулетка ещё крутится!', 'info'); return; }
     session = null;
     closeOverlay('#caseOverlay');
   });
@@ -1486,7 +1980,7 @@
     if (e.key === 'Escape' && !spinning) {
       session = null;
       closeOverlay('#caseOverlay');
-      closeOverlay('#caseInfoOverlay');
+      closeOverlay('#depositOverlay');
       closeOverlay('#steamOverlay');
     }
   });
@@ -1506,7 +2000,7 @@
     state.fast = !state.fast;
     saveState();
     $('#fastBtn').classList.toggle('active', state.fast);
-    toast(state.fast ? '⚡ Быстрая прокрутка включена' : '🐢 Обычная скорость прокрутки', 'info');
+    toast(state.fast ? ic('bolt') + ' Быстрая прокрутка включена' : ic('clock') + ' Обычная скорость — наслаждайся картинкой', 'info');
   });
 
   // Продать всё выпавшее за серию
@@ -1523,7 +2017,7 @@
       saveState();
       bumpBalance();
       refreshInventory();
-      $('#spinResult').innerHTML = `<span class="emo">💸</span><span class="name">Продано ${cnt} шт. за ${fmt(sum)} б.!</span>`;
+      $('#spinResult').innerHTML = `<span class="emo">${ic('coins')}</span><span class="name">Продано ${cnt} шт. за ${fmt(sum)} б.!</span>`;
       toast('+' + fmt(sum) + ' б. на баланс. Оно того стоило?', 'ok');
     }
     updateSpinPanel();
@@ -1636,6 +2130,93 @@
   // Длина дуги для SVG-окружности
   const CIRC = 2 * Math.PI * 84;
 
+  /* Режимы прокрутки колеса апгрейдера: обычный / быстрый / непредсказуемый */
+  function gaugeStyle() { return state.gstyle || 'norm'; }
+
+  // Генерируем план вращения: последовательность сегментов {deg, dur, ease}
+  // theta — конечный угол (уже включает полные обороты)
+  function gaugePlan(theta) {
+    const st = gaugeStyle();
+    if (st === 'fast') return [{ deg: theta, dur: 1250, ease: 'cubic-bezier(.16,.84,.24,1)' }];
+    if (st === 'wild') {
+      const parts = [];
+      let done = 0;
+      const n = 3 + Math.floor(Math.random() * 5);         // 3..7 рывков
+      let delay = Math.random() < 0.5 ? 150 + Math.random() * 450 : 0; // может «задуматься» перед стартом
+      for (let k = 0; k < n; k++) {
+        const rest = theta - done;
+        const share = k === n - 1 ? rest : rest * (0.35 + Math.random() * 0.5);
+        // последние 25% длины тормозим сильнее, ранние сегменты летят
+        const ease = k === n - 1 ? 'cubic-bezier(.15,.85,.18,1)' : 'cubic-bezier(.45,1.1,.5,1)';
+        parts.push({ deg: share, dur: Math.round(share / theta * (2200 + Math.random() * 2400)), ease, delay });
+        done += share;
+        delay = Math.random() < 0.35 ? 120 + Math.random() * 350 : 0; // паузы между рывками
+      }
+      return parts;
+    }
+    // обычный: несколько оборотов с плавным замедлением
+    return [{ deg: theta, dur: 3400, ease: 'cubic-bezier(.15,.85,.18,1)' }];
+  }
+
+  let gaugeAnimToken = 0; // отмена гонок: каждый запуск валиден, пока токен жив
+
+  function runGaugeAnimation(theta, onDone) {
+    const needle = $('#gaugeNeedle');
+    const token = ++gaugeAnimToken;
+    needle.style.transition = 'none';
+    needle.style.transform = 'rotate(0deg)';
+    const plan = gaugePlan(theta);
+    let cursor = 0;
+    let elapsed = 0;
+    plan.forEach((seg) => {
+      elapsed += (seg.delay || 0) + seg.dur;
+      setTimeout(() => {
+        if (token !== gaugeAnimToken) return;
+        cursor += seg.deg;
+        needle.style.transition = 'transform ' + seg.dur + 'ms ' + seg.ease;
+        needle.style.transform = 'rotate(' + cursor + 'deg)';
+      }, elapsed - seg.dur);   // старт сегмента = конец предыдущего (+ пауза)
+    });
+    setTimeout(() => { if (token === gaugeAnimToken) onDone(); }, elapsed + 80); // страховка вместо transitionend
+    return elapsed;
+  }
+
+  // Тик-рейка вокруг колеса (24 засечки, каждая 4-я крупнее)
+  function buildGaugeTicks() {
+    const g = $('#gaugeTicks');
+    if (!g || g.childElementCount) return; // одни и те же тики один раз
+    const ns = 'http://www.w3.org/2000/svg';
+    for (let k = 0; k < 24; k++) {
+      const a = k / 24 * Math.PI * 2;
+      const r1 = 91, r2 = k % 6 === 0 ? 97 : 95;
+      const line = document.createElementNS(ns, 'line');
+      line.setAttribute('x1', (100 + Math.sin(a) * r1).toFixed(2));
+      line.setAttribute('y1', (100 - Math.cos(a) * r1).toFixed(2));
+      line.setAttribute('x2', (100 + Math.sin(a) * r2).toFixed(2));
+      line.setAttribute('y2', (100 - Math.cos(a) * r2).toFixed(2));
+      if (k % 6 === 0) line.setAttribute('class', 'big');
+      g.appendChild(line);
+    }
+  }
+
+  // Переключение режима прокрутки
+  function renderGaugeSpeed() {
+    $$('#gaugeSpeed .gs-btn').forEach((b) => {
+      b.classList.toggle('active', b.dataset.gs === gaugeStyle());
+      b.querySelector('[data-ic]') && (b.querySelector('[data-ic]').innerHTML = ic(b.querySelector('[data-ic]').dataset.ic));
+    });
+  }
+
+  $('#gaugeSpeed').addEventListener('click', (e) => {
+    const btn = e.target.closest('.gs-btn');
+    if (!btn || gaugeLocked) return;
+    state.gstyle = btn.dataset.gs;
+    saveState();
+    renderGaugeSpeed();
+    const names = { norm: 'Обычная прокрутка', fast: 'Быстрая прокрутка', wild: 'Непредсказуемая: колесо само решает' };
+    toast(ic('dice') + ' ' + (names[state.gstyle] || 'Прокрутка переключена'), 'info');
+  });
+
   function setGaugeZone(chance) {
     const zone = $('#gaugeZone');
     zone.style.strokeDasharray = CIRC + ' ' + CIRC;
@@ -1676,8 +2257,8 @@
     const btn = $('#upgradeBtn');
     btn.disabled = !items.length || !upgradeTarget || gaugeLocked;
     btn.innerHTML = (items.length && upgradeTarget)
-      ? `⚡ Апгрейд · <small>шанс ${Math.round(chance * 100)}%</small>`
-      : '⚡ Апгрейд';
+      ? `${ic('bolt')} Апгрейд · <small>шанс ${Math.round(chance * 100)}%</small>`
+      : ic('bolt') + ' Апгрейд';
     $('#upTotal').innerHTML = (items.length && upgradeTarget)
       ? `Ставка: <b>${items.length} ${pluralItems(items.length)}</b> на <b>◆ ${fmt(total)}</b> → «<span class="b1">${upgradeTarget.name}</span>» ≈ <b>${fmt(upgradeTarget.value)}</b> б. (${mult.toFixed(1)}×)`
       : 'Ставка не собрана — выбери предметы слева';
@@ -1721,28 +2302,18 @@
     state.stats.upgrades++;
     saveState();
 
-    // Позиция стрелки: 5 полных оборотов + угол внутри/вне зелёной зоны
+    // Позиция стрелки: обороты + угол внутри/вне зелёной зоны
     const zoneDeg = chance * 360;
     const theta = win
       ? Math.random() * zoneDeg * 0.9
       : zoneDeg + Math.random() * (360 - zoneDeg) * 0.94 + (360 - zoneDeg) * 0.03;
-    const deg = 5 * 360 + theta;
-
-    const needle = $('#gaugeNeedle');
-    needle.style.transition = 'none';
-    needle.style.transform = 'rotate(0deg)';
-    requestAnimationFrame(() => requestAnimationFrame(() => {
-      needle.style.transition = 'transform 3.2s cubic-bezier(.15,.85,.18,1)';
-      needle.style.transform = `rotate(${deg}deg)`;
-    }));
+    const baseTurns = gaugeStyle() === 'fast' ? 2 : gaugeStyle() === 'wild' ? 4 : 5;
+    const finalTheta = baseTurns * 360 + theta;
 
     $('#gaugeBig').textContent = '…';
     $('#gaugeSmall').textContent = 'Крутим колесо…';
 
-    let done = false;
-    const finish = () => { if (done) return; done = true; finishUpgrade(win, items, total, target); };
-    needle.addEventListener('transitionend', finish, { once:true });
-    setTimeout(finish, 3800); // страховка
+    runGaugeAnimation(finalTheta, () => finishUpgrade(win, items, total, target));
   });
 
   function finishUpgrade(win, items, total, target) {
@@ -1758,16 +2329,16 @@
       state.inventory.push(upgraded);
       state.stats.upWins++;
       upgradeSel = [state.seq];
-      big.innerHTML = `<span style="color:var(--accent)">✅ +${fmt(target.value - total)}</span>`;
+      big.innerHTML = `<span style="color:var(--accent)">${ic('check')} +${fmt(target.value - total)}</span>`;
       small.innerHTML = `<span style="color:var(--accent); font-weight:700;">Апгрейд удался!</span><br>«${target.emoji} ${target.name}» — ${fmt(target.value)} б.`;
-      toast('⚡ ' + items.length + ' ' + pluralItems(items.length) + ' → ' + target.name + ' (+' + fmt(target.value - total) + ' б.)!', 'ok');
+      toast(ic('bolt') + ' ' + items.length + ' ' + pluralItems(items.length) + ' → ' + target.name + ' (+' + fmt(target.value - total) + ' б.)!', 'ok');
     } else {
       // Неудача — вся ставка сгорает
       state.inventory = state.inventory.filter(i => !ids.includes(i.id));
       upgradeSel = [];
-      big.innerHTML = `<span style="color:var(--red)">🔥 −${fmt(total)}</span>`;
+      big.innerHTML = `<span style="color:var(--red)">${ic('flame')} −${fmt(total)}</span>`;
       small.innerHTML = `<span style="color:var(--red); font-weight:700;">Не повезло.</span><br>${items.length} ${pluralItems(items.length)} сгорело. Дым красивый, но всё…`;
-      toast('🔥 Апгрейд провален. Ставка сгорела.', 'err');
+      toast(ic('flame') + ' Апгрейд провален. Ставка сгорела.', 'err');
     }
 
     saveState();
@@ -1816,7 +2387,7 @@
     saveState();
     bumpBalance();
     updateDailyUI();
-    toast('🎁 Ежедневный бонус получен: +' + fmt(DAILY_AMOUNT) + ' б.!');
+    toast(ic('gift') + ' Ежедневный бонус получен: +' + fmt(DAILY_AMOUNT) + ' б.!');
   });
 
   // Обновляем таймер раз в секунду (дёшево — только текст)
@@ -1837,7 +2408,7 @@
   function renderProfile() {
     $('#statOpened').textContent = fmt(state.stats.opened);
     $('#statUpgrades').innerHTML = fmt(state.stats.upgrades) +
-      (state.stats.upgrades ? ` <small>(✅ ${fmt(state.stats.upWins)})</small>` : '');
+      (state.stats.upgrades ? ` <small>(${ic('check')} ${fmt(state.stats.upWins)})</small>` : '');
     if (state.stats.best.name) {
       $('#statBest').innerHTML = `<span class="gem">◆</span>${fmt(state.stats.best.value)} <small>${state.stats.best.name}</small>`;
     } else {
@@ -1852,7 +2423,7 @@
     $('#invCount').textContent = sorted.length ? `· ${sorted.length} шт.` : '';
 
     if (!sorted.length) {
-      box.innerHTML = '<div class="empty-note" style="grid-column:1/-1;">Пока пусто. Открой первый кейс! 🎁</div>';
+      box.innerHTML = `<div class="empty-note" style="grid-column:1/-1;">Пока пусто. Весь CS2 ждёт тебя в кейсах ${ic('gift')}</div>`;
     } else {
       sorted.forEach((item) => {
         total += item.value;
@@ -1913,7 +2484,7 @@
     'Steam принимает скины, деньги и надежду. Баллы из чужого браузера — нет. Технологии пока не доросли, а они и не планируют.',
     'Ты пробуешь уже N раз. Габен ценит упорство, но баллы крепко вросли корнями в твой браузер.',
     'Серьёзно? Ладно, последний раз: баллы — виртуальные. Виртуальное в Steam выводится только в мечтах и в шапке-невидимке.',
-    'Окей, признаём: это фича, а не баг. Ты либо очень упорный, либо очень везучий. Оба варианта здесь бесполезны. Открой лучше ещё один кейс 🤝',
+    'Окей, признаём: это фича, а не баг. Ты либо очень упорный, либо очень везучий. Оба варианта здесь бесполезны. Открой лучше ещё один кейс — с уважением, сайт',
   ];
 
   function openSteamModal() {
@@ -1921,19 +2492,170 @@
     saveState();
     const idx = Math.min(n, STEAM_MSGS.length - 1);
     $('#steamMsg').textContent = STEAM_MSGS[idx].replace('N раз', fmt(n + 1) + ' раз');
-    $('#steamCounter').textContent = n > 0
-      ? 'Попыток вывести баллы за всё время: ' + (state.steamTries) + ' 💀'
+    $('#steamCounter').innerHTML = n > 0
+      ? 'Попыток вывести баллы за всё время: ' + (state.steamTries) + ' ' + ic('skull')
       : 'Попытка №1. Смелая.';
     openOverlay('#steamOverlay');
   }
 
   $('#steamBtn').addEventListener('click', () => {
-    toast('✈️ Оформляем вывод в Steam…', 'info');
+    toast(ic('plane') + ' Оформляем вывод в Steam…', 'info');
     setTimeout(openSteamModal, 1800);
   });
   $('#steamCloseBtn').addEventListener('click', () => closeOverlay('#steamOverlay'));
   $('#steamOverlay').addEventListener('click', (e) => {
     if (e.target === $('#steamOverlay')) closeOverlay('#steamOverlay');
+  });
+
+  /* ---------- «Пополнение»: честно фейковый платёж ---------- */
+
+  // Пополнение живёт не вкладкой, а modalkой поверх сайта
+  function openDeposit() {
+    updateHeader();
+    renderDeposit();
+    openOverlay('#depositOverlay');
+  }
+
+
+  /* Секретные промокоды: сам список кодов в исходнике не лежит.
+     Коды нужно где-то раздобыть, а сайт проверяет их по хешам. */
+  function promoHash(s) {
+    let h1 = 0x811c9dc5, h2 = 0x1234567;
+    for (let i = 0; i < s.length; i++) {
+      h1 ^= s.charCodeAt(i); h1 = Math.imul(h1, 0x01000193) >>> 0;
+      h2 ^= (s.charCodeAt(i) + i); h2 = Math.imul(h2, 0x9E3779B1) >>> 0;
+    }
+    return h1.toString(16).padStart(8, '0') + h2.toString(16).padStart(8, '0');
+  }
+  // Хеши промокодов + бонус + подпись при зачислении. Какие слова за хешами — не сказать.
+  const SECRET_PROMOS = [
+    { h: '4ce1b2a63a7a4ae4', b: 0.25, label: 'Официальный промокод сайта. Горжаемся' },
+    { h: '03fc929596976a2e', b: 0.10, label: 'Промокод бабы Валентины. Она в курсе' },
+    { h: '6e14fd77a78e94cf', b: 0.03, label: 'Габен жмёт, но прислал привет' },
+    { h: '6cababb47b06fd09', b: 0.37, label: 'Селёдка в торте — теперь и в баллах' },
+    { h: '01cf026af6d0a675', b: 0.50, label: 'Я же мать. Родила вам бонус' },
+    { h: 'e86168554b500357', b: 0.77, label: 'Мамкин инвестор одобрил платёж' },
+    { h: '963409a26f8ebcd1', b: 0.13, label: 'Никто не роБИТ, но бонус у тебя' },
+    { h: '862c982e11bcf97c', b: 0.15, label: 'Ещё одна катка — ещё одна надежда' },
+    { h: '176dcda5f6c43903', b: 0.20, label: 'Дед передал по-тихому' },
+    { h: '462762109a533ad9', b: 0.01, label: 'Шв-иб-иди… почти ничего. Зато честно' },
+    { h: 'db704465d946675f', b: 1.00, label: 'Кубик выпал: удвоение зачисления' },
+    { h: '568623811767ade3', b: 2.00, label: 'Тестовый промокод, который мы «забыли» удалить' },
+  ];
+  let promoBonus = 0;       // применённый бонус (0 — без промокода)
+  let promoLabel = '';      // подпись к зачислению
+  // Шутки на неизвестный код — по кругу
+  const PROMO_REJECTS = [
+    'Не сработало. Секретные промокоды есть, но этот — не из них.',
+    'Мимо. Возможно, ты почти угадал. Возможно — прямо противоположное.',
+    'Такого хеша нет ни в одной шляпе. Спрашивай у бабушки Валентины.',
+    'Промокод не подошёл. Как и все хорошие промокоды, он где-то далеко.',
+    'Отказ. Хотя от чего отказ, депозит-то всё равно фейковый.',
+  ];
+  let paying = false;         // идёт «оплата»
+
+  function depAmount() {
+    const v = Math.floor(Number($('#depAmount').value) || 0);
+    return Math.max(0, v);
+  }
+
+  function depTotal() {
+    const amt = depAmount();
+    return promoBonus > 0 ? Math.round(amt * (1 + promoBonus)) : amt;
+  }
+
+  function renderDeposit() {
+    const amt = depAmount();
+    const total = depTotal();
+    const bonus = promoBonus > 0 && amt ? total - amt : 0;
+    const sum = $('#depSummary');
+    if (amt > 0) {
+      sum.innerHTML = 'К зачислению: <b style="color:var(--accent)">◆ ' + fmt(total) + '</b>' +
+        (bonus ? ' <small>(+' + fmt(bonus) + ' бонус по промокоду)</small>' : '');
+    } else {
+      sum.innerHTML = 'К зачислению: ◆ 0';
+    }
+    $('#depPayBtn').disabled = paying || amt <= 0;
+  }
+
+  $('#depAmount').addEventListener('input', () => { if (!paying) renderDeposit(); });
+  $$('.d-preset').forEach(b => b.addEventListener('click', () => {
+    if (paying) return;
+    $('#depAmount').value = b.dataset.a;
+    renderDeposit();
+  }));
+
+  $('#depPromoBtn').addEventListener('click', () => {
+    if (paying) return;
+    const code = $('#depPromo').value.trim();
+    const upper = code.toUpperCase();
+    const hit = SECRET_PROMOS.find(p => p.h === promoHash(upper));
+    if (hit) {
+      if (promoBonus !== hit.b) {
+        toast(ic('check') + ' Промокод засчитан: +' + Math.round(hit.b * 100) + '%! ' + hit.label);
+      }
+      promoBonus = hit.b;
+      promoLabel = hit.label;
+    } else if (!code) {
+      toast('Введите промокод — или платите по полной. Мы не осуждаем.', 'info');
+    } else {
+      promoBonus = 0;
+      promoLabel = '';
+      toast(ic('close') + ' ' + PROMO_REJECTS[Math.floor(Math.random() * PROMO_REJECTS.length)], 'err');
+    }
+    renderDeposit();
+  });
+
+  // Единственный приятный звук сайта: мягкий мажорный аккорд при зачислении
+  function depChime() {
+    try {
+      audioCtx = audioCtx || new (window.AudioContext || window.webkitAudioContext)();
+      const t0 = audioCtx.currentTime;
+      [[523.25, 0], [659.25, 0.12], [783.99, 0.26]].forEach(([f, d]) => {
+        const o = audioCtx.createOscillator(), g = audioCtx.createGain();
+        o.type = 'sine'; o.frequency.value = f;
+        g.gain.setValueAtTime(0.0001, t0 + d);
+        g.gain.exponentialRampToValueAtTime(0.055, t0 + d + 0.03);
+        g.gain.exponentialRampToValueAtTime(0.0001, t0 + d + 0.7);
+        o.connect(g).connect(audioCtx.destination);
+        o.start(t0 + d); o.stop(t0 + d + 0.75);
+      });
+    } catch (e) { /* звук не критичен */ }
+  }
+
+  $('#depPayBtn').addEventListener('click', () => {
+    const amt = depAmount();
+    if (amt <= 0 || paying) {
+      if (amt <= 0) { toast('Сумма нужна больше нуля. Хотя бы на один балл.', 'err'); }
+      return;
+    }
+    const total = depTotal();
+    paying = true;
+    $('#depPayBtn').disabled = true;
+    const stage = $('#payStage');
+    const card = document.querySelector('.deposit-card');
+    card.classList.add('paying');
+    const fmtBonus = promoBonus > 0 ? '+' + Math.round(promoBonus * 100) + '%' : '';
+    const stages = promoBonus > 0
+      ? ['Ищем ваш промокод в шляпе…', 'Умножаем на ' + (1 + promoBonus) + ' — магия…', 'Зачисляем баллы из воздуха…']
+      : ['Ищем платёжного гения…', 'Гений найден, платёж одобрен…', 'Зачисляем баллы из воздуха…'];
+    stage.innerHTML = '<div class="pay-gem"></div><div class="pay-txt">' + ic('clock') + ' ' + stages[0] + '</div>';
+    const finish = () => {
+      state.balance += total;
+      saveState();
+      bumpBalance();
+      depChime();
+      stage.innerHTML = '<div class="pay-gem success"></div><div class="pay-txt ok">' + ic('check') + ' ' +
+        ic('coins') + ' Зачислено: +' + fmt(total) + ' б.' + (promoBonus > 0 ? ' (бонус ' + fmtBonus + ')' : '') + '</div>';
+      card.classList.remove('paying');
+      card.classList.add('success');
+      setTimeout(() => card.classList.remove('success'), 900);
+      setTimeout(() => { paying = false; renderDeposit(); }, 1400);
+      toast(ic('coins') + ' Пополнение на ' + fmt(total) + ' б. зачислено. Счёта не будет — не благодари.', 'ok');
+    };
+    setTimeout(() => { stage.children[1].innerHTML = ic('clock') + ' ' + stages[1]; }, 750);
+    setTimeout(() => { stage.children[1].innerHTML = ic('clock') + ' ' + stages[2]; }, 1450);
+    setTimeout(finish, 2100);
   });
 
   /* ---------- Сброс прогресса ---------- */
@@ -1953,6 +2675,11 @@
      ============================================================ */
 
   (function init() {
+    // Проставить SVG-иконки по data-ic в статичной вёрстке
+    document.querySelectorAll('[data-ic]').forEach(el => { el.innerHTML = ic(el.dataset.ic); });
+    if (!state.gstyle) state.gstyle = 'norm'; // старые сохранения без стиля прокрутки
+    buildGaugeTicks();
+    renderGaugeSpeed();
     $('#fastBtn').classList.toggle('active', state.fast); // восстановить режим
     renderCases();
     renderUpgradeInv();
@@ -1965,7 +2692,7 @@
 
     // Приветственный бонус для новичка
     if (state.balance === START_BONUS && state.stats.opened === 0) {
-      setTimeout(() => toast('🎁 Приветственный бонус: +1000 баллов. Удачи (она тебе пригодится)!', 'ok'), 500);
+      setTimeout(() => toast(ic('gift') + ' Приветственный бонус: +1000 баллов. Удачи (она тебе пригодится)!', 'ok'), 500);
     }
     updateDailyUI();
   })();
