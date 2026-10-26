@@ -190,7 +190,7 @@
       animation:dropIn .45s cubic-bezier(.2,.9,.3,1.2);
       cursor:default;
     }
-    .live-item .e{ font-size:17px; line-height:1; }
+    .live-item .e{ font-size:17px; line-height:1; display:flex; align-items:center; }
     .live-item .v{ color:var(--rc); white-space:nowrap; }
     @keyframes dropIn{ from{ opacity:0; transform:translateX(-22px); } }
 
@@ -287,9 +287,14 @@
     }
     .case-card:hover::before{ opacity:1; }
     .case-card__icon{
-      font-size:56px; line-height:1;
-      filter:drop-shadow(0 8px 16px rgba(0,0,0,.6));
-      transition:transform .3s cubic-bezier(.2,.9,.3,1.4);
+      font-size:52px; line-height:1;
+      width:94px; height:94px; display:flex; align-items:center; justify-content:center;
+      border-radius:50%;
+      background:radial-gradient(circle at 32% 28%, color-mix(in srgb, var(--c) 32%, #1c1c20), #131316 72%);
+      border:1px solid color-mix(in srgb, var(--c) 45%, var(--line));
+      box-shadow:0 8px 24px rgba(0,0,0,.5), 0 0 26px color-mix(in srgb, var(--c) 20%, transparent);
+      filter:none;
+      transition:transform .3s cubic-bezier(.2,.9,.3,1.4), box-shadow var(--transition);
       animation:floatY 3.4s ease-in-out infinite;
     }
     .case-card:hover .case-card__icon{ transform:scale(1.15) rotate(-5deg); animation-play-state:paused; }
@@ -427,7 +432,8 @@
       border:1px solid var(--line); border-left:3px solid var(--rc);
       border-radius:10px; padding:9px 12px; background:var(--panel-2);
     }
-    .csi-item .e{ font-size:22px; flex:0 0 28px; text-align:center; }
+    .csi-item .e{ font-size:22px; display:flex; align-items:center; justify-content:center;
+      flex:0 0 30px; }
     .csi-item .nm{ flex:1; font-size:13px; font-weight:600; color:#d4d4d8; min-width:0; }
     .csi-item .rl{ font-size:10px; text-transform:uppercase; letter-spacing:.5px; color:var(--rc); font-weight:700; }
     .csi-item .ch{ font-size:11.5px; color:var(--muted); font-weight:600; min-width:78px; text-align:right; white-space:nowrap; }
@@ -474,7 +480,8 @@
       font-size:10.5px; font-weight:900;
       display:flex; align-items:center; justify-content:center; padding:0 3px;
     }
-    .inv-mini .emo{ font-size:24px; }
+    .inv-mini .emo{ font-size:24px; display:flex; align-items:center; justify-content:center; height:28px;
+      filter:drop-shadow(0 2px 6px rgba(0,0,0,.4)); }
     .inv-mini .nm{ font-size:9.5px; color:var(--muted); line-height:1.2; }
     .inv-mini .vl{ font-size:11px; font-weight:700; color:var(--rc); }
     .empty-note{ color:var(--muted); font-size:13px; text-align:center; padding:20px 0; }
@@ -519,18 +526,38 @@
     .up-total{ color:var(--muted); font-size:13px; min-height:18px; text-align:center; }
     .up-total b{ color:var(--accent); }
 
-    .mults{ display:flex; gap:8px; flex-wrap:wrap; justify-content:center; }
-    .mult-btn{
-      padding:10px 16px; border-radius:11px; background:var(--panel-2);
-      border:1.5px solid var(--line); font-weight:800; font-size:14px;
-      transition:all var(--transition); text-align:center; min-width:74px;
+    /* ---------- Выбор цели апгрейда ---------- */
+    .targets-box{ width:100%; }
+    .targets-head{
+      display:flex; align-items:center; justify-content:space-between; gap:10px;
+      margin-bottom:10px; font-weight:800; font-size:14px; flex-wrap:wrap;
     }
-    .mult-btn small{ display:block; font-size:10.5px; font-weight:600; color:var(--muted); margin-top:2px; }
-    .mult-btn:hover:not(:disabled){ border-color:var(--accent); transform:translateY(-2px); }
-    .mult-btn.active{
-      background:rgba(163,230,53,.12); border-color:var(--accent); color:var(--accent);
-      box-shadow:0 0 16px rgba(163,230,53,.18);
+    .targets-head input{
+      background:var(--panel-2); border:1.5px solid var(--line); color:var(--text);
+      border-radius:10px; padding:8px 12px; font-family:inherit; font-size:13px;
+      width:200px; transition:border-color var(--transition);
     }
+    .targets-head input:focus{ border-color:var(--accent); outline:none; }
+    .targets{
+      display:grid; grid-template-columns:repeat(auto-fill, minmax(155px, 1fr));
+      gap:8px; max-height:180px; overflow-y:auto; padding:2px;
+    }
+    .target-item{
+      --rc:#71717a;
+      display:flex; align-items:center; gap:8px;
+      border:1.5px solid var(--line); border-radius:10px; background:var(--panel-2);
+      padding:7px 9px; text-align:left; cursor:pointer;
+      transition:all var(--transition);
+    }
+    .target-item:hover{ border-color:var(--rc); transform:translateY(-2px); }
+    .target-item.selected{
+      border-color:var(--accent);
+      box-shadow:0 0 0 2px rgba(163,230,53,.3), 0 0 14px rgba(163,230,53,.2);
+    }
+    .target-item .tg-img{ flex:0 0 26px; display:flex; align-items:center; justify-content:center; }
+    .target-item .tg-nm{ flex:1; min-width:0; }
+    .target-item .tg-nm b{ display:block; font-size:11px; color:#d4d4d8; font-weight:600; white-space:nowrap; overflow:hidden; text-overflow:ellipsis; }
+    .target-item .tg-nm small{ font-size:10.5px; color:var(--rc); font-weight:700; }
 
     .btn-upgrade{ font-size:17px; padding:15px 46px; letter-spacing:.5px; }
     .btn-upgrade small{ font-size:11px; font-weight:700; opacity:.75; letter-spacing:0; }
@@ -564,7 +591,8 @@
       border-color:color-mix(in srgb, var(--rc) 55%, var(--line));
       box-shadow:0 12px 28px rgba(0,0,0,.5), 0 0 18px color-mix(in srgb, var(--rc) 22%, transparent);
     }
-    .item-card .emo{ font-size:38px; filter:drop-shadow(0 4px 10px rgba(0,0,0,.55)); }
+    .item-card .emo{ font-size:38px; display:flex; align-items:center; justify-content:center; height:56px;
+      filter:drop-shadow(0 4px 8px rgba(0,0,0,.4)); }
     .item-card .nm{ font-size:12px; color:#d4d4d8; line-height:1.3; font-weight:600; }
     .item-card .rl{ font-size:10px; font-weight:700; letter-spacing:.6px; text-transform:uppercase; color:var(--rc); }
     .item-card .vl{ font-size:14px; font-weight:800; }
@@ -587,7 +615,8 @@
       transition:border-color var(--transition), transform var(--transition);
     }
     .hist-item:hover{ border-color:color-mix(in srgb, var(--rc) 45%, var(--line)); transform:translateX(3px); }
-    .hist-item .e{ font-size:20px; }
+    .hist-item .e{ font-size:20px; display:flex; align-items:center; justify-content:center;
+      width:28px; filter:drop-shadow(0 2px 6px rgba(0,0,0,.4)); }
     .hist-item .nm{ flex:1; font-size:13px; color:#d4d4d8; font-weight:600; min-width:0; white-space:nowrap; overflow:hidden; text-overflow:ellipsis; }
     .hist-item .t{ font-size:11.5px; color:var(--muted); min-width:96px; text-align:right; }
     .hist-item .v{ font-size:13px; font-weight:800; color:var(--rc); }
@@ -617,6 +646,21 @@
     .toast.info{ border-left-color:var(--blue); }
     .toast.hide{ opacity:0; transform:translateX(20px); transition:all .3s ease; }
     @keyframes toastIn{ from{ opacity:0; transform:translateX(30px); } }
+
+    /* ---------- Картинки скинов (Stim CDN / фолбэк-эмодзи) ---------- */
+    /* Свечение картинки скина в цвет редкости контейнера (--rc) */
+    .skin-img{ object-fit:contain; transition:transform .2s;
+      filter:drop-shadow(0 4px 12px color-mix(in srgb, var(--rc, #71717a) 35%, rgba(0,0,0,.55))); }
+    .case-card__tops img.skin-img{ width:26px; height:22px; }
+    .r-cell__emoji img.skin-img{ width:44px; height:38px; }
+    .csi-item .e img.skin-img{ width:36px; height:30px; }
+    .spin-result .emo img.skin-img{ width:96px; height:80px; }
+    .live-item .e img.skin-img{ width:22px; height:18px; }
+    .hist-item .e img.skin-img{ width:28px; height:24px; }
+    .item-card .emo img.skin-img{ width:60px; height:52px; }
+    .inv-mini .emo img.skin-img{ width:28px; height:24px; }
+    .up-chip img.skin-img{ width:20px; height:17px; vertical-align:-3px; }
+    .r-cell.win img.skin-img{ transform:scale(1.08); }
 
     /* ---------- Мобильная адаптация ---------- */
     @media (max-width:640px){
@@ -709,7 +753,13 @@
             </div>
           </div>
 
-          <div class="mults" id="mults"></div>
+          <div class="targets-box">
+            <div class="targets-head">
+              <span>🎯 Куда апгрейдим — цель дороже ставки</span>
+              <input id="targetSearch" type="text" placeholder="поиск скина…" autocomplete="off">
+            </div>
+            <div class="targets" id="targetList"></div>
+          </div>
 
           <button class="btn btn--primary btn-upgrade" id="upgradeBtn" disabled>⚡ Апгрейд</button>
         </div>
@@ -788,6 +838,7 @@
         <button class="count-btn active" data-n="1">×1</button>
         <button class="count-btn" data-n="2">×2</button>
         <button class="count-btn" data-n="3">×3</button>
+        <button class="count-btn" id="fastBtn" style="margin-left:auto;" title="Ускоренная прокрутка (1.15 с вместо 5.4 с)">⚡ Быстро</button>
       </div>
 
       <div class="roulette" id="rouletteView">
@@ -877,90 +928,91 @@
   */
   const CASES = [
     {
-      id:'bomzh', name:'Бомж Кейс', price:50, color:'#8b8f98', emo:'🥫',
+      id:'bomzh', name:'Бомж Кейс', price:60, color:'#8b8f98', emo:'🥫',
       tag:'Найдено у гаражей ещё той зимой. Гарантия — честное слово кота Барсика.',
       items:[
-        { n:'Пластиковая вилка',        v:12,   w:35,  r:'trash',  e:'🍴' },
-        { n:'Гайка M10',                v:18,   w:30,  r:'trash',  e:'🔩' },
-        { n:'Ржавый мультитул',         v:35,   w:15,  r:'common', e:'🪛' },
-        { n:'Кнопочник «Ноктюрм»',      v:70,   w:8,   r:'common', e:'📱' },
-        { n:'Наушники «Эхо-3»',         v:110,  w:6,   r:'rare',   e:'🎧' },
-        { n:'Кроссы «Шарпы»',           v:180,  w:4,   r:'rare',   e:'👟' },
-        { n:'Электросамокат «Кулфрай»', v:350,  w:1.5, r:'legend', e:'🛴' },
-        { n:'Золотой унитаз',           v:600,  w:0.5, r:'legend', e:'🚽' },
+        { n:'M4A4 | Zubastick (Minimal Wear)', v:20, w:33.46, r:'trash', img:'https://community.cloudflare.steamstatic.com/economy/image/i0CoZ81Ui0m-9KwlBY1L_18myuGuq1wfhWSaZgMttyVfPaERSR0Wqmu7LAocGIGz3UqlXOLrxM-vMGmW8VNxu5Dx60noTyL8ypexwi8P7qaRcrFvIeOHB2Sb_uxhj-1gSCGn208j5WqDw9ascn6VOlQoCJV0RbVb5xO5l4fgY-Pk5waMitpHzS79jiJXrnE8cY5TeGQ' },
+        { n:'StatTrak™ Glock-18 | Warhawk (Battle-Scarred)', v:38, w:26.77, r:'trash', img:'https://community.cloudflare.steamstatic.com/economy/image/i0CoZ81Ui0m-9KwlBY1L_18myuGuq1wfhWSaZgMttyVfPaERSR0Wqmu7LAocGIGz3UqlXOLrxM-vMGmW8VNxu5Dx60noTyL2kpnj9h1c_M2pZKtuK8-HBnKexetkj-V8XD2MnRgmpSTLzdmhdXySOwcnCpVxQuANtRe7kIDgYurr5lPZjd5DyCWriH5L7X5p5PFCD_QWET8GLw' },
+        { n:'PP-Bizon | Space Cat (Minimal Wear)', v:61, w:16.73, r:'trash', img:'https://community.cloudflare.steamstatic.com/economy/image/i0CoZ81Ui0m-9KwlBY1L_18myuGuq1wfhWSaZgMttyVfPaERSR0Wqmu7LAocGIGz3UqlXOLrxM-vMGmW8VNxu5Dx60noTyLzl4zv8x1Y-s2sYb5iLs-AHmaTxO13pN5lRi67gVN04jvcmYv6IHnGbw51XsYmQO5ftBG9xoexNrix4gPYjIJEzX_2iX9I8G81tOIzQC5J' },
+        { n:'SSG 08 | Fever Dream (Field-Tested)', v:79, w:10.04, r:'trash', img:'https://community.cloudflare.steamstatic.com/economy/image/i0CoZ81Ui0m-9KwlBY1L_18myuGuq1wfhWSaZgMttyVfPaERSR0Wqmu7LAocGIGz3UqlXOLrxM-vMGmW8VNxu5Dx60noTyLijZGwpR1Y-s29e6M9eM-VC3GV09FyouRoQha-kBkupjDLw42qIHKRagAmWJR2QORZshK_xNC0Zuy3sVfZgokQzH73j39Bu3tj5fFCD_SStqkeXQ' },
+        { n:'XM1014 | Teclu Burner (Field-Tested)', v:115, w:7.81, r:'trash', img:'https://community.cloudflare.steamstatic.com/economy/image/i0CoZ81Ui0m-9KwlBY1L_18myuGuq1wfhWSaZgMttyVfPaERSR0Wqmu7LAocGIGz3UqlXOLrxM-vMGmW8VNxu5Dx60noTyLpk8ewrHZk7uORcKk8cKHHMW-f1dFkv-VWQiy3nAgq_WzWy9mpJC2WalAhXMRyReBf4xC7xNW1Mr634VaIio0UxSWr3H9N6n11o7FVzfmal4o' },
+        { n:'StatTrak™ M4A4 | Etch Lord (Minimal Wear)', v:180, w:3.9, r:'trash', img:'https://community.cloudflare.steamstatic.com/economy/image/i0CoZ81Ui0m-9KwlBY1L_18myuGuq1wfhWSaZgMttyVfPaERSR0Wqmu7LAocGIGz3UqlXOLrxM-vMGmW8VNxu5Dx60noTyL8ypexwi8P7qaRe6psK_WRB3OV_uJ_t-l9AXjnw0Qh5GqGn9b_dH3Cbg4nCcAhRLIM4BW7mtXmM7jjtAXai40WmHngznQeK6EUrpc' },
+        { n:'StatTrak™ Desert Eagle | Firebreathing (Field-Tested)', v:262, w:0.89, r:'trash', img:'https://community.cloudflare.steamstatic.com/economy/image/i0CoZ81Ui0m-9KwlBY1L_18myuGuq1wfhWSaZgMttyVfPaERSR0Wqmu7LAocGIGz3UqlXOLrxM-vMGmW8VNxu5Dx60noTyL1m5fn8Sdk6_evb6hoH_aaHGKS0-t3pOlgQS6MmBgjuiiI1N-qdnyUZgUgXJp3Q-cDshG_lNTkZLjltQ2Pj4pCyiirjXkYv3k6te0cEf1yeTwHsiQ' },
+        { n:'USP-S | Jawbreaker (Field-Tested)', v:303, w:0.39, r:'common', img:'https://community.cloudflare.steamstatic.com/economy/image/i0CoZ81Ui0m-9KwlBY1L_18myuGuq1wfhWSaZgMttyVfPaERSR0Wqmu7LAocGIGz3UqlXOLrxM-vMGmW8VNxu5Dx60noTyLkjYbf7itX6vytbbZSNeODHViUzulxqd5kSi26gBBp42mDz939J32VZwFyA8FxReBesRO8wdK0ZrzitQ2K2oMTzCWviCMb5jErvbgcxKeE5g' },
       ],
     },
     {
-      id:'musor', name:'Мусорка Фортуны', price:100, color:'#A3E635', emo:'🗑️',
+      id:'musor', name:'Мусорка Фортуны', price:90, color:'#A3E635', emo:'🗑️',
       tag:'Мусор, который кто-то хранил тысячу лет. Теперь он твой. Поздравляем.',
       items:[
-        { n:'Пакет «Всё подряд»',       v:25,   w:35,  r:'trash',  e:'🗑️' },
-        { n:'Битый кирпич',             v:40,   w:30,  r:'trash',  e:'🧱' },
-        { n:'Батарейки АА (2 шт)',      v:75,   w:15,  r:'common', e:'🔋' },
-        { n:'Кофемашина «Эконом»',      v:140,  w:8,   r:'common', e:'☕' },
-        { n:'Мышь «Грызун Про»',        v:220,  w:6,   r:'rare',   e:'🖱️' },
-        { n:'Велик «Аист-Турбо»',       v:350,  w:4,   r:'rare',   e:'🚲' },
-        { n:'Гироскутер «Нео-Ховер»',   v:700,  w:1.5, r:'legend', e:'🛹' },
-        { n:'Телефон «Яфон 15»',        v:1200, w:0.5, r:'legend', e:'📱' },
+        { n:'StatTrak™ UMP-45 | Oscillator (Field-Tested)', v:31, w:33.46, r:'trash', img:'https://community.cloudflare.steamstatic.com/economy/image/i0CoZ81Ui0m-9KwlBY1L_18myuGuq1wfhWSaZgMttyVfPaERSR0Wqmu7LAocGIGz3UqlXOLrxM-vMGmW8VNxu5Dx60noTyLkk4a0qB1a4s27ZbQ5dc-WAmKT1fx5p-B_Sha-kBkupjDLmdevcHjGbVMgWZZ3R7Rb5xXuk93iYePh4QGIiI1EmCqtjikb5ytpt_FCD_RHfTtqUQ' },
+        { n:'Nova | Wurst Hölle (Minimal Wear)', v:53, w:26.77, r:'trash', img:'https://community.cloudflare.steamstatic.com/economy/image/i0CoZ81Ui0m-9KwlBY1L_18myuGuq1wfhWSaZgMttyVfPaERSR0Wqmu7LAocGIGz3UqlXOLrxM-vMGmW8VNxu5Dx60noTyL_kYDhwiFO0P24bbZ9IeOAMXCF0_1ij-9mWSiMmRQguynLytutd33BbgV1DpdwEOYC5hSwwNPjYr_ksVHdjotGxH742yNL5yk6sfFCD_SvUSZNdg' },
+        { n:'StatTrak™ M249 | System Lock (Minimal Wear)', v:89, w:16.73, r:'trash', img:'https://community.cloudflare.steamstatic.com/economy/image/i0CoZ81Ui0m-9KwlBY1L_18myuGuq1wfhWSaZgMttyVfPaERSR0Wqmu7LAocGIGz3UqlXOLrxM-vMGmW8VNxu5Dx60noTyL8zMK5wiFO0P_8PP1SM_WYGmiC_uJ_t-l9AXzhzEt25Wjcn4n4dHKebgMlCMB2RO5b40S-x9TnN-KztFDf3ohDzirgznQedTUXMuU' },
+        { n:'Glock-18 | Coral Bloom (Factory New)', v:118, w:10.04, r:'trash', img:'https://community.cloudflare.steamstatic.com/economy/image/i0CoZ81Ui0m-9KwlBY1L_18myuGuq1wfhWSaZgMttyVfPaERSR0Wqmu7LAocGIGz3UqlXOLrxM-vMGmW8VNxu5Dx60noTyL2kpnj9h1I4PeReqt-JeOsAm6Xyfo45edtFiyywExztjjdzNegIHuRaVImDpZ3RuJcshDpxtLhNOKw7gbci5UFk3s8sl0gEQ' },
+        { n:'Five-SeveN | Triumvirate (Field-Tested)', v:148, w:7.81, r:'trash', img:'https://community.cloudflare.steamstatic.com/economy/image/i0CoZ81Ui0m-9KwlBY1L_18myuGuq1wfhWSaZgMttyVfPaERSR0Wqmu7LAocGIGz3UqlXOLrxM-vMGmW8VNxu5Dx60noTyL3l4Dl7idN6vyRa7FSJvmFC3SV1-t4j-B8SCS2mwkitwKIn4vwNCaJO1cpWZRwTLQC4RHrxtLhMeri4QeL2I5DnHiq2yIc6nps5-hRU6Uir7qX0V_LRffo9g' },
+        { n:'Zeus x27 | Olympus (Field-Tested)', v:270, w:3.9, r:'trash', img:'https://community.cloudflare.steamstatic.com/economy/image/i0CoZ81Ui0m-9KwlBY1L_18myuGuq1wfhWSaZgMttyVfPaERSR0Wqmu7LAocGIGz3UqlXOLrxM-vMGmW8VNxu5Dx60noTyLln4Xl7x1B6ue9V7BlNf6XC3WvxuFyj-xsSyCmmFMk52SBw9qhJH6QOlAhWcEjQ-8I5BOwxNDlN-LntAyMg91DziWth3tI8G81tJsBsl6E' },
+        { n:'Glock-18 | Vogue (Field-Tested)', v:338, w:0.89, r:'common', img:'https://community.cloudflare.steamstatic.com/economy/image/i0CoZ81Ui0m-9KwlBY1L_18myuGuq1wfhWSaZgMttyVfPaERSR0Wqmu7LAocGIGz3UqlXOLrxM-vMGmW8VNxu5Dx60noTyL2kpnj9h1Y-s2pZKtuK8-WF2KTzuBiseJ9cCS2kRQyvnOEwtb6dHyUOAEhWJdxTbELsxi4mtHuN-jr7wXfi44Xni2vjSsd7ydo_a9cBrvZd2pE' },
+        { n:'P250 | Mint Kimono (Field-Tested)', v:419, w:0.39, r:'common', img:'https://community.cloudflare.steamstatic.com/economy/image/i0CoZ81Ui0m-9KwlBY1L_18myuGuq1wfhWSaZgMttyVfPaERSR0Wqmu7LAocGIGz3UqlXOLrxM-vMGmW8VNxu5Dx60noTyLhzMOwwjFL0PmnZatjL8-XB2adzuByo95kSi26gBBpsjmAntuudXKQPwNxDZp1Ru4Mthe-lNTgN7u25VGI2YJGn3_2ji9OvzErvbiyWTgtdg' },
       ],
     },
     {
-      id:'street', name:'Дворовый Стиль', price:250, color:'#f97316', emo:'🧱',
+      id:'street', name:'Дворовый Стиль', price:240, color:'#f97316', emo:'🧱',
       tag:'Ассортимент барахолки бизнесмена, чей бизнес закрылся вместе с пятиэтажкой.',
       items:[
-        { n:'Кнопочник-монстр',         v:60,  w:35,  r:'trash',  e:'📞' },
-        { n:'Абонемент в солярий',      v:95,  w:30,  r:'trash',  e:'🧴' },
-        { n:'Стиралка «Бочка-М»',       v:180, w:15,  r:'common', e:'🧺' },
-        { n:'Геймер-карта «Фраг»',      v:350, w:8,   r:'common', e:'🎮' },
-        { n:'Наушники «Бас-Тап»',       v:550, w:6,   r:'rare',   e:'🎧' },
-        { n:'Дрон «Комар-4»',           v:900, w:4,   r:'rare',   e:'🚁' },
-        { n:'Мопед «Дельта»',           v:1800,w:1.5, r:'legend', e:'🛵' },
-        { n:'Кот Барсик (самовывоз)',   v:3000,w:0.5, r:'legend', e:'🐈' },
+        { n:'StatTrak™ Dual Berettas | Flora Carnivora (Field-Tested)', v:74, w:33.46, r:'trash', img:'https://community.cloudflare.steamstatic.com/economy/image/i0CoZ81Ui0m-9KwlBY1L_18myuGuq1wfhWSaZgMttyVfPaERSR0Wqmu7LAocGIGz3UqlXOLrxM-vMGmW8VNxu5Dx60noTyL0kp_0-B1Y-s2qfaVhH_WfB3OV0tFzpuhlcC-_mg8mjDCAnobsLGWfPw4hCpJwQuYN40S4xtGyYe7rsQzY2I8Ryn3-jS9Bu31v4-4HVvUk5OSJ2FMPTUdt' },
+        { n:'XM1014 | Ziggy (Minimal Wear)', v:124, w:26.77, r:'trash', img:'https://community.cloudflare.steamstatic.com/economy/image/i0CoZ81Ui0m-9KwlBY1L_18myuGuq1wfhWSaZgMttyVfPaERSR0Wqmu7LAocGIGz3UqlXOLrxM-vMGmW8VNxu5Dx60noTyLpk8ewrHZk7uORcKk8cKHHMX2Zxulvj-BnTjuwnQQYvzSCkpu3In6XPA4lAsZ5E-JbukWwwd3nY-zn4gLe2thNmCiv2ixK6SZs5ucHVb1lpPO5jVz-xA' },
+        { n:'StatTrak™ Desert Eagle | Firebreathing (Field-Tested)', v:262, w:16.73, r:'trash', img:'https://community.cloudflare.steamstatic.com/economy/image/i0CoZ81Ui0m-9KwlBY1L_18myuGuq1wfhWSaZgMttyVfPaERSR0Wqmu7LAocGIGz3UqlXOLrxM-vMGmW8VNxu5Dx60noTyL1m5fn8Sdk6_evb6hoH_aaHGKS0-t3pOlgQS6MmBgjuiiI1N-qdnyUZgUgXJp3Q-cDshG_lNTkZLjltQ2Pj4pCyiirjXkYv3k6te0cEf1yeTwHsiQ' },
+        { n:'StatTrak™ UMP-45 | Wild Child (Field-Tested)', v:336, w:10.04, r:'common', img:'https://community.cloudflare.steamstatic.com/economy/image/i0CoZ81Ui0m-9KwlBY1L_18myuGuq1wfhWSaZgMttyVfPaERSR0Wqmu7LAocGIGz3UqlXOLrxM-vMGmW8VNxu5Dx60noTyLkk4a0qB1Y-s27ZbRSI_yGGmSY_uV_s-pWQiy3nAgq_T6AyNasJ3iePQByW5NwTeEKsxbqw9LhYePitlbZ34wWxXqsjyhPvy11o7FVOjdBjQA' },
+        { n:'P250 | Mint Kimono (Field-Tested)', v:419, w:7.81, r:'common', img:'https://community.cloudflare.steamstatic.com/economy/image/i0CoZ81Ui0m-9KwlBY1L_18myuGuq1wfhWSaZgMttyVfPaERSR0Wqmu7LAocGIGz3UqlXOLrxM-vMGmW8VNxu5Dx60noTyLhzMOwwjFL0PmnZatjL8-XB2adzuByo95kSi26gBBpsjmAntuudXKQPwNxDZp1Ru4Mthe-lNTgN7u25VGI2YJGn3_2ji9OvzErvbiyWTgtdg' },
+        { n:'M4A1-S | Party Animal (Field-Tested)', v:617, w:3.9, r:'common', img:'https://community.cloudflare.steamstatic.com/economy/image/i0CoZ81Ui0m-9KwlBY1L_18myuGuq1wfhWSaZgMttyVfPaERSR0Wqmu7LAocGIGz3UqlXOLrxM-vMGmW8VNxu5Dx60noTyL8ypexwjFS4_ega6F_H_iKC1iRz-d7se1WXzu6mwkY6m2WpYL8JSLSMxgkCZZ1ELIOuxe5lNfuP-ng4VCIiYkWnCr4jyhO73lp4OwCAPZz8vLUkUifZtSPDRSF' },
+        { n:'StatTrak™ AWP | Worm God (Factory New)', v:668, w:0.89, r:'common', img:'https://community.cloudflare.steamstatic.com/economy/image/i0CoZ81Ui0m-9KwlBY1L_18myuGuq1wfhWSaZgMttyVfPaERSR0Wqmu7LAocGIGz3UqlXOLrxM-vMGmW8VNxu5Dx60noTyLwiYbf_DNk7uW-V7B6Kf6WMWuZxuZi_uRoGH3iw0wh4j7cnt6ucSqSZwUkCMB5TLIPsES_kNbuYeOwtgXai4NbjXKpZ4kj0o0' },
+        { n:'P2000 | Wicked Sick (Factory New)', v:1083, w:0.39, r:'rare', img:'https://community.cloudflare.steamstatic.com/economy/image/i0CoZ81Ui0m-9KwlBY1L_18myuGuq1wfhWSaZgMttyVfPaERSR0Wqmu7LAocGIGz3UqlXOLrxM-vMGmW8VNxu5Dx60noTyL5lYayrXIL0PG7V7Q_cKDDMWOVwuJ_vuRWQyC0nQlp4jnTyNqodHyXOlQkDZtzF-UN4BjukYeyZuLn5Qbaj4NEzy3_3ywd5zErvbh-3lU8Iw' },
       ],
     },
     {
       id:'neon', name:'Неон Форт', price:1000, color:'#22d3ee', emo:'🎰',
       tag:'Автоматы уже просчитали, что ты закроешь это в ноль. Докажи обратное.',
       items:[
-        { n:'Фишка казино (1 балл)',    v:250,  w:35,  r:'trash',  e:'🃏' },
-        { n:'Кубик удачи',              v:380,  w:30,  r:'trash',  e:'🎲' },
-        { n:'Синтезатор «Ключики»',     v:700,  w:15,  r:'common', e:'🎹' },
-        { n:'Гитара «Струна-Плюс»',     v:1400, w:8,   r:'common', e:'🎸' },
-        { n:'VR-очки «Мир-360»',        v:2200, w:6,   r:'rare',   e:'🥽' },
-        { n:'Колонка «Бас Том»',        v:3600, w:4,   r:'rare',   e:'🔊' },
-        { n:'Гироскутер «Ховер-X»',     v:7200, w:1.5, r:'legend', e:'🛹' },
-        { n:'Роял-флеш',                v:12000,w:0.5, r:'legend', e:'♠️' },
+        { n:'StatTrak™ SSG 08 | Dark Water (Field-Tested)', v:289, w:33.46, r:'trash', img:'https://community.cloudflare.steamstatic.com/economy/image/i0CoZ81Ui0m-9KwlBY1L_18myuGuq1wfhWSaZgMttyVfPaERSR0Wqmu7LAocGIGz3UqlXOLrxM-vMGmW8VNxu5Dx60noTyLijZGwpR1a4s20baZ_Ic-XD3Wb_uNztOh8Qme2zU5xsW3cytj9dnLEPQEhApQhF7Fc4BSwl4ezNuy07wHZg90Rn3j_kGoXubOr6m8C' },
+        { n:'AK-47 | Jungle Spray (Battle-Scarred)', v:418, w:26.77, r:'common', img:'https://community.cloudflare.steamstatic.com/economy/image/i0CoZ81Ui0m-9KwlBY1L_18myuGuq1wfhWSaZgMttyVfPaERSR0Wqmu7LAocGIGz3UqlXOLrxM-vMGmW8VNxu5Dx60noTyLwlcK3wjFL0OG-eqV0H_qGAGCcxNF-teB_Vme2w0oi4zzVmdz8dCjGagIkDMN1RrYOshm6m4DgML7q5FPajYhDzSivkGoXuScz1P4u' },
+        { n:'P250 | Asiimov (Field-Tested)', v:1046, w:16.73, r:'rare', img:'https://community.cloudflare.steamstatic.com/economy/image/i0CoZ81Ui0m-9KwlBY1L_18myuGuq1wfhWSaZgMttyVfPaERSR0Wqmu7LAocGIGz3UqlXOLrxM-vMGmW8VNxu5Dx60noTyLhzMOwwiFO0OL8PfRSIeOaB2qf19F7teVgWiT9wxx36mWHzIuseXnCOlUgXsclQONf5Bi4x4bhNru34VPejdgXyS3-3DQJsHj2UM_3gw' },
+        { n:'SSG 08 | Turbo Peek (Field-Tested)', v:1433, w:10.04, r:'rare', img:'https://community.cloudflare.steamstatic.com/economy/image/i0CoZ81Ui0m-9KwlBY1L_18myuGuq1wfhWSaZgMttyVfPaERSR0Wqmu7LAocGIGz3UqlXOLrxM-vMGmW8VNxu5Dx60noTyLijZGwpR1Y-s29e6NSL-aWHHORyutJveRtRjy-20pz5DzRnoqucy-ePAR0CMAjRrYOsRe6wYLgMevh4wKL3o0TxC2s3H5XrnE8_hLO63A' },
+        { n:'Tec-9 | Decimator (Field-Tested)', v:1514, w:7.81, r:'rare', img:'https://community.cloudflare.steamstatic.com/economy/image/i0CoZ81Ui0m-9KwlBY1L_18myuGuq1wfhWSaZgMttyVfPaERSR0Wqmu7LAocGIGz3UqlXOLrxM-vMGmW8VNxu5Dx60noTyLlm5W5wiVI0Oara_1SJPWQB2qR1eFkj-xsSyCmmFMk6zzVnIqpJC2UbAd2CZF3EOYPtRe9kNThMey0s1GK3Y5CzS_7hy1B8G81tL7z0l3A' },
+        { n:'★ Survival Knife | Boreal Forest (Battle-Scarred)', v:4184, w:3.9, r:'legend', img:'https://community.cloudflare.steamstatic.com/economy/image/i0CoZ81Ui0m-9KwlBY1L_18myuGuq1wfhWSaZgMttyVfPaERSR0Wqmu7LAocGIGz3UqlXOLrxM-vMGmW8VNxu5Dx60noTyL6kJ_m-B1Y7vyne5tlOc-VAXWV0vpJsu57Sii_qhUisiuc1Nz8JSrEaQIhCJV0QuEJ5kGxwdbuZe-z51Ddio4Xzy383Xgc5ixpsekcEf1y0FjIJTY' },
+        { n:'AWP | Printstream (Minimal Wear)', v:5727, w:0.89, r:'legend', img:'https://community.cloudflare.steamstatic.com/economy/image/i0CoZ81Ui0m-9KwlBY1L_18myuGuq1wfhWSaZgMttyVfPaERSR0Wqmu7LAocGIGz3UqlXOLrxM-vMGmW8VNxu5Dx60noTyLwiYbf_DVL0OK8Yap5M-SBC2ad_uJ_t-l9AX_qlk4k5GyAzo6ocC-QZgZxX8AjEbZY5xnrxtPjM7vnsgGIj9oTmXngznQeg3pfcPs' },
+        { n:'★ Nomad Knife | Rust Coat (Battle-Scarred)', v:8538, w:0.39, r:'legend', img:'https://community.cloudflare.steamstatic.com/economy/image/i0CoZ81Ui0m-9KwlBY1L_18myuGuq1wfhWSaZgMttyVfPaERSR0Wqmu7LAocGIGz3UqlXOLrxM-vMGmW8VNxu5Dx60noTyL6kJ_m-B1U-uaqZ6t_H_GCMXSExOt6j-pnRi-2qhUisiuc1Nz8eS3BbgMgXpNzFLNYsUXqltPlYr7kslPXidpCmH-viylB6n1u4bocEf1ytubkyVg' },
       ],
     },
     {
-      id:'royal', name:'Алмазный Король', price:2500, color:'#ef4444', emo:'👑',
+      id:'royal', name:'Алмазный Король', price:3000, color:'#ef4444', emo:'👑',
       tag:'Для тех, у кого мопед «Дельта» ещё не продался наперёд. Почти люкс.',
       items:[
-        { n:'Пустая коробка',           v:640,  w:35,  r:'trash',  e:'📦' },
-        { n:'Подписка на стримера',     v:940,  w:30,  r:'trash',  e:'📺' },
-        { n:'Ноутбук «Игробук 9»',      v:1800, w:15,  r:'common', e:'💻' },
-        { n:'Мультиварка Deluxe',       v:3500, w:8,   r:'common', e:'🍚' },
-        { n:'Самокат «Турбопро»',       v:5500, w:6,   r:'rare',   e:'🛴' },
-        { n:'Пневматика «Страж»',       v:9000, w:4,   r:'rare',   e:'🔫' },
-        { n:'Квадроцикл «Громила»',     v:18000,w:1.5, r:'legend', e:'🏍️' },
-        { n:'Спорткар «Огнемёт GT»',    v:30000,w:0.5, r:'legend', e:'🏎️' },
+        { n:'P2000 | Wicked Sick (Factory New)', v:1083, w:33.46, r:'rare', img:'https://community.cloudflare.steamstatic.com/economy/image/i0CoZ81Ui0m-9KwlBY1L_18myuGuq1wfhWSaZgMttyVfPaERSR0Wqmu7LAocGIGz3UqlXOLrxM-vMGmW8VNxu5Dx60noTyL5lYayrXIL0PG7V7Q_cKDDMWOVwuJ_vuRWQyC0nQlp4jnTyNqodHyXOlQkDZtzF-UN4BjukYeyZuLn5Qbaj4NEzy3_3ywd5zErvbh-3lU8Iw' },
+        { n:'StatTrak™ AWP | Atheris (Minimal Wear)', v:1440, w:26.77, r:'rare', img:'https://community.cloudflare.steamstatic.com/economy/image/i0CoZ81Ui0m-9KwlBY1L_18myuGuq1wfhWSaZgMttyVfPaERSR0Wqmu7LAocGIGz3UqlXOLrxM-vMGmW8VNxu5Dx60noTyLwiYbf_jdk7uW-V7JkMPWBMWuZxuZi_rZsS3zgzU8isW3dnIr6eHKfPVAhDpojEe9YsUW4xta1Nuzm5FDci4NbjXKpmWVQppo' },
+        { n:'★ Survival Knife | Boreal Forest (Battle-Scarred)', v:4184, w:16.73, r:'legend', img:'https://community.cloudflare.steamstatic.com/economy/image/i0CoZ81Ui0m-9KwlBY1L_18myuGuq1wfhWSaZgMttyVfPaERSR0Wqmu7LAocGIGz3UqlXOLrxM-vMGmW8VNxu5Dx60noTyL6kJ_m-B1Y7vyne5tlOc-VAXWV0vpJsu57Sii_qhUisiuc1Nz8JSrEaQIhCJV0QuEJ5kGxwdbuZe-z51Ddio4Xzy383Xgc5ixpsekcEf1y0FjIJTY' },
+        { n:'M4A1-S | Vaporwave (Field-Tested)', v:4586, w:10.04, r:'legend', img:'https://community.cloudflare.steamstatic.com/economy/image/i0CoZ81Ui0m-9KwlBY1L_18myuGuq1wfhWSaZgMttyVfPaERSR0Wqmu7LAocGIGz3UqlXOLrxM-vMGmW8VNxu5Dx60noTyL8ypexwjFS4_ega6F_H_3HDzaD_vh3oO57WCilkCIqtjmMj4K3d3OWbVIkW5p4R7YDu0PrlIHjYbyzsweKi49GmC3_2n8b5yY_6-sAVL1lpPOGYu6esg' },
+        { n:'AWP | Printstream (Minimal Wear)', v:5727, w:7.81, r:'legend', img:'https://community.cloudflare.steamstatic.com/economy/image/i0CoZ81Ui0m-9KwlBY1L_18myuGuq1wfhWSaZgMttyVfPaERSR0Wqmu7LAocGIGz3UqlXOLrxM-vMGmW8VNxu5Dx60noTyLwiYbf_DVL0OK8Yap5M-SBC2ad_uJ_t-l9AX_qlk4k5GyAzo6ocC-QZgZxX8AjEbZY5xnrxtPjM7vnsgGIj9oTmXngznQeg3pfcPs' },
+        { n:'★ StatTrak™ Survival Knife | Damascus Steel (Minimal Wear)', v:6715, w:3.9, r:'legend', img:'https://community.cloudflare.steamstatic.com/economy/image/i0CoZ81Ui0m-9KwlBY1L_18myuGuq1wfhWSaZgMttyVfPaERSR0Wqmu7LAocGIGz3UqlXOLrxM-vMGmW8VNxu5Dx60noTyL6kJ_m-B1Y7vyne5tsMc-XD2qR0u1jo95lRi67gVNw6myGnN6teHyTbFV1DMQhTeFYsBa7xtHhZb-z5gfejN4Un3-si3wf8G81tKX6O3VS' },
+        { n:'★ StatTrak™ Classic Knife | Forest DDPAT (Battle-Scarred)', v:8550, w:0.89, r:'legend', img:'https://community.cloudflare.steamstatic.com/economy/image/i0CoZ81Ui0m-9KwlBY1L_18myuGuq1wfhWSaZgMttyVfPaERSR0Wqmu7LAocGIGz3UqlXOLrxM-vMGmW8VNxu5Dx60noTyL6kJ_m-B1Y_OGRYL1SJPSDD3Ovyet3pvgnHiq1whsmtmXRwtj6JHmWP1J1W5R0FOZcukTrwNfgN-izs1Pd3YJByDK-0H0Pqdb3Nw' },
+        { n:'★ Navaja Knife | Ultraviolet (Factory New)', v:16041, w:0.39, r:'mythic', img:'https://community.cloudflare.steamstatic.com/economy/image/i0CoZ81Ui0m-9KwlBY1L_18myuGuq1wfhWSaZgMttyVfPaERSR0Wqmu7LAocGIGz3UqlXOLrxM-vMGmW8VNxu5Dx60noTyL6kJ_m-B1c9uK9cZtnIfOYBWmZx-tJo-5WXzyhhREijDGMnYftby3FOgUhAsYjTeZetBm4xtXkNbiw5lPbi9pGxCr92itB7C9q4ekDU6c7uvqA74P7bNU' },
       ],
     },
     {
-      id:'black', name:'Чёрный Ящик', price:5000, color:'#a855f7', emo:'⚔️',
+      id:'black', name:'Чёрный Ящик', price:10500, color:'#a855f7', emo:'⚔️',
       tag:'Откроешь — станешь легендой двора. Не откроешь — будешь просто человеком с мечтой.',
       items:[
-        { n:'Ящик с селёдкой',          v:1250, w:35,  r:'trash',  e:'🐟' },
-        { n:'Военный сапог (1 шт)',     v:1900, w:30,  r:'trash',  e:'🥾' },
-        { n:'Кресло «Геймер-трон»',     v:3600, w:15,  r:'common', e:'🪑' },
-        { n:'Моноблок «Экран Про»',     v:7000, w:8,   r:'common', e:'🖥️' },
-        { n:'Консоль «Пиксель 6»',      v:11000,w:6,   r:'rare',   e:'🎮' },
-        { n:'Электрогитара «Легенда»',  v:18000,w:4,   r:'rare',   e:'🎸' },
-        { n:'Кевларовый жилет',         v:36000,w:1.5, r:'legend', e:'🦺' },
-        { n:'Чёрный пояс знания',       v:60000,w:0.5, r:'legend', e:'🥋' },
+        { n:'★ Survival Knife | Boreal Forest (Battle-Scarred)', v:4184, w:33.46, r:'legend', img:'https://community.cloudflare.steamstatic.com/economy/image/i0CoZ81Ui0m-9KwlBY1L_18myuGuq1wfhWSaZgMttyVfPaERSR0Wqmu7LAocGIGz3UqlXOLrxM-vMGmW8VNxu5Dx60noTyL6kJ_m-B1Y7vyne5tlOc-VAXWV0vpJsu57Sii_qhUisiuc1Nz8JSrEaQIhCJV0QuEJ5kGxwdbuZe-z51Ddio4Xzy383Xgc5ixpsekcEf1y0FjIJTY' },
+        { n:'★ Huntsman Knife | Freehand (Battle-Scarred)', v:6536, w:26.77, r:'legend', img:'https://community.cloudflare.steamstatic.com/economy/image/i0CoZ81Ui0m-9KwlBY1L_18myuGuq1wfhWSaZgMttyVfPaERSR0Wqmu7LAocGIGz3UqlXOLrxM-vMGmW8VNxu5Dx60noTyL6kJ_m-B1P7vG6YadsLM-SA1idwPx9teVWWjmMzE0YuziEjJa3dC3EPQAgCZF3R-9Yt0W9kNbkN-_htgeKg9pBzCv-2HhM7Xti5L0GVr1lpPMKnW3UEw' },
+        { n:'AK-47 | Fuel Injector (Well-Worn)', v:9001, w:16.73, r:'mythic', img:'https://community.cloudflare.steamstatic.com/economy/image/i0CoZ81Ui0m-9KwlBY1L_18myuGuq1wfhWSaZgMttyVfPaERSR0Wqmu7LAocGIGz3UqlXOLrxM-vMGmW8VNxu5Dx60noTyLwlcK3wiVI0POlPPNSM-WDC3WTye9kt-RtcCS2kRQyvnPczdutIHzCPQ52DZV2TbIOshG7ltOyM7vg71GPioMUmHr6iyxJ6C5o_a9cBpypIj3h' },
+        { n:'M4A4 | Hellfire (Minimal Wear)', v:14452, w:10.04, r:'mythic', img:'https://community.cloudflare.steamstatic.com/economy/image/i0CoZ81Ui0m-9KwlBY1L_18myuGuq1wfhWSaZgMttyVfPaERSR0Wqmu7LAocGIGz3UqlXOLrxM-vMGmW8VNxu5Dx60noTyL8ypexwiFO0P_6afBSKPWfAmGZ0-tJvOhuRz39zEp24GTXmImsInqWP1AkXpBwE7FetUTswdfkPu7h5QXXithBy32t2DQJsHhDPmtuAA' },
+        { n:'★ Navaja Knife | Ultraviolet (Factory New)', v:16041, w:7.81, r:'mythic', img:'https://community.cloudflare.steamstatic.com/economy/image/i0CoZ81Ui0m-9KwlBY1L_18myuGuq1wfhWSaZgMttyVfPaERSR0Wqmu7LAocGIGz3UqlXOLrxM-vMGmW8VNxu5Dx60noTyL6kJ_m-B1c9uK9cZtnIfOYBWmZx-tJo-5WXzyhhREijDGMnYftby3FOgUhAsYjTeZetBm4xtXkNbiw5lPbi9pGxCr92itB7C9q4ekDU6c7uvqA74P7bNU' },
+        { n:'★ StatTrak™ Stiletto Knife | Damascus Steel (Factory New)', v:26011, w:3.9, r:'mythic', img:'https://community.cloudflare.steamstatic.com/economy/image/i0CoZ81Ui0m-9KwlBY1L_18myuGuq1wfhWSaZgMttyVfPaERSR0Wqmu7LAocGIGz3UqlXOLrxM-vMGmW8VNxu5Dx60noTyL6kJ_m-B1I-_uibbB5L8-SH1iUwON3o-J8XBajhxQ0vjy6lob-KT-JZw52XpsiQuADtxjsm4GxPum37lSLjINBni7-iS1K7S9v5OkAUKIlq7qX0V-S_V0ZqQ' },
+        { n:'★ StatTrak™ Karambit | Freehand (Well-Worn)', v:64393, w:0.89, r:'mythic', img:'https://community.cloudflare.steamstatic.com/economy/image/i0CoZ81Ui0m-9KwlBY1L_18myuGuq1wfhWSaZgMttyVfPaERSR0Wqmu7LAocGIGz3UqlXOLrxM-vMGmW8VNxu5Dx60noTyL6kJ_m-B1Q7uCvZaZkNM-SA1idwPx9teVWWjmMkxQptgKIn4vwNCaJblMnXJV2QrFY5xDtkIexNOm05FHf2Y1NnimtjSxN6yhp4u0LBacjqLqX0V-sadF3yw' },
+        { n:'★ Karambit | Stained (Field-Tested)', v:71911, w:0.39, r:'mythic', img:'https://community.cloudflare.steamstatic.com/economy/image/i0CoZ81Ui0m-9KwlBY1L_18myuGuq1wfhWSaZgMttyVfPaERSR0Wqmu7LAocGIGz3UqlXOLrxM-vMGmW8VNxu5Dx60noTyL6kJ_m-B1Q7uCvZaZkNM-SH1iWzvx1teVWQiy3nAgq_WzRzIyvJy6QOwAkCJN4Re8D4EK4lNbuMbmxtQePjokRxCSq2yJA6Sl1o7FVSPbGsq0' },
       ],
     },
-  ];
+];
+
 
   /* ============================================================
      2. СОСТОЯНИЕ (localStorage)
@@ -979,7 +1031,8 @@
       balance: START_BONUS,
       seq: 0,          // счётчик id предметов
       lastDaily: 0,    // timestamp последнего забранного ежедневного бонуса
-      inventory: [],   // [{ id, name, value, rarity, emoji }]
+      inventory: [],   // [{ id, name, value, rarity, emoji, img }]
+      fast: false,     // быстрый режим прокрутки рулетки
       drops: [],       // история дропов [{ ts, name, value, rarity, emoji }]
       steamTries: 0,   // сколько раз ты пытался вывести баллы в Steam
       stats: { opened: 0, upgrades: 0, upWins: 0, best: { value: 0, name: null } },
@@ -999,6 +1052,7 @@
           s.drops     = Array.isArray(s.drops) ? s.drops : [];
           s.lastDaily = s.lastDaily || 0;
           s.steamTries = s.steamTries || 0;
+          s.fast = !!s.fast;
           return s;
         }
       }
@@ -1038,6 +1092,22 @@
     if (h < 24) return h + ' ч назад';
     const days = Math.floor(h / 24);
     return days === 1 ? 'вчера' : days + ' дн назад';
+  }
+
+  // Эмодзи-фолбэк: если картинка скина не загрузилась
+  function emojiFor(name) {
+    if (!name) return '🔫';
+    if (/★|[Kk]nife|Karambit|Bayonet|Butterfly|Dagger|Falchion|Huntsman|Navaja|Nomad|Skeleton|Stiletto|Talon|Ursus|Kukri|Nautilus/.test(name)) return '🔪';
+    if (/[Gg]loves|Mitts|Wraps/.test(name)) return '🧤';
+    if (/AWP/.test(name)) return '🎯';
+    return '🔫';
+  }
+
+  // Картинка скина из Steam CDN либо эмодзи-фолбэк
+  function skinVisual(item, cls) {
+    const fb = item.emoji || emojiFor(item.name || item.n || '');
+    if (!item.img) return fb;
+    return `<img class="skin-img ${cls || ''}" src="${item.img}" alt="" loading="lazy" data-fb="${fb}" onerror="this.replaceWith(document.createTextNode(this.dataset.fb))">`;
   }
 
   // Тосты
@@ -1106,7 +1176,7 @@
     el.className = 'live-item';
     el.style.setProperty('--rc', RARITY[drop.rarity].color);
     el.title = drop.name;
-    el.innerHTML = `<span class="e">${drop.emoji}</span><span class="v">◆ ${fmt(drop.value)}</span>`;
+    el.innerHTML = `<span class="e">${skinVisual(drop)}</span><span class="v">◆ ${fmt(drop.value)}</span>`;
     if (!animate) el.style.animation = 'none';
     return el;
   }
@@ -1134,7 +1204,7 @@
       el.className = 'hist-item';
       el.style.setProperty('--rc', RARITY[d.rarity].color);
       el.innerHTML = `
-        <span class="e">${d.emoji}</span>
+        <span class="e">${skinVisual(d)}</span>
         <span class="nm">${d.name}</span>
         <span class="v">◆ ${fmt(d.value)}</span>
         <span class="t">${timeAgo(d.ts)}</span>`;
@@ -1161,7 +1231,7 @@
         <h3>${c.name}</h3>
         <p class="case-card__tag">${c.tag}</p>
         <div class="case-card__tops">
-          ${tops.map(t => `<span title="${t.n} — ${fmt(t.v)} б.">${t.e}</span>`).join('')}
+          ${tops.map(t => `<span title="${t.n} — ${fmt(t.v)} б." style="--rc:${RARITY[t.r].color}">${skinVisual(t)}</span>`).join('')}
         </div>
         <span class="case-card__meta"><b>${c.items.length}</b> предметов · клик — что внутри</span>
         <div class="case-card__footer">
@@ -1196,7 +1266,7 @@
       row.className = 'csi-item';
       row.style.setProperty('--rc', RARITY[it.r].color);
       row.innerHTML = `
-        <span class="e">${it.e}</span>
+        <span class="e">${skinVisual(it)}</span>
         <span class="nm">${it.n}<br><span class="rl">${RARITY[it.r].name}</span></span>
         <span class="ch"><b>${chTxt}%</b> шанс</span>
         <span class="vl">◆ ${fmt(it.v)}</span>`;
@@ -1219,6 +1289,8 @@
   const GAP = 8;           // зазор между ячейками
   const WIN_INDEX = 62;    // индекс выигрышной ячейки в ленте
   const TOTAL_CELLS = 72;  // длина ленты
+  // Длительность прокрутки: быстрый режим ≈ 1.15 с, обычный 5.4 с
+  const SPIN_MS = () => (state.fast ? 1150 : 5400);
 
   let multiCount = 1;      // выбранное количество кейсов за раз (1..3)
   let session = null;      // текущая серия: { c, total, done, prizes[] }
@@ -1275,7 +1347,7 @@
       const cell = document.createElement('div');
       cell.className = 'r-cell';
       cell.style.setProperty('--rc', RARITY[it.r].color);
-      cell.innerHTML = `<span class="r-cell__emoji">${it.e}</span><span class="r-cell__name">${it.n}</span><span class="r-cell__value">◆ ${fmt(it.v)}</span>`;
+      cell.innerHTML = `<span class="r-cell__emoji">${skinVisual(it)}</span><span class="r-cell__name">${it.n}</span><span class="r-cell__value">◆ ${fmt(it.v)}</span>`;
       ribbon.appendChild(cell);
     }
 
@@ -1289,7 +1361,7 @@
     // Разгон, затем плавное торможение на победителе
     ribbon.style.transform = 'translateX(120px)';
     requestAnimationFrame(() => requestAnimationFrame(() => {
-      ribbon.style.transition = 'transform 5.4s cubic-bezier(.12,.75,.13,1)';
+      ribbon.style.transition = 'transform ' + SPIN_MS() + 'ms cubic-bezier(.12,.75,.13,1)';
       ribbon.style.transform = `translateX(${finalX}px)`;
     }));
 
@@ -1297,7 +1369,7 @@
     let finished = false;
     const finish = () => { if (finished) return; finished = true; finishSpin(c, winner, ribbon.children[WIN_INDEX]); };
     ribbon.addEventListener('transitionend', finish, { once:true });
-    setTimeout(finish, 6000);
+    setTimeout(finish, SPIN_MS() + 600);
   }
 
   let lastPrizeInfo = null; // последний выпавший предмет (для панели результата)
@@ -1309,7 +1381,7 @@
 
     // Предмет в инвентарь + история
     state.seq++;
-    const item = { id: state.seq, name: winner.n, value: winner.v, rarity: winner.r, emoji: winner.e };
+    const item = { id: state.seq, name: winner.n, value: winner.v, rarity: winner.r, emoji: emojiFor(winner.n), img: winner.img };
     state.inventory.push(item);
     addDropToFeed(item);
     if (winner.v > state.stats.best.value) state.stats.best = { value: winner.v, name: winner.n };
@@ -1321,7 +1393,7 @@
     if (winner.r === 'legend' || winner.r === 'mythic') {
       toast('💥 ДЖЕКПОТ: ' + winner.n + ' (+' + fmt(winner.v) + ')!');
     } else {
-      toast('Дроп: ' + winner.e + ' ' + winner.n, winner.v >= c.price ? 'ok' : 'info');
+      toast('Дроп: ' + emojiFor(winner.n) + ' ' + winner.n, winner.v >= c.price ? 'ok' : 'info');
     }
 
     lastPrizeInfo = item;
@@ -1338,7 +1410,7 @@
         // Пользователь мог закрыть модалку между спинами — тогда сессию отменяем
         if (!$('#caseOverlay').classList.contains('open')) { session = null; return; }
         runSpin();
-      }, 1200);
+      }, state.fast ? 550 : 1200);
     } else {
       if (session.done < session.total) toast('Баланс кончился — серия остановлена на ' + session.done + ' из ' + session.total, 'info');
       endSession();
@@ -1351,8 +1423,9 @@
     const c = session ? session.c : null;
     if (lastPrizeInfo) {
       const rare = RARITY[lastPrizeInfo.rarity];
+      box.style.setProperty('--rc', rare.color); // свечение картинки в цвет редкости
       box.innerHTML = `
-        <span class="emo">${lastPrizeInfo.emoji}</span>
+        <span class="emo">${skinVisual(lastPrizeInfo)}</span>
         <span class="name" style="color:${rare.color}">${lastPrizeInfo.name}</span>
         <span class="val"><span class="accent">◆</span> ${fmt(lastPrizeInfo.value)} · <span style="color:${rare.color}">${rare.name}</span>
         ${session && session.total > 1 ? ` · ${session.done}/${session.total}` : ''}</span>`;
@@ -1419,12 +1492,21 @@
   });
 
   // Выбор количества кейсов
-  $$('.count-btn').forEach((b) => {
+  $$('.count-btn[data-n]').forEach((b) => {
     b.addEventListener('click', () => {
       if (spinning) return;
       multiCount = +b.dataset.n;
-      $$('.count-btn').forEach(x => x.classList.toggle('active', x === b));
+      $$('.count-btn[data-n]').forEach(x => x.classList.toggle('active', x === b));
     });
+  });
+
+  // Тумблер быстрого режима прокрутки
+  $('#fastBtn').addEventListener('click', () => {
+    if (spinning) return;
+    state.fast = !state.fast;
+    saveState();
+    $('#fastBtn').classList.toggle('active', state.fast);
+    toast(state.fast ? '⚡ Быстрая прокрутка включена' : '🐢 Обычная скорость прокрутки', 'info');
   });
 
   // Продать всё выпавшее за серию
@@ -1458,16 +1540,9 @@
      8. АПГРЕЙДЕР: мультивыбор до 6 предметов
      ============================================================ */
 
-  // Множители: шанс = 90% / множитель (мат. ожидание ~90% возврата)
-  const MULTIPLIERS = [
-    { m: 1.5, chance: 60 },
-    { m: 2,   chance: 45 },
-    { m: 3,   chance: 30 },
-    { m: 5,   chance: 18 },
-    { m: 10,  chance: 9  },
-  ];
-  let upgradeSel = [];   // id выбранных предметов (до 6)
-  let upgradeMult = 2;   // выбранный множитель
+  let upgradeSel = [];     // id выбранных предметов (до 6)
+  let upgradeTarget = null;// выбранная цель: { name, value, rarity, emoji, img }
+  let targetFilter = '';   // поиск по каталогу целей
 
   function selectedUpgradeItems() {
     return upgradeSel.map(id => state.inventory.find(i => i.id === id)).filter(Boolean);
@@ -1502,23 +1577,50 @@
       el.className = 'inv-mini' + (pos !== -1 ? ' selected' : '');
       el.style.setProperty('--rc', RARITY[item.rarity].color);
       el.innerHTML = `${pos !== -1 ? `<span class="mark">${pos + 1}</span>` : ''}
-        <span class="emo">${item.emoji}</span><span class="nm">${item.name}</span><span class="vl">◆ ${fmt(item.value)}</span>`;
+        <span class="emo">${skinVisual(item)}</span><span class="nm">${item.name}</span><span class="vl">◆ ${fmt(item.value)}</span>`;
       el.addEventListener('click', () => selectUpgradeItem(item.id));
       box.appendChild(el);
     });
   }
 
-  // Цель апгрейда: предмет из каталога, максимально близкий по цене к desired
-  function pickTarget(total, m) {
-    const desired = Math.round(total * m);
-    let best = null;
-    for (const cand of ALL_ITEMS) {
-      if (cand.value >= desired * 0.8 && (!best || Math.abs(cand.value - desired) < Math.abs(best.value - desired))) best = cand;
+  // Шанс апгрейда с «домом»: chance = 92% × (ставка / цена цели)
+  function upgradeChance(stake, target) {
+    return Math.max(0.02, Math.min(0.9, stake / target.value * 0.92));
+  }
+
+  // Доступные цели: все скины каталога дороже ставки
+  function availableTargets(stake) {
+    return ALL_ITEMS.filter(t => t.value > stake);
+  }
+
+  // Список целей с поиском (шанс считается автоматически для каждой)
+  function renderTargetList(stake) {
+    const box = $('#targetList');
+    box.innerHTML = '';
+    if (!(stake > 0)) {
+      box.innerHTML = '<div class="empty-note" style="grid-column:1/-1;">Сначала собери ставку слева — и появится весь каталог целей</div>';
+      return;
     }
-    if (best && best.value > total) return { name:best.name, value:best.value, rarity:best.rarity, emoji:best.emoji };
-    // Если в каталоге нет более дорогого предмета — генерируем именной приз
-    const r = desired >= 20000 ? 'mythic' : desired >= 5000 ? 'legend' : desired >= 1000 ? 'rare' : 'common';
-    return { name: 'Приз «Фортуна» ×' + m, value: desired, rarity: r, emoji: '💎' };
+    const f = targetFilter.trim().toLowerCase();
+    let cand = availableTargets(stake);
+    if (f) cand = cand.filter(t => t.name.toLowerCase().includes(f));
+    if (!cand.length) {
+      box.innerHTML = '<div class="empty-note" style="grid-column:1/-1;">Ничего не нашлось: цель должна быть дороже ставки (' + fmt(stake) + ' б.)</div>';
+      return;
+    }
+    cand.slice(0, 60).forEach((t) => {
+      const el = document.createElement('div');
+      const isSel = upgradeTarget && upgradeTarget.name === t.name && upgradeTarget.value === t.value;
+      el.className = 'target-item' + (isSel ? ' selected' : '');
+      el.style.setProperty('--rc', RARITY[t.rarity].color);
+      el.innerHTML = `<span class="tg-img">${skinVisual(t)}</span>
+        <span class="tg-nm"><b>${t.name}</b><small>◆ ${fmt(t.value)} · шанс ${Math.round(upgradeChance(stake, t) * 100)}%</small></span>`;
+      el.addEventListener('click', () => {
+        upgradeTarget = { ...t };
+        updateUpgradeUI();
+      });
+      box.appendChild(el);
+    });
   }
 
   // Каталог всех предметов из всех кейсов — «цели» для апгрейдера
@@ -1526,7 +1628,7 @@
     const seen = new Set(), list = [];
     for (const c of CASES) for (const it of c.items) {
       const key = it.n + '|' + it.v;
-      if (!seen.has(key)) { seen.add(key); list.push({ name:it.n, value:it.v, rarity:it.r, emoji:it.e }); }
+      if (!seen.has(key)) { seen.add(key); list.push({ name:it.n, value:it.v, rarity:it.r, emoji: emojiFor(it.n), img:it.img }); }
     }
     return list.sort((a, b) => a.value - b.value);
   })();
@@ -1547,7 +1649,7 @@
       const chip = document.createElement('div');
       chip.className = 'up-chip';
       chip.style.setProperty('--rc', RARITY[item.rarity].color);
-      chip.innerHTML = `<span style="font-size:16px">${item.emoji}</span> ${item.name}
+      chip.innerHTML = `${skinVisual(item)} ${item.name}
         <span style="color:${RARITY[item.rarity].color}">◆ ${fmt(item.value)}</span>
         <span class="rm" title="Убрать из ставки">✕</span>`;
       chip.querySelector('.rm').addEventListener('click', () => selectUpgradeItem(item.id));
@@ -1558,26 +1660,39 @@
   function updateUpgradeUI() {
     const items = selectedUpgradeItems();
     const total = stakeValue();
-    const multObj = MULTIPLIERS.find(x => x.m === upgradeMult);
+
+    // Цель по умолчанию — если текущая выбилась из каталога (продана/стала дешевле)
+    if (total > 0) {
+      const avail = availableTargets(total);
+      const valid = upgradeTarget && avail.some(t => t.name === upgradeTarget.name && t.value === upgradeTarget.value);
+      if (!valid) upgradeTarget = avail[0] || null; // самый дешёвый доступный скин
+    } else upgradeTarget = null;
 
     renderChips();
-    $$('.mult-btn').forEach(b => b.classList.toggle('active', +b.dataset.m === upgradeMult));
-    $('#upgradeBtn').disabled = !items.length || gaugeLocked;
-    $('#upgradeBtn').innerHTML = items.length
-      ? `⚡ Апгрейд · <small>шанс ${multObj.chance}%</small>`
+    renderTargetList(total);
+
+    const chance = upgradeTarget ? upgradeChance(total, upgradeTarget) : 0;
+    const mult = upgradeTarget ? upgradeTarget.value / total : 0;
+    const btn = $('#upgradeBtn');
+    btn.disabled = !items.length || !upgradeTarget || gaugeLocked;
+    btn.innerHTML = (items.length && upgradeTarget)
+      ? `⚡ Апгрейд · <small>шанс ${Math.round(chance * 100)}%</small>`
       : '⚡ Апгрейд';
-    $('#upTotal').innerHTML = items.length
-      ? `Ставка: <b>${items.length} ${pluralItems(items.length)}</b> на <b>◆ ${fmt(total)}</b> б. → цель ≈ <span class="b1">${fmt(pickTarget(total, multObj.m).value)}</span> б.`
+    $('#upTotal').innerHTML = (items.length && upgradeTarget)
+      ? `Ставка: <b>${items.length} ${pluralItems(items.length)}</b> на <b>◆ ${fmt(total)}</b> → «<span class="b1">${upgradeTarget.name}</span>» ≈ <b>${fmt(upgradeTarget.value)}</b> б. (${mult.toFixed(1)}×)`
       : 'Ставка не собрана — выбери предметы слева';
-    setGaugeZone(items.length ? multObj.chance / 100 : 0);
+    setGaugeZone(items.length && upgradeTarget ? chance : 0);
 
     const big = $('#gaugeBig'), small = $('#gaugeSmall');
-    if (items.length) {
-      big.innerHTML = `<span style="color:var(--accent)">${multObj.m}×</span> <span style="font-size:13px; color:var(--muted)">· ${multObj.chance}%</span>`;
-      small.innerHTML = `Ставка ${fmt(total)} б. → цель ≈ <b class="b1">${fmt(pickTarget(total, multObj.m).value)}</b> б.`;
+    if (items.length && upgradeTarget) {
+      big.innerHTML = `<span style="color:var(--accent)">${mult.toFixed(1)}×</span> <span style="font-size:13px; color:var(--muted)">· ${Math.round(chance * 100)}%</span>`;
+      small.innerHTML = `Ставка ${fmt(total)} б. → «${upgradeTarget.name}» — <b class="b1">${fmt(upgradeTarget.value)}</b> б.`;
+    } else if (items.length) {
+      big.textContent = '—';
+      small.textContent = 'В каталоге нет скина дороже ставки (' + fmt(total) + ' б.)';
     } else {
       big.textContent = '—';
-      small.textContent = 'Выбери до ' + MAX_UP_ITEMS + ' предметов слева и множитель';
+      small.textContent = 'Выбери до ' + MAX_UP_ITEMS + ' предметов слева — шанс посчитается сам';
     }
   }
 
@@ -1585,32 +1700,20 @@
     return n === 1 ? 'предмет' : (n < 5 ? 'предмета' : 'предметов');
   }
 
-  // Рендер кнопок множителей (одноразово)
-  function renderMults() {
-    const box = $('#mults');
-    box.innerHTML = '';
-    MULTIPLIERS.forEach((m) => {
-      const b = document.createElement('button');
-      b.className = 'mult-btn';
-      b.dataset.m = m.m;
-      b.innerHTML = `${m.m}×<small>${m.chance}%</small>`;
-      b.addEventListener('click', () => {
-        if (gaugeLocked) return;
-        upgradeMult = m.m;
-        updateUpgradeUI();
-      });
-      box.appendChild(b);
-    });
-  }
+  // Поиск по каталогу целей
+  $('#targetSearch').addEventListener('input', (e) => {
+    targetFilter = e.target.value;
+    renderTargetList(stakeValue());
+  });
 
   // Запуск апгрейда
   $('#upgradeBtn').addEventListener('click', () => {
     const items = selectedUpgradeItems();
     if (!items.length || gaugeLocked) return;
-    const multObj = MULTIPLIERS.find(x => x.m === upgradeMult);
     const total = stakeValue();
-    const target = pickTarget(total, multObj.m);
-    const chance = multObj.chance / 100;
+    const target = upgradeTarget;
+    if (!target) return;
+    const chance = upgradeChance(total, target);
     const win = Math.random() < chance; // результат решён заранее, анимация — просто визуализация
 
     gaugeLocked = true;
@@ -1651,7 +1754,7 @@
       // Убираем ставку, добавляем единственный дорогой предмет
       state.inventory = state.inventory.filter(i => !ids.includes(i.id));
       state.seq++;
-      const upgraded = { id: state.seq, name: target.name, value: target.value, rarity: target.rarity, emoji: target.emoji };
+      const upgraded = { id: state.seq, name: target.name, value: target.value, rarity: target.rarity, emoji: target.emoji, img: target.img };
       state.inventory.push(upgraded);
       state.stats.upWins++;
       upgradeSel = [state.seq];
@@ -1757,7 +1860,7 @@
         card.className = 'item-card';
         card.style.setProperty('--rc', RARITY[item.rarity].color);
         card.innerHTML = `
-          <span class="emo">${item.emoji}</span>
+          <span class="emo">${skinVisual(item)}</span>
           <span class="nm">${item.name}</span>
           <span class="rl">${RARITY[item.rarity].name}</span>
           <span class="vl"><span class="gem">◆</span> ${fmt(item.value)}</span>
@@ -1850,8 +1953,8 @@
      ============================================================ */
 
   (function init() {
+    $('#fastBtn').classList.toggle('active', state.fast); // восстановить режим
     renderCases();
-    renderMults();
     renderUpgradeInv();
     updateUpgradeUI();
     renderProfile();
