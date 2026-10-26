@@ -394,16 +394,23 @@
     .roulette__ribbon{ display:flex; gap:8px; will-change:transform; }
     .r-cell{
       --rc:#71717a;
-      flex:0 0 110px; width:110px; height:124px;
+      flex:0 0 112px; width:112px; height:132px;
       border-radius:12px; border:1.5px solid var(--rc);
       background:linear-gradient(180deg, color-mix(in srgb, var(--rc) 22%, #131316) 0%, #101013 78%);
       box-shadow:inset 0 0 20px rgba(0,0,0,.5);
-      display:flex; flex-direction:column; align-items:center; justify-content:center; gap:4px;
-      user-select:none;
+      display:flex; flex-direction:column; align-items:center; justify-content:center; gap:3px;
+      padding:6px 4px; overflow:hidden; user-select:none;
     }
-    .r-cell__emoji{ font-size:34px; line-height:1; filter:drop-shadow(0 4px 8px rgba(0,0,0,.5)); }
-    .r-cell__name{ font-size:10px; color:#b9b9bf; text-align:center; padding:0 6px; line-height:1.25; }
-    .r-cell__value{ font-size:12px; font-weight:700; color:var(--rc); }
+    .r-cell__emoji{ font-size:34px; line-height:1; flex:0 0 40px;
+      display:flex; align-items:center; justify-content:center;
+      filter:drop-shadow(0 4px 8px rgba(0,0,0,.5)); }
+    .r-cell__emoji img.skin-img{ width:44px; height:36px; }
+    .r-cell__name{
+      font-size:9.5px; color:#b9b9bf; text-align:center; padding:0 4px; line-height:1.2;
+      display:-webkit-box; -webkit-line-clamp:2; -webkit-box-orient:vertical; overflow:hidden;
+      max-width:100%; flex:0 1 auto; min-height:0;
+    }
+    .r-cell__value{ font-size:11.5px; font-weight:700; color:var(--rc); flex:0 0 auto; white-space:nowrap; }
     .r-cell.win{ animation:cellWin .6s ease 3; }
     @keyframes cellWin{ 50%{ box-shadow:0 0 26px rgba(163,230,53,.85), inset 0 0 20px rgba(0,0,0,.5); transform:scale(1.06); } }
 
@@ -443,9 +450,8 @@
 
     /* ---------- Апгрейдер ---------- */
     .upgrade-layout{
-      display:grid; grid-template-columns:300px 1fr; gap:24px; align-items:start;
+      display:flex; flex-direction:column; gap:16px; align-items:stretch;
     }
-    @media (max-width:900px){ .upgrade-layout{ grid-template-columns:1fr; } }
 
     .panel{
       background:var(--panel); border:1px solid var(--line);
@@ -677,7 +683,7 @@
     .skin-img{ object-fit:contain; transition:transform .2s;
       filter:drop-shadow(0 4px 12px color-mix(in srgb, var(--rc, #71717a) 35%, rgba(0,0,0,.55))); }
     .case-card__tops img.skin-img{ width:26px; height:22px; }
-    .r-cell__emoji img.skin-img{ width:44px; height:38px; }
+    .r-cell__emoji img.skin-img{ width:40px; height:34px; }
     .csi-item .e img.skin-img{ width:36px; height:30px; }
     .spin-result .emo img.skin-img{ width:96px; height:80px; }
     .live-item .e img.skin-img{ width:22px; height:18px; }
@@ -723,7 +729,7 @@
     .inv-mini .emo img.skin-img{ width:26px; height:22px; }
     .live-item .e img.skin-img{ width:20px; height:17px; }
     .hist-item .e img.skin-img{ width:26px; height:22px; }
-    .r-cell__emoji img.skin-img{ width:42px; height:36px; }
+    .r-cell__emoji img.skin-img{ width:38px; height:32px; }
     .csi-item .e img.skin-img{ width:34px; height:28px; }
     .spin-result .emo img.skin-img{ width:92px; height:76px; }
 
@@ -865,7 +871,8 @@
       .cases-grid{ gap:12px; }
 
       /* Рулетка */
-      .r-cell{ flex-basis:88px; width:88px; height:108px; }
+      .cp-spin{ margin:6px 0 12px; padding:12px; }
+      .r-cell{ flex-basis:88px; width:88px; height:112px; }
       .roulette::before,.roulette::after{ width:36px; }
       .spin-count{ gap:6px; flex-wrap:wrap; }
       .count-btn{ padding:8px 13px; font-size:12.5px; }
@@ -934,6 +941,26 @@
     .cp-contents h4{ display:flex; align-items:center; gap:9px; }
     .cp-contents h4 .ic{ width:18px; height:18px; color:var(--accent); }
 
+    /* ---------- Встроенная зона прокрутки (вкладка «Кейсы») ---------- */
+    .cp-spin{ margin:4px 0 16px; padding:16px; }
+    #spinStage{ display:flex; flex-direction:column; gap:10px; }
+
+    /* ---------- Апгрейдер: панель выбора с вкладками ---------- */
+    .pick-tabs{
+      display:flex; gap:4px; margin-bottom:12px;
+      background:#0e0e10; border:1px solid #262626; border-radius:12px; padding:4px;
+    }
+    .pick-tab{
+      flex:1; display:inline-flex; align-items:center; justify-content:center; gap:7px;
+      background:transparent; border:1px solid transparent; border-radius:9px;
+      color:var(--muted); font-family:inherit; font-size:13px; font-weight:700;
+      padding:10px 8px; cursor:pointer; transition:all .18s ease; white-space:nowrap;
+    }
+    .pick-tab .ic{ width:15px; height:15px; }
+    .pick-tab:hover{ color:#e4e4e7; background:#1a1a1d; }
+    .pick-tab.active{ background:#1f2a12; color:var(--accent); border-color:#3a4d1c; }
+    .upgrade-pick .hint{ margin:0 0 10px; }
+
     /* ---------- Модалка пополнения ---------- */
     .deposit-modal{ max-width:880px; width:min(880px, 94vw); }
     .balance-pill{ cursor:pointer; transition:border-color .2s ease; }
@@ -976,8 +1003,9 @@
     <!-- ======================= КЕЙСЫ ======================= -->
     <section class="tab-section active" id="tab-cases">
       <h1 class="section-title">Открывай кейсы</h1>
-      <p class="section-sub">Играй бесплатно на виртуальных баллах. Именно столько, сколько стоил бы твой инвентарь, если бы это был не localStorage. Выигранные предметы падают в <b>инвентарь</b>. Клик на кейс — его страница: состав, шансы и настройки. Кнопка «Открыть» — сразу в рулетку.</p>
+      <p class="section-sub">Играй бесплатно на виртуальных баллах. Именно столько, сколько стоил бы твой инвентарь, если бы это был не localStorage. Выигранные предметы падают в <b>инвентарь</b>. Клик на кейс — его страница: сверху прокрутка, ниже дроп. Кнопка «Открыть» — окно поверх сайта.</p>
       <div class="cases-grid" id="casesGrid"><!-- рендерится из JS --></div>
+
     </section>
 
     <!-- ======================= АПГРЕЙДЕР ======================= -->
@@ -986,13 +1014,7 @@
       <p class="section-sub">Собери ставку до <b>6 предметов</b> из инвентаря, выбери цель дороже ставки и жми. Успешно — получаешь одну дорогую вещь вместо нескольких. Провал — вся ставка красиво сгорает.</p>
 
       <div class="upgrade-layout">
-        <!-- Левая колонка: инвентарь для мультивыбора -->
-        <div class="panel">
-          <h4><span data-ic="box"></span> Инвентарь · выбери до 6 предметов</h4>
-          <p class="hint">Кликни предмет — добавишь в ставку. Повторный клик — уберёшь.</p>
-          <div class="upgrade-inv" id="upgradeInv"></div>
-        </div>
-
+        <!-- Панель выбора: вкладки «Инвентарь» (ставка) и «Скины» (цель) -->
         <!-- Правая колонка: колесо и управление -->
         <div class="panel upgrade-center">
           <h4><span data-ic="bolt"></span> Колесо апгрейда</h4>
@@ -1029,15 +1051,26 @@
             </div>
           </div>
 
-          <div class="targets-box">
+          <button class="btn btn--primary btn-upgrade" id="upgradeBtn" disabled><span data-ic="bolt"></span> Апгрейд</button>
+        </div>
+
+        <div class="panel upgrade-pick">
+          <div class="pick-tabs" id="pickTabs">
+            <button class="pick-tab active" data-tp="inv"><span data-ic="box"></span> Инвентарь · ставка</button>
+            <button class="pick-tab" data-tp="targets"><span data-ic="target"></span> Скины · цель</button>
+          </div>
+
+          <div class="pick-pane" id="paneInv">
+            <p class="hint">Кликни предмет — добавишь в ставку (максимум 6). Повторный клик — уберёшь.</p>
+            <div class="upgrade-inv" id="upgradeInv"></div>
+          </div>
+
+          <div class="pick-pane" id="paneTargets" hidden>
             <div class="targets-head">
-              <span><span data-ic="target"></span> Куда апгрейдим — цель дороже ставки</span>
               <input id="targetSearch" type="text" placeholder="поиск скина…" autocomplete="off">
             </div>
             <div class="targets" id="targetList"></div>
           </div>
-
-          <button class="btn btn--primary btn-upgrade" id="upgradeBtn" disabled><span data-ic="bolt"></span> Апгрейд</button>
         </div>
       </div>
     </section>
@@ -1105,6 +1138,33 @@
 
   </main>
 
+  <!-- Паркинг рулетки: пока страница кейса не открыта, stage живёт тут -->
+  <div id="spinPark" hidden>
+    <div id="spinStage">
+      <div class="spin-count" id="spinCount">
+        <span class="lbl">Кейсов за раз:</span>
+        <button class="count-btn active" data-n="1">×1</button>
+        <button class="count-btn" data-n="2">×2</button>
+        <button class="count-btn" data-n="3">×3</button>
+        <button class="count-btn" data-n="5">×5</button>
+        <button class="count-btn" data-n="10">×10</button>
+        <button class="count-btn" id="fastBtn" style="margin-left:auto;" title="Ускоренная прокрутка (1.15 с вместо 5.4 с)"><span data-ic="bolt"></span> Быстро</button>
+      </div>
+      <div class="roulette" id="rouletteView">
+        <div class="roulette__marker"></div>
+        <div class="roulette__ribbon" id="rouletteRibbon"></div>
+      </div>
+      <div class="spin-result" id="spinResult">
+        <span style="color:var(--muted)">Крутим… удачи!</span>
+      </div>
+      <div class="session-note" id="sessionNote"></div>
+      <div class="spin-actions" id="spinActions" style="display:none; margin-top:6px;">
+        <button class="btn btn--ghost" id="sellNowBtn">Продать выпавшее</button>
+        <button class="btn btn--primary" id="againBtn">Крутить ещё</button>
+      </div>
+    </div>
+  </div>
+
   <!-- ======================= МОДАЛКА КЕЙСА (РУЛЕТКА) ======================= -->
   <div class="overlay" id="caseOverlay">
     <div class="modal">
@@ -1112,31 +1172,8 @@
         <div class="modal__title" id="caseModalTitle">Кейс</div>
         <button class="modal__close" id="caseCloseBtn" title="Закрыть"><span data-ic="close"></span></button>
       </div>
-
-      <!-- Выбор количества кейсов за раз -->
-      <div class="spin-count" id="spinCount">
-        <span class="lbl">Кейсов за раз:</span>
-        <button class="count-btn active" data-n="1">×1</button>
-        <button class="count-btn" data-n="2">×2</button>
-        <button class="count-btn" data-n="3">×3</button>
-        <button class="count-btn" id="fastBtn" style="margin-left:auto;" title="Ускоренная прокрутка (1.15 с вместо 5.4 с)"><span data-ic="bolt"></span> Быстро</button>
-      </div>
-
-      <div class="roulette" id="rouletteView">
-        <div class="roulette__marker"></div>
-        <div class="roulette__ribbon" id="rouletteRibbon"></div>
-      </div>
-
-      <div class="spin-result" id="spinResult">
-        <span style="color:var(--muted)">Крутим… удачи!</span>
-      </div>
-
-      <div class="session-note" id="sessionNote"></div>
-
-      <div class="spin-actions" id="spinActions" style="display:none; margin-top:6px;">
-        <button class="btn btn--ghost" id="sellNowBtn">Продать выпавшее</button>
-        <button class="btn btn--primary" id="againBtn">Крутить ещё</button>
-      </div>
+      <!-- Рулетка (DOM #spinStage) переезжает сюда при открытии из главного меню -->
+      <div id="modalSpinHost"></div>
     </div>
   </div>
 
@@ -1690,7 +1727,7 @@
       card.addEventListener('click', () => openCasePage(c));
       card.querySelector('.case-card__open').addEventListener('click', (e) => {
         e.stopPropagation();
-        startSession(c);
+        startSession(c, { modal: true }); // из главного меню — окно поверх сайта
       });
       grid.appendChild(card);
     });
@@ -1709,10 +1746,14 @@
   function renderCasePage() {
     const c = cpCase;
     if (!c) return;
+    const itemsSorted = [...c.items].sort((a, b) => b.v - a.v); // дорогие сверху
+    // Stage нельзя затирать вместе с wrap: вынимаем его до перезаписи innerHTML
+    const st = stage();
+    if (st && st.parentElement) st.parentElement.removeChild(st);
     const totalW = c.items.reduce((s, i) => s + i.w, 0);
     const wrap = $('#casePageWrap');
 
-    const rows = c.items.map((it) => {
+    const rows = itemsSorted.map((it) => {
       const chance = it.w / totalW * 100;
       const chTxt = chance < 1 ? chance.toFixed(2) : chance.toFixed(chance < 10 ? 1 : 0);
       return `
@@ -1734,12 +1775,17 @@
         </div>
       </div>
 
+      <!-- Прокрутка прямо на странице кейса: сверху страницы -->
+      <div class="panel cp-spin" id="cpSpinHost"></div>
+
       <div class="cp-actions">
         <div class="spin-count">
           <span class="lbl">Кейсов за раз:</span>
           <button class="count-btn ${multiCount === 1 ? 'active' : ''}" data-n="1">×1</button>
           <button class="count-btn ${multiCount === 2 ? 'active' : ''}" data-n="2">×2</button>
           <button class="count-btn ${multiCount === 3 ? 'active' : ''}" data-n="3">×3</button>
+          <button class="count-btn ${multiCount === 5 ? 'active' : ''}" data-n="5">×5</button>
+          <button class="count-btn ${multiCount === 10 ? 'active' : ''}" data-n="10">×10</button>
         </div>
         <button class="count-btn ${state.fast ? 'active' : ''}" id="cpFast" title="Ускоренная прокрутка (1.15 с вместо 5.4 с)"><span data-ic="bolt"></span> Быстро</button>
         <button class="btn btn--primary" id="cpStart" style="padding:12px 28px;">Крутить · <b style="font-weight:900;">◆</b> ${fmt(c.price * multiCount)}</button>
@@ -1749,16 +1795,17 @@
         <h4><span data-ic="list"></span> Что внутри</h4>
         <p class="hint">Честные шансики. Как и все шансы в этом мире — примерно ровно наполовину свои.</p>
         <div class="csi-list">
-          ${c.items.map((it, k) => {
-            const r = rows[k].trim();
-            return '<div class="csi-item" style="--rc:' + RARITY[it.r].color + '">' + r + '</div>';
-          }).join('')}
+          ${itemsSorted.map((it, k) =>
+            '<div class="csi-item" style="--rc:' + RARITY[it.r].color + '">' + rows[k].trim() + '</div>'
+          ).join('')}
         </div>
       </div>`;
 
     // Гидратация иконок в вставленной разметке
     wrap.querySelectorAll('[data-ic]').forEach(el => { el.innerHTML = ic(el.dataset.ic); });
 
+    // Рулетка переезжает сюда (сверху страницы)
+    stageToCase();
     $('#cpBack').addEventListener('click', () => switchTab('cases'));
     wrap.querySelectorAll('.count-btn[data-n]').forEach((b) => {
       b.addEventListener('click', () => {
@@ -1794,19 +1841,53 @@
   let spinning = false;    // флаг «что-то крутится прямо сейчас»
   let gaugeLocked = false; // блокировка колеса апгрейдера
 
-  // Старт серии спинов выбранного кейса (×1..×3)
-  function startSession(c) {
+  function spinPark()    { return $('#spinPark'); }
+  function modalHost()   { return $('#modalSpinHost'); }
+  function caseSpinHost(){ return $('#cpSpinHost'); }
+  // Ссылку на stage держим в кэше: detached-узел querySelector'ом не найдёшь
+  let stageEl = document.querySelector('#spinStage');
+  function stage() {
+    if (!stageEl) stageEl = (spinPark() && spinPark().querySelector('#spinStage')) || document.querySelector('#spinStage');
+    return stageEl;
+  }
+  // Рулетка переезжает: страница кейса ↔ модалка (только из главного меню) ↔ паркинг
+  function stageInModal() { return stage().parentElement === modalHost(); }
+  function stageToModal() {
+    if (!stageInModal()) modalHost().appendChild(stage());
+  }
+  // Домой: в хост страницы кейса, если та открыта; иначе — в паркинг
+  function stageToCase() {
+    const host = caseSpinHost();
+    if (host) host.appendChild(stage());
+    else spinPark().appendChild(stage()); // и из модалки тоже достаём: иначе рулетка застрянет скрытой
+  }
+
+  // Старт серии спинов выбранного кейса (×1..×10)
+  // modal=true — только при открытии кнопкой «Открыть» из главного меню
+  function startSession(c, opts) {
+    opts = opts || {};
     if (spinning || gaugeLocked) return;
-    if (state.balance < c.price) {
-      toast('Недостаточно баллов: нужно ' + fmt(c.price) + ', у тебя ' + fmt(state.balance), 'err');
+    const cost = c.price * multiCount;
+    if (state.balance < cost) {
+      toast('На серию ' + multiCount + ' не хватает баллов: нужно ' + fmt(cost) + ', у тебя ' + fmt(state.balance), 'err');
       const card = [...document.querySelectorAll('.case-card')].find(el => el.querySelector('h3').textContent === c.name);
       if (card) { card.classList.add('shake'); setTimeout(() => card.classList.remove('shake'), 450); }
       return;
     }
     session = { c, total: multiCount, done: 0, prizes: [] };
-    openOverlay('#caseOverlay');
-    $('#caseModalTitle').innerHTML = ic(c.icon) + ' ' + c.name + ` <span class="price">· ◆ ${fmt(c.price)} за кейс</span>`;
+    $('#spinResult').innerHTML = '<span style="color:var(--muted)">Крутим… удачи!</span>';
+    $('#spinActions').style.display = 'none';
     $('#sessionNote').textContent = session.total > 1 ? `Серия: ${session.total} кейсов.` : '';
+    $('#caseModalTitle').innerHTML = ic(c.icon) + ' ' + c.name + ` <span class="price">· ◆ ${fmt(c.price)} за кейс</span>`;
+    if (opts.modal) {
+      stageToModal();
+      openOverlay('#caseOverlay');
+    } else {
+      // Крутить на странице кейса: прокрутка сверху, дроп ниже
+      if (cpCase !== c) openCasePage(c); else renderCasePage();
+      const host = caseSpinHost();
+      if (host) host.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    }
     runSpin();
   }
 
@@ -1966,20 +2047,23 @@
 
   /* ---------- Кнопки рулетки ---------- */
 
+  function closeRouletteModal() {
+    session = null;
+    closeOverlay('#caseOverlay');
+    stageToCase(); // рулетка возвращается на страницу кейса
+  }
   $('#caseCloseBtn').addEventListener('click', () => {
     if (spinning) { toast(ic('clock') + ' Рулетка ещё крутится — подожди пару секунд', 'info'); return; }
-    session = null;
-    closeOverlay('#caseOverlay');
+    closeRouletteModal();
   });
   $('#caseOverlay').addEventListener('click', (e) => {
-    if (e.target !== $('#caseOverlay')) return;      if (spinning) { toast(ic('clock') + ' Рулетка ещё крутится!', 'info'); return; }
-    session = null;
-    closeOverlay('#caseOverlay');
+    if (e.target !== $('#caseOverlay')) return;
+    if (spinning) { toast(ic('clock') + ' Рулетка ещё крутится!', 'info'); return; }
+    closeRouletteModal();
   });
   document.addEventListener('keydown', (e) => {
     if (e.key === 'Escape' && !spinning) {
-      session = null;
-      closeOverlay('#caseOverlay');
+      closeRouletteModal();
       closeOverlay('#depositOverlay');
       closeOverlay('#steamOverlay');
     }
@@ -2026,8 +2110,10 @@
   $('#againBtn').addEventListener('click', () => {
     if (spinning || !session) return;
     const c = session.c;
+    const inModal = stageInModal();
     session = null;
-    startSession(c);
+    closeOverlay('#caseOverlay');          // закрыть текущее окно, не трогая stage
+    startSession(c, { modal: inModal });   // и продолжить в том же режиме
   });
 
   /* ============================================================
@@ -2285,6 +2371,16 @@
   $('#targetSearch').addEventListener('input', (e) => {
     targetFilter = e.target.value;
     renderTargetList(stakeValue());
+  });
+
+  // Вкладки выбора в апгрейдере: «Инвентарь» (ставка) и «Скины» (цель)
+  $('#pickTabs').addEventListener('click', (e) => {
+    const btn = e.target.closest('.pick-tab');
+    if (!btn) return;
+    $$('#pickTabs .pick-tab').forEach(b => b.classList.toggle('active', b === btn));
+    $('#paneInv').hidden = btn.dataset.tp !== 'inv';
+    $('#paneTargets').hidden = btn.dataset.tp !== 'targets';
+    if (btn.dataset.tp === 'targets') renderTargetList(stakeValue());
   });
 
   // Запуск апгрейда
