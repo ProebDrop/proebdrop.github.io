@@ -855,6 +855,7 @@
       .logo{ font-size:17px; letter-spacing:1px; }
       .balance-pill{ padding:5px 10px; font-size:12px; }
       #depositHeaderBtn{ padding:7px 10px !important; font-size:12px; }
+      #sndBtn{ padding:7px 9px !important; font-size:12px; }
       .balance-pill .gem{ font-size:11px; }
 
       /* Вкладки: горизонтальный скролл без скроллбара */
@@ -1015,6 +1016,16 @@
     .btn--primary:hover:not(:disabled){ box-shadow:0 0 24px rgba(163,255,0,.55), 0 8px 28px rgba(0,0,0,.4); }
     /* Активная вкладка светится */
     .tab-btn.active{ text-shadow:0 0 14px rgba(163,255,0,.45); }
+    /* Крейт-иконки кейсов */
+    .case-card__icon svg.crate{
+      width:52px; height:52px; color:var(--c);
+      filter:drop-shadow(0 0 12px color-mix(in srgb, var(--c) 55%, transparent));
+    }
+    .cp-icon svg.crate{ width:36px; height:36px; }
+    .modal__title svg.crate{ width:20px; height:20px; vertical-align:-4px; }
+    /* Кнопка звука: активное состояние подсвечено */
+    #sndBtn.active{ color:var(--accent); border-color:color-mix(in srgb, var(--accent) 40%, var(--line)); }
+    #sndBtn.active:hover{ box-shadow:0 0 12px rgba(163,255,0,.25); }
     /* Мобильный кламп: бейдж LIVE скрываем — там каждый пиксель на счету */
     @media (max-width:640px){
       .hdr-live{ display:none; }
@@ -1099,6 +1110,7 @@
         <span id="balanceValue">0</span>
       </div>
       <button class="btn btn--ghost" id="depositHeaderBtn" title="Пополнить баланс" style="padding:10px 16px;"><span data-ic="plus"></span> Пополнить</button>
+      <button class="btn btn--ghost" id="sndBtn" title="Звук вкл/выкл" style="padding:10px 14px;"><span data-ic="vol"></span></button>
       <button class="btn btn--primary" id="profileBtn" style="padding:10px 20px;">Профиль</button>
     </div>
     <!-- Вкладки -->
@@ -1561,6 +1573,82 @@
         { n:'★ Karambit | Stained (Field-Tested)', v:71911, w:0.17, r:'mythic', img:'https://community.cloudflare.steamstatic.com/economy/image/i0CoZ81Ui0m-9KwlBY1L_18myuGuq1wfhWSaZgMttyVfPaERSR0Wqmu7LAocGIGz3UqlXOLrxM-vMGmW8VNxu5Dx60noTyL6kJ_m-B1Q7uCvZaZkNM-SH1iWzvx1teVWQiy3nAgq_WzRzIyvJy6QOwAkCJN4Re8D4EK4lNbuMbmxtQePjokRxCSq2yJA6Sl1o7FVSPbGsq0' },
       ],
     },
+    {
+      id:'avito', name:'Кейс Авито', price:80, color:'#7DD3FC', icon:'grid', crate:'chest',
+      tag:'Выкуплено с рук. История обслуживания: «позвонишь — расскажу».',
+      items:[
+        { n:'MAC-10 | Stalker (Factory New)', v:620, w:0.910, r:'common', img:'https://community.akamai.steamstatic.com/economy/image/i0CoZ81Ui0m-9KwlBY1L_18myuGuq1wfhWSaZgMttyVfPaERSR0Wqmu7LAocGIGz3UqlXOLrxM-vMGmW8VNxu5Dx60noTyL8n5WxrR1c_M2jaac8cM-AGmacyutkj-1gSCGn20V0t27Tw974Jy-WOg9yW8N3QOQDsxG4x9O0ZOPqtgHZ399HzST8ji9XrnE8CxAHwFY' },
+        { n:'SG 553 | Cyberforce (Field-Tested)', v:850, w:1.000, r:'common', img:'https://community.akamai.steamstatic.com/economy/image/i0CoZ81Ui0m-9KwlBY1L_18myuGuq1wfhWSaZgMttyVfPaERSR0Wqmu7LAocGIGz3UqlXOLrxM-vMGmW8VNxu5Dx60noTyLimcO1qx1Y-s29b_E4c8-QF2WV0-h5ouJscCW6khUz_Wjdntr6Iy6WbgEjA5MlRedctxG5kNKyNbi3sgTfi9oUnyj9234b5n51o7FVairOMAY' },
+        { n:'P250 | See Ya Later (Field-Tested)', v:520, w:0.863, r:'common', img:'https://community.akamai.steamstatic.com/economy/image/i0CoZ81Ui0m-9KwlBY1L_18myuGuq1wfhWSaZgMttyVfPaERSR0Wqmu7LAocGIGz3UqlXOLrxM-vMGmW8VNxu5Dx60noTyLhzMOwwiFO0OL8PfRSI-mRC3WT0-F1j-1gSCGn2x9ytmzWnN6pInjGOwMlDZp0EORe5BHsx93lP7zr5wzbiI5AyXr_jS9XrnE8gQrIgng' },
+        { n:'M4A4 | The Emperor (Field-Tested)', v:2100, w:1.312, r:'rare', img:'https://community.akamai.steamstatic.com/economy/image/i0CoZ81Ui0m-9KwlBY1L_18myuGuq1wfhWSaZgMttyVfPaERSR0Wqmu7LAocGIGz3UqlXOLrxM-vMGmW8VNxu5Dx60noTyL8ypexwiVI0P_6afBSJf2DC3Wf09F6ueZhW2exwBh_6m3dnt36InjDPQ4oXJt1TbJeshW_mtfjN-vrsgaKiokWy333kGoXuRj4z9Nd' },
+        { n:'MAC-10 | Acid Hex (Factory New)', v:12, w:47.114, r:'trash', img:'https://community.cloudflare.steamstatic.com/economy/image/i0CoZ81Ui0m-9KwlBY1L_18myuGuq1wfhWSaZgMttyVfPaERSR0Wqmu7LAocGIGz3UqlXOLrxM-vMGmW8VNxu5Dx60noTyL8n5WxrR1T9veRb7ZoJf6sDWadztF6ueZhW2fhw09_6mjSw9r4cy6RPVV1DZZwE7UI4xDsl9CyNuvi4gHf2o1NnH7-kGoXuXqvgvHX' },
+        { n:'MP9 | Modest Threat (Field-Tested)', v:25, w:22.615, r:'trash', img:'https://community.cloudflare.steamstatic.com/economy/image/i0CoZ81Ui0m-9KwlBY1L_18myuGuq1wfhWSaZgMttyVfPaERSR0Wqmu7LAocGIGz3UqlXOLrxM-vMGmW8VNxu5Dx60noTyL8js_f-jFk4uL3V6diLP-dFzfB_uNztOh8Qmfixh8mtTuGm9iocXKTbQEjWZAjRbNZshCwm9HvNLy04wPeidhCyX38kGoXua4ClY9d' },
+        { n:'StatTrak™ Glock-18 | Warhawk (Battle-Scarred)', v:38, w:14.878, r:'trash', img:'https://community.cloudflare.steamstatic.com/economy/image/i0CoZ81Ui0m-9KwlBY1L_18myuGuq1wfhWSaZgMttyVfPaERSR0Wqmu7LAocGIGz3UqlXOLrxM-vMGmW8VNxu5Dx60noTyL2kpnj9h1c_M2pZKtuK8-HBnKexetkj-V8XD2MnRgmpSTLzdmhdXySOwcnCpVxQuANtRe7kIDgYurr5lPZjd5DyCWriH5L7X5p5PFCD_QWET8GLw' },
+        { n:'P90 | Traction (Field-Tested)', v:50, w:11.307, r:'trash', img:'https://community.cloudflare.steamstatic.com/economy/image/i0CoZ81Ui0m-9KwlBY1L_18myuGuq1wfhWSaZgMttyVfPaERSR0Wqmu7LAocGIGz3UqlXOLrxM-vMGmW8VNxu5Dx60noTyLhx8bf-jFk_6v-V7B_JfGXMWqVxedjva9tF3_lkEpx4DjSn96hcSqWbgIgCsZ1Q-4KtUS5w4blP-Lj7lGN3Y5C02yg2T6bpjdP' },
+      ],
+    },
+    {
+      id:'clava', name:'Шкаф Бабушки Клавы', price:280, color:'#E879F9', icon:'gift', crate:'crate',
+      tag:'Там шуба, валидол и гарантия «сами ломались, но вы не при делах».',
+      items:[
+        { n:'Five-SeveN | Hyper Beast (Field-Tested)', v:1050, w:4.723, r:'rare', img:'https://community.akamai.steamstatic.com/economy/image/i0CoZ81Ui0m-9KwlBY1L_18myuGuq1wfhWSaZgMttyVfPaERSR0Wqmu7LAocGIGz3UqlXOLrxM-vMGmW8VNxu5Dx60noTyL3l4Dl7idN6vyRa7FSJvmFC3SV1-t4j-lwXyyhlxgmoCm6lob-KT-JO1QgWZVyELEPu0W4l9KzYbzn5Fbf3YkTzn_8hihIvXxtsOoFUKYirLqX0V_f6-eqCw' },
+        { n:'M4A4 | The Emperor (Field-Tested)', v:2100, w:5.815, r:'rare', img:'https://community.akamai.steamstatic.com/economy/image/i0CoZ81Ui0m-9KwlBY1L_18myuGuq1wfhWSaZgMttyVfPaERSR0Wqmu7LAocGIGz3UqlXOLrxM-vMGmW8VNxu5Dx60noTyL8ypexwiVI0P_6afBSJf2DC3Wf09F6ueZhW2exwBh_6m3dnt36InjDPQ4oXJt1TbJeshW_mtfjN-vrsgaKiokWy333kGoXuRj4z9Nd' },
+        { n:'MAC-10 | Stalker (Factory New)', v:620, w:4.033, r:'common', img:'https://community.akamai.steamstatic.com/economy/image/i0CoZ81Ui0m-9KwlBY1L_18myuGuq1wfhWSaZgMttyVfPaERSR0Wqmu7LAocGIGz3UqlXOLrxM-vMGmW8VNxu5Dx60noTyL8n5WxrR1c_M2jaac8cM-AGmacyutkj-1gSCGn20V0t27Tw974Jy-WOg9yW8N3QOQDsxG4x9O0ZOPqtgHZ399HzST8ji9XrnE8CxAHwFY' },
+        { n:'P250 | See Ya Later (Field-Tested)', v:520, w:3.825, r:'common', img:'https://community.akamai.steamstatic.com/economy/image/i0CoZ81Ui0m-9KwlBY1L_18myuGuq1wfhWSaZgMttyVfPaERSR0Wqmu7LAocGIGz3UqlXOLrxM-vMGmW8VNxu5Dx60noTyLhzMOwwiFO0OL8PfRSI-mRC3WT0-F1j-1gSCGn2x9ytmzWnN6pInjGOwMlDZp0EORe5BHsx93lP7zr5wzbiI5AyXr_jS9XrnE8gQrIgng' },
+        { n:'MAC-10 | Acid Hex (Factory New)', v:12, w:50.417, r:'trash', img:'https://community.cloudflare.steamstatic.com/economy/image/i0CoZ81Ui0m-9KwlBY1L_18myuGuq1wfhWSaZgMttyVfPaERSR0Wqmu7LAocGIGz3UqlXOLrxM-vMGmW8VNxu5Dx60noTyL8n5WxrR1T9veRb7ZoJf6sDWadztF6ueZhW2fhw09_6mjSw9r4cy6RPVV1DZZwE7UI4xDsl9CyNuvi4gHf2o1NnH7-kGoXuXqvgvHX' },
+        { n:'StatTrak™ Glock-18 | Warhawk (Battle-Scarred)', v:38, w:15.921, r:'trash', img:'https://community.cloudflare.steamstatic.com/economy/image/i0CoZ81Ui0m-9KwlBY1L_18myuGuq1wfhWSaZgMttyVfPaERSR0Wqmu7LAocGIGz3UqlXOLrxM-vMGmW8VNxu5Dx60noTyL2kpnj9h1c_M2pZKtuK8-HBnKexetkj-V8XD2MnRgmpSTLzdmhdXySOwcnCpVxQuANtRe7kIDgYurr5lPZjd5DyCWriH5L7X5p5PFCD_QWET8GLw' },
+        { n:'Desert Eagle | Trigger Discipline (Field-Tested)', v:68, w:8.897, r:'trash', img:'https://community.cloudflare.steamstatic.com/economy/image/i0CoZ81Ui0m-9KwlBY1L_18myuGuq1wfhWSaZgMttyVfPaERSR0Wqmu7LAocGIGz3UqlXOLrxM-vMGmW8VNxu5Dx60noTyL1m5fn8Sdk7OeRbKFsJ8-HHG6Xxutkj-VgXCq6hREuvTi6l4r9KD7KcFcmD8R0QecNtkTsw9HgPrzgtAGMjo0TmX2r2y4duiZutesLBKZ2r6zJz1aWAJe-_z0' },
+        { n:'StatTrak™ Glock-18 | Sacrifice (Minimal Wear)', v:95, w:6.368, r:'trash', img:'https://community.cloudflare.steamstatic.com/economy/image/i0CoZ81Ui0m-9KwlBY1L_18myuGuq1wfhWSaZgMttyVfPaERSR0Wqmu7LAocGIGz3UqlXOLrxM-vMGmW8VNxu5Dx60noTyL2kpnj9h1Y-s2pZKtuK8-bC3Wf_uJ_t-l9AXHixRlytW7Ty4queH_DZlMlX5UjF-dZsUPqk9LhY-Lk5waMjdlCmSzgznQeEFBQhB0' },
+      ],
+    },
+    {
+      id:'divan', name:'Кейс Просиженного Дивана', price:700, color:'#F97316', icon:'box', crate:'chest',
+      tag:'Продаётся с 2019. Торг уместен. Дивана уже нет.',
+      items:[
+        { n:'AK-47 | Neon Rider (Minimal Wear)', v:3200, w:7.218, r:'legend', img:'https://community.akamai.steamstatic.com/economy/image/i0CoZ81Ui0m-9KwlBY1L_18myuGuq1wfhWSaZgMttyVfPaERSR0Wqmu7LAocGIGz3UqlXOLrxM-vMGmW8VNxu5Dx60noTyLwlcK3wiFO0POlV6poL_6sHG6UxPxJvOhuRz39xkQhsTnVzoygdy7Ea1UoCZQkRe9bs0brl9TvN-m0tVHYjY5CyS35jjQJsHhk4o5zcA' },
+        { n:'AWP | Fever Dream (Field-Tested)', v:3400, w:7.351, r:'legend', img:'https://community.akamai.steamstatic.com/economy/image/i0CoZ81Ui0m-9KwlBY1L_18myuGuq1wfhWSaZgMttyVfPaERSR0Wqmu7LAocGIGz3UqlXOLrxM-vMGmW8VNxu5Dx60noTyLwiYbf_jdk7uW-V7R-OfObAXeR1eZJvOhuRz39kE1w4jiAzNiod3qTOgcgXpAlQ-ML5hjqxtHjZOrrtlHWit9EyCj9iDQJsHhCZP-wUg' },
+        { n:'SG 553 | Cyberforce (Field-Tested)', v:850, w:4.850, r:'common', img:'https://community.akamai.steamstatic.com/economy/image/i0CoZ81Ui0m-9KwlBY1L_18myuGuq1wfhWSaZgMttyVfPaERSR0Wqmu7LAocGIGz3UqlXOLrxM-vMGmW8VNxu5Dx60noTyLimcO1qx1Y-s29b_E4c8-QF2WV0-h5ouJscCW6khUz_Wjdntr6Iy6WbgEjA5MlRedctxG5kNKyNbi3sgTfi9oUnyj9234b5n51o7FVairOMAY' },
+        { n:'Five-SeveN | Hyper Beast (Field-Tested)', v:1050, w:5.167, r:'rare', img:'https://community.akamai.steamstatic.com/economy/image/i0CoZ81Ui0m-9KwlBY1L_18myuGuq1wfhWSaZgMttyVfPaERSR0Wqmu7LAocGIGz3UqlXOLrxM-vMGmW8VNxu5Dx60noTyL3l4Dl7idN6vyRa7FSJvmFC3SV1-t4j-lwXyyhlxgmoCm6lob-KT-JO1QgWZVyELEPu0W4l9KzYbzn5Fbf3YkTzn_8hihIvXxtsOoFUKYirLqX0V_f6-eqCw' },
+        { n:'MAC-10 | Acid Hex (Factory New)', v:12, w:53.399, r:'trash', img:'https://community.cloudflare.steamstatic.com/economy/image/i0CoZ81Ui0m-9KwlBY1L_18myuGuq1wfhWSaZgMttyVfPaERSR0Wqmu7LAocGIGz3UqlXOLrxM-vMGmW8VNxu5Dx60noTyL8n5WxrR1T9veRb7ZoJf6sDWadztF6ueZhW2fhw09_6mjSw9r4cy6RPVV1DZZwE7UI4xDsl9CyNuvi4gHf2o1NnH7-kGoXuXqvgvHX' },
+        { n:'P90 | Traction (Field-Tested)', v:50, w:12.816, r:'trash', img:'https://community.cloudflare.steamstatic.com/economy/image/i0CoZ81Ui0m-9KwlBY1L_18myuGuq1wfhWSaZgMttyVfPaERSR0Wqmu7LAocGIGz3UqlXOLrxM-vMGmW8VNxu5Dx60noTyLhx8bf-jFk_6v-V7B_JfGXMWqVxedjva9tF3_lkEpx4DjSn96hcSqWbgIgCsZ1Q-4KtUS5w4blP-Lj7lGN3Y5C02yg2T6bpjdP' },
+        { n:'StatTrak™ Glock-18 | Sacrifice (Minimal Wear)', v:95, w:6.745, r:'trash', img:'https://community.cloudflare.steamstatic.com/economy/image/i0CoZ81Ui0m-9KwlBY1L_18myuGuq1wfhWSaZgMttyVfPaERSR0Wqmu7LAocGIGz3UqlXOLrxM-vMGmW8VNxu5Dx60noTyL2kpnj9h1Y-s2pZKtuK8-bC3Wf_uJ_t-l9AXHixRlytW7Ty4queH_DZlMlX5UjF-dZsUPqk9LhY-Lk5waMjdlCmSzgznQeEFBQhB0' },
+        { n:'Five-SeveN | Kami (Minimal Wear)', v:261, w:2.455, r:'trash', img:'https://community.cloudflare.steamstatic.com/economy/image/i0CoZ81Ui0m-9KwlBY1L_18myuGuq1wfhWSaZgMttyVfPaERSR0Wqmu7LAocGIGz3UqlXOLrxM-vMGmW8VNxu5Dx60noTyL3l4Dl7idN6vyRYL1SK_GeB1icyOl-pK9oGnHnk012sT_XzNv4eXuUawUlDpEkQOIN40XskIHmP-mx4wOLio1B02yg2SJzf1Vk' },
+      ],
+    },
+    {
+      id:'seif', name:'Сейф Чиновника', price:2400, color:'#94A3B8', icon:'target', crate:'safe',
+      tag:'Задекларирован как «мебель». Содержимое в декларацию не поместилось.',
+      items:[
+        { n:'AK-47 | Redline (Field-Tested)', v:3200, w:3.269, r:'legend', img:'https://community.akamai.steamstatic.com/economy/image/i0CoZ81Ui0m-9KwlBY1L_18myuGuq1wfhWSaZgMttyVfPaERSR0Wqmu7LAocGIGz3UqlXOLrxM-vMGmW8VNxu5Dx60noTyLwlcK3wiFO0POlPPNSI_-RHGavzedxuPUnFniykEtzsWWBzoyuIiifaAchDZUjTOZe4RC_w4buM-6z7wzbgokUyzK-0H08hRGDMA' },
+        { n:'USP-S | Kill Confirmed (Minimal Wear)', v:4200, w:3.547, r:'legend', img:'https://community.akamai.steamstatic.com/economy/image/i0CoZ81Ui0m-9KwlBY1L_18myuGuq1wfhWSaZgMttyVfPaERSR0Wqmu7LAocGIGz3UqlXOLrxM-vMGmW8VNxu5Dx60noTyLkjYbf7itX6vytbbZSI-WsG3SA_uV_vO1WTCa9kxQ1vjiBpYPwJiPTcFB2Xpp5TO5cskG9lYCxZu_jsVCL3o4Xnij23ClO5ik9tegFA_It8qHJz1aWe-uc160' },
+        { n:'AWP | Wildfire (Field-Tested)', v:5600, w:3.866, r:'legend', img:'https://community.akamai.steamstatic.com/economy/image/i0CoZ81Ui0m-9KwlBY1L_18myuGuq1wfhWSaZgMttyVfPaERSR0Wqmu7LAocGIGz3UqlXOLrxM-vMGmW8VNxu5Dx60noTyLwiYbf_jdk7uW-V7NkLPSVB3WV_uJ_t-l9AX7rxhl-tmzSwomtdC6TPwQnW5UkR-YD5kK-ltCzP-Ox4FfXiNoQyyrgznQeu9L0PzQ' },
+        { n:'AK-47 | Vulcan (Minimal Wear)', v:6800, w:4.098, r:'legend', img:'https://community.akamai.steamstatic.com/economy/image/i0CoZ81Ui0m-9KwlBY1L_18myuGuq1wfhWSaZgMttyVfPaERSR0Wqmu7LAocGIGz3UqlXOLrxM-vMGmW8VNxu5Dx60noTyLwlcK3wiFO0POlPPNSMuWRDGKC_uJ_t-l9AXCxxEh14zjTztivci2ePQZ2W8NzTecD4BKwloLiYeqxtAOIj9gUyyngznQeF7I6QE8' },
+        { n:'M4A1-S | Printstream (Minimal Wear)', v:10500, w:4.669, r:'legend', img:'https://community.akamai.steamstatic.com/economy/image/i0CoZ81Ui0m-9KwlBY1L_18myuGuq1wfhWSaZgMttyVfPaERSR0Wqmu7LAocGIGz3UqlXOLrxM-vMGmW8VNxu5Dx60noTyL8ypexwjFS4_ega6F_H_OGMWrEwL9lj_F7Rienhgk1tjyIpYPwJiPTcAAoCpsiEO5ZsUbpm9C2Zuni4VHW3o5EzSX62HxP7Sg96-hWVqYi_6TJz1aW0nxrkGs' },
+        { n:'AWP | Asiimov (Field-Tested)', v:11500, w:4.798, r:'legend', img:'https://community.akamai.steamstatic.com/economy/image/i0CoZ81Ui0m-9KwlBY1L_18myuGuq1wfhWSaZgMttyVfPaERSR0Wqmu7LAocGIGz3UqlXOLrxM-vMGmW8VNxu5Dx60noTyLwiYbf_jdk7uW-V6V-Kf2cGFidxOp_pewnF3nhxEt0sGnSzN76dH3GOg9xC8FyEORftRe-x9PuYurq71bW3d8UnjK-0H0YSTpMGQ' },
+        { n:'M4A4 | Asiimov (Field-Tested)', v:6200, w:3.986, r:'legend', img:'https://community.akamai.steamstatic.com/economy/image/i0CoZ81Ui0m-9KwlBY1L_18myuGuq1wfhWSaZgMttyVfPaERSR0Wqmu7LAocGIGz3UqlXOLrxM-vMGmW8VNxu5Dx60noTyL8ypexwiFO0P_6V6V-Kf2cGFidxOp_pewnTii3w0x_tmTRnt2qdHyWaFAjA5UlQOYI5BO5k9bhZunm41OI34NDnjK-0H3pAWw_Rw' },
+        { n:'MAC-10 | Acid Hex (Factory New)', v:12, w:54.459, r:'trash', img:'https://community.cloudflare.steamstatic.com/economy/image/i0CoZ81Ui0m-9KwlBY1L_18myuGuq1wfhWSaZgMttyVfPaERSR0Wqmu7LAocGIGz3UqlXOLrxM-vMGmW8VNxu5Dx60noTyL8n5WxrR1T9veRb7ZoJf6sDWadztF6ueZhW2fhw09_6mjSw9r4cy6RPVV1DZZwE7UI4xDsl9CyNuvi4gHf2o1NnH7-kGoXuXqvgvHX' },
+        { n:'StatTrak™ Galil AR | Connexion (Well-Worn)', v:59, w:11.077, r:'trash', img:'https://community.cloudflare.steamstatic.com/economy/image/i0CoZ81Ui0m-9KwlBY1L_18myuGuq1wfhWSaZgMttyVfPaERSR0Wqmu7LAocGIGz3UqlXOLrxM-vMGmW8VNxu5Dx60noTyL2n5rp8SNJ0PW9V6NsLPmfMXeYzut4uflWQiy3nAgq_WyEmd3_cSqVbgV1D5J3QrEPskW9mtLiPu7k7wWL2owQnyT6hn8YvX11o7FVmll_Ct8' },
+        { n:'M4A1-S | Solitude (Field-Tested)', v:140, w:4.668, r:'trash', img:'https://community.cloudflare.steamstatic.com/economy/image/i0CoZ81Ui0m-9KwlBY1L_18myuGuq1wfhWSaZgMttyVfPaERSR0Wqmu7LAocGIGz3UqlXOLrxM-vMGmW8VNxu5Dx60noTyL8ypexwjFS4_ega6F_H-OcDW-vzOFjvvVoRiegqhBzsmyWpYL8JSLSMxgmXJB5Qe8O5hLrkoDlNOix5wTcg4JHzXr5inxJvy5vtr4CV6Ytq63fkUifZonb9V4d' },
+        { n:'AK-47 | Jungle Spray (Battle-Scarred)', v:418, w:1.563, r:'common', img:'https://community.cloudflare.steamstatic.com/economy/image/i0CoZ81Ui0m-9KwlBY1L_18myuGuq1wfhWSaZgMttyVfPaERSR0Wqmu7LAocGIGz3UqlXOLrxM-vMGmW8VNxu5Dx60noTyLwlcK3wjFL0OG-eqV0H_qGAGCcxNF-teB_Vme2w0oi4zzVmdz8dCjGagIkDMN1RrYOshm6m4DgML7q5FPajYhDzSivkGoXuScz1P4u' },
+      ],
+    },
+    {
+      id:'tort', name:'Торт Премиальных Овец', price:6000, color:'#FBBF24', icon:'gems', crate:'gem',
+      tag:'Десерт, который так и не съели. Внутри — всё лучшее сразу.',
+      items:[
+        { n:'M4A1-S | Printstream (Minimal Wear)', v:10500, w:0.588, r:'legend', img:'https://community.akamai.steamstatic.com/economy/image/i0CoZ81Ui0m-9KwlBY1L_18myuGuq1wfhWSaZgMttyVfPaERSR0Wqmu7LAocGIGz3UqlXOLrxM-vMGmW8VNxu5Dx60noTyL8ypexwjFS4_ega6F_H_OGMWrEwL9lj_F7Rienhgk1tjyIpYPwJiPTcAAoCpsiEO5ZsUbpm9C2Zuni4VHW3o5EzSX62HxP7Sg96-hWVqYi_6TJz1aW0nxrkGs' },
+        { n:'AWP | Asiimov (Field-Tested)', v:11500, w:0.604, r:'legend', img:'https://community.akamai.steamstatic.com/economy/image/i0CoZ81Ui0m-9KwlBY1L_18myuGuq1wfhWSaZgMttyVfPaERSR0Wqmu7LAocGIGz3UqlXOLrxM-vMGmW8VNxu5Dx60noTyLwiYbf_jdk7uW-V6V-Kf2cGFidxOp_pewnF3nhxEt0sGnSzN76dH3GOg9xC8FyEORftRe-x9PuYurq71bW3d8UnjK-0H0YSTpMGQ' },
+        { n:'Desert Eagle | Blaze (Factory New)', v:36000, w:0.851, r:'mythic', img:'https://community.akamai.steamstatic.com/economy/image/i0CoZ81Ui0m-9KwlBY1L_18myuGuq1wfhWSaZgMttyVfPaERSR0Wqmu7LAocGIGz3UqlXOLrxM-vMGmW8VNxu5Dx60noTyL1m5fn8Sdk7vORbqhsLfWAMWuZxuZi_uI_TX6wxxkjsGXXnImsJ37COlUoWcByEOMOtxa5kdXmNu3htVPZjN1bjXKpkHLRfQU' },
+        { n:'★ Talon Knife | Doppler (Factory New)', v:92000, w:1.128, r:'mythic', img:'https://community.akamai.steamstatic.com/economy/image/i0CoZ81Ui0m-9KwlBY1L_18myuGuq1wfhWSaZgMttyVfPaERSR0Wqmu7LAocGIGz3UqlXOLrxM-vMGmW8VNxu5Dx60noTyL6kJ_m-B1M5vahf6lsK_WBMWad_ux6seJiXyyyhxEYvjyXmIP8KDHCOml8U8UoAfkC4UbuldyzNOy35lHc3opEyS2qhiocvHs_5bsHVPIgq_bQhgrBM7w9_9Bdc1T7Obpq' },
+        { n:'★ Karambit | Doppler (Factory New)', v:108000, w:1.184, r:'mythic', img:'https://community.akamai.steamstatic.com/economy/image/i0CoZ81Ui0m-9KwlBY1L_18myuGuq1wfhWSaZgMttyVfPaERSR0Wqmu7LAocGIGz3UqlXOLrxM-vMGmW8VNxu5Dx60noTyL6kJ_m-B1Q7uCvZaZkNM-SA1iSze91u_FsTju_qhAmoT-Jn4bjJC_4Ml93UtZuRLQPsBawkNfiMbnl5AKMiopCnin7iCJBv31j4rkBBKEg-6zUjV3GY6p9v8dpLWT3Fg' },
+        { n:'★ Butterfly Knife | Doppler (Factory New)', v:118000, w:1.215, r:'mythic', img:'https://community.akamai.steamstatic.com/economy/image/i0CoZ81Ui0m-9KwlBY1L_18myuGuq1wfhWSaZgMttyVfPaERSR0Wqmu7LAocGIGz3UqlXOLrxM-vMGmW8VNxu5Dx60noTyL6kJ_m-B1Z-ua6bbZrLOmsD2qvw-J3s-p5SiihmSIqsi-HlorwOy7DAVRPVssnHaMUuhe9xIHlMuvqtgPf2IoTyC383Sod7CY-sr4DVfZ2qKPU3g-TNuE-545DeqjFvb87vg' },
+        { n:'★ M9 Bayonet | Doppler (Factory New)', v:85000, w:1.102, r:'mythic', img:'https://community.akamai.steamstatic.com/economy/image/-9a81dlWLwJ2UUGcVs_nsVtzdOEdtWwKGZZLQHTxDZ7I56KU0Zwwo4NUX4oFJZEHLbXH5ApeO4YmlhxYQknCRvCo04DEVlxkKgpovbSsLQJf3qr3czxb49KzgL-Kmsj2P7rSnXtU6dd9teTA5475jV2urhcDPzCkfMKLcAE-aV3R-lO5l-e61sfqvZ2fyiBgvikqsXiMyRGw1U1Ja-dm06adSULeWfJvEZCxug' },
+        { n:'MAC-10 | Acid Hex (Factory New)', v:12, w:74.278, r:'trash', img:'https://community.cloudflare.steamstatic.com/economy/image/i0CoZ81Ui0m-9KwlBY1L_18myuGuq1wfhWSaZgMttyVfPaERSR0Wqmu7LAocGIGz3UqlXOLrxM-vMGmW8VNxu5Dx60noTyL8n5WxrR1T9veRb7ZoJf6sDWadztF6ueZhW2fhw09_6mjSw9r4cy6RPVV1DZZwE7UI4xDsl9CyNuvi4gHf2o1NnH7-kGoXuXqvgvHX' },
+        { n:'Desert Eagle | Trigger Discipline (Field-Tested)', v:68, w:13.108, r:'trash', img:'https://community.cloudflare.steamstatic.com/economy/image/i0CoZ81Ui0m-9KwlBY1L_18myuGuq1wfhWSaZgMttyVfPaERSR0Wqmu7LAocGIGz3UqlXOLrxM-vMGmW8VNxu5Dx60noTyL1m5fn8Sdk7OeRbKFsJ8-HHG6Xxutkj-VgXCq6hREuvTi6l4r9KD7KcFcmD8R0QecNtkTsw9HgPrzgtAGMjo0TmX2r2y4duiZutesLBKZ2r6zJz1aWAJe-_z0' },
+        { n:'Five-SeveN | Kami (Field-Tested)', v:208, w:4.285, r:'trash', img:'https://community.cloudflare.steamstatic.com/economy/image/i0CoZ81Ui0m-9KwlBY1L_18myuGuq1wfhWSaZgMttyVfPaERSR0Wqmu7LAocGIGz3UqlXOLrxM-vMGmW8VNxu5Dx60noTyL3l4Dl7idN6vyRYL1SK_GeB1idxOp_pewnTX7izEwl5j_WzdeqIn3CbwRxWJR2ROYOthS-xNThZbvksgza3otDnjK-0H1tAD0p8A' },
+        { n:'Glock-18 | Vogue (Minimal Wear)', v:538, w:1.657, r:'common', img:'https://community.cloudflare.steamstatic.com/economy/image/i0CoZ81Ui0m-9KwlBY1L_18myuGuq1wfhWSaZgMttyVfPaERSR0Wqmu7LAocGIGz3UqlXOLrxM-vMGmW8VNxu5Dx60noTyL2kpnj9h1Y-s2pZKtuK8-WF2KTzuBiseJ9cCW6khUz_T-GyNavdCqRawN1CMFwTOcO5hO7loXiY-zmsQKPi44QzHj22ikcvy11o7FVfFOBmfY' },
+      ],
+    },
 ];
 
   /* ============================================================
@@ -1582,6 +1670,7 @@
       lastDaily: 0,    // timestamp последнего забранного ежедневного бонуса
       inventory: [],   // [{ id, name, value, rarity, emoji, img }]
       fast: false,     // быстрый режим прокрутки рулетки
+      sound: true,     // звуки включены (кнопка в шапке)
       drops: [],       // история дропов [{ ts, name, value, rarity, emoji }]
       steamTries: 0,   // сколько раз ты пытался вывести баллы в Steam
       stats: { opened: 0, upgrades: 0, upWins: 0, best: { value: 0, name: null } },
@@ -1602,6 +1691,7 @@
           s.lastDaily = s.lastDaily || 0;
           s.steamTries = s.steamTries || 0;
           s.fast = !!s.fast;
+          s.sound = s.sound !== false;
           return s;
         }
       }
@@ -1676,11 +1766,27 @@
     sparkle:   '<path d="M12 4v4M12 16v4M4 12h4M16 12h4m-9-5 2 2m4 4 2 2m-8 0 2-2m4-4 2-2"/>',
     list:      '<path d="M8 6h12M8 12h12M8 18h12"/><path d="M4 6h.01M4 12h.01M4 18h.01"/>',
     close:     '<path d="M6 6l12 12M18 6 6 18"/>',
+    vol:       '<path d="M4 9v6h4l5 4V5L8 9H4Z"/><path d="M16 9a4 4 0 0 1 0 6"/><path d="M18.5 6.5a8 8 0 0 1 0 11"/>',
+    volx:      '<path d="M4 9v6h4l5 4V5L8 9H4Z"/><path d="m16 9 5 6M21 9l-5 6"/>',
   };
   // SVG-иконка по имени; класс .ic задаёт размер 1em
   function ic(name, cls) {
     const p = ICONS[name] || ICONS.sparkle;
     return `<svg class="ic ${cls || ''}" viewBox="0 0 24 24" aria-hidden="true">${p}</svg>`;
+  }
+
+  /* Крейт-иконки кейсов в духе CS2: коробка/бочка/сейф/самоцвет, тинт — цвет кейса */
+  const CRATE_PATHS = {
+    chest: '<rect x="9" y="17" width="30" height="23" rx="3"/><path d="M9 25h30"/><path d="m11 17 3-8h20l3 8"/><rect x="20" y="22" width="8" height="6" rx="1.5"/>',
+    crate: '<rect x="9" y="16" width="30" height="24" rx="2"/><path d="m9 16 4-7h22l4 7"/><path d="M24 16v24"/><path d="m9 16 13 8-2 4"/><path d="m39 16-13 8 2 4"/>',
+    drum:  '<ellipse cx="24" cy="11" rx="12" ry="4"/><path d="M12 11c-.6 12 .6 20 1 23 1 2 5 3 11 3s10-1 11-3c.4-3 1.6-11 1-23" fill="none"/><path d="M12.5 20c1 1.8 5.2 3 11.5 3s10.5-1.2 11.5-3"/><path d="M12.5 28c1 1.8 5.2 3 11.5 3s10.5-1.2 11.5-3"/>',
+    safe:  '<rect x="7" y="9" width="34" height="30" rx="4"/><circle cx="24" cy="24" r="7"/><path d="M24 17v-4M31 24h4"/><path d="M14 39v3h20v-3"/>',
+    gem:   '<path d="M14 8h20l8 10-18 22L6 18l8-10Z"/><path d="M6 18h36"/><path d="M24 18 14 8l6 10 4-6"/><path d="M24 40 24 18"/>',
+  };
+  const CRATE_BY_ID = { bomzh:'chest', pelmeni:'drum', musor:'drum', street:'crate', neon:'gem', garazh:'crate', royal:'gem', black:'safe' };
+  function crateSVG(c) {
+    const paths = CRATE_PATHS[CRATE_BY_ID[c.id] || c.crate || 'crate'] || CRATE_PATHS.crate;
+    return `<svg class="ic crate" viewBox="0 0 48 48" aria-hidden="true">${paths}</svg>`;
   }
 
   // SVG-иконка-фолбэк для скинов, если картинка не загрузилась
@@ -1714,6 +1820,33 @@
     'Статистически ты можешь всё. Статистически же — не можешь',
     'Открывай спокойно: бабушкин чайник уже 60 лет против нас',
     'Рулетка не решает всё. Но 92% — точно',
+    'Крутим без спешки: так предчувствие продлевается на пару секунд',
+    'Ваш предыдущий дроп помнит вас. Он не в восторге',
+    'Собрано с любовью и тремя процентами совести',
+    'Шансы честные. Честнее только намерения кейсов вам наврать',
+    'Пока вы читали это, кейс уменьшился на один балл вашего достоинства',
+    'Анализирую вашу карму… вердикт: будем, просто крутим',
+    'Роле-модель: предмет едет к вам через четыре района пробок',
+  ];
+
+  // Подколы при совсем дешёвом дропе (не каждый спин, чтобы не задолбать)
+  const LOW_ROLLS = [
+    'Дешёвенько. Но зато без коммитментов',
+    'Этот предмет даже не мусор. Это архетип мусора',
+    'Продал судьба тебе идею предмета. Сами детали — платно',
+    'Эконом-дроп. Позитив в баланс не входит, извините',
+    'Сдавайте в музей: экспонат «почти ничего»',
+    'Именно за такое величие проекта мы здесь и собрались',
+    'Выбрано специально для вас. Кем — не уточняйте',
+  ];
+
+  // Подколы при провале апгрейда
+  const FAIL_ROASTS = [
+    'Ставка испарилась. Красиво, между прочим',
+    'Предметы сгорели. Огонь претензий не принимает',
+    'Проигранным ставкам памятник не ставят, но вы держитесь',
+    'Колесо решило, что у вас и так достаточно',
+    'Апгрейд отменён по культурным причинам',
   ];
   function spinJoke() { return SPIN_JOKES[Math.floor(Math.random() * SPIN_JOKES.length)]; }
 
@@ -1766,6 +1899,22 @@
     if (e.target === $('#depositOverlay')) closeOverlay('#depositOverlay');
   });
   $('#logo').addEventListener('click', () => switchTab('cases'));
+
+  // Выключатель звука — всё кончается тишиной и уважением к соседям
+  function renderSnd() {
+    const on = state.sound !== false;
+    const el = $('#sndBtn');
+    el.querySelector('[data-ic]').innerHTML = on ? ic('vol') : ic('volx');
+    el.classList.toggle('active', on);
+    el.title = on ? 'Звук: включён (клик — отключить)' : 'Звук: отключён (клик — включить)';
+  }
+  $('#sndBtn').addEventListener('click', () => {
+    state.sound = !(state.sound !== false);
+    saveState();
+    renderSnd();
+    if (state.sound) toast(ic('vol') + ' Звук включён. Бережно и негромко', 'info');
+    else toast(ic('volx') + ' Тишина в студии. Баллы продолжат шуршать молча', 'info');
+  });
 
   /* ============================================================
      5. LIVE-ЛЕНТА И ИСТОРИЯ ДРОПОВ
@@ -1840,7 +1989,7 @@
       card.className = 'case-card';
       card.style.setProperty('--c', c.color);
       card.innerHTML = `
-        <div class="case-card__icon">${ic(c.icon)}</div>
+        <div class="case-card__icon">${crateSVG(c)}</div>
         <h3>${c.name}</h3>
         <p class="case-card__tag">${c.tag}</p>
         <div class="case-card__tops">
@@ -1896,7 +2045,7 @@
       <div class="cp-head">
         <button class="btn btn--ghost cp-back" id="cpBack" style="align-self:flex-start;"><span data-ic="grid"></span> Все кейсы</button>
         <div class="cp-title">
-          <span class="cp-icon" style="background:linear-gradient(135deg, ${c.color}, ${c.color}66)">${ic(c.icon)}</span>
+          <span class="cp-icon" style="background:linear-gradient(135deg, ${c.color}, ${c.color}66)">${crateSVG(c)}</span>
           <div>
             <h1 class="section-title">${c.name}</h1>
             <p class="section-sub">${c.tag}<br>Цена: <b>◆ ${fmt(c.price)}</b> · предметов: <b>${c.items.length}</b> · баланс: <b>◆ ${fmt(state.balance)}</b></p>
@@ -2063,6 +2212,9 @@
     const jitter = (Math.random() - 0.5) * (firstCell.offsetWidth * 0.55);
     const finalX = -(WIN_INDEX * step + firstCell.offsetWidth / 2 - viewW / 2 + jitter);
 
+    // Тики прокрутки: звук торможения в такт ленте
+    snd.spin(SPIN_MS());
+
     // Разгон, затем плавное торможение на победителе
     ribbon.style.transform = 'translateX(120px)';
     requestAnimationFrame(() => requestAnimationFrame(() => {
@@ -2093,6 +2245,14 @@
     saveState();
     bumpBalance();
     refreshInventory();
+
+    // Звук победы: богаче — на больших дропах
+    snd.win(winner.r === 'legend' || winner.r === 'mythic' || winner.v >= c.price * 3);
+
+    // Жёсткий стёб на случай совсем дешёвого дропа (не каждый раз)
+    if (winner.v < c.price * 0.45 && Math.random() < 0.5) {
+      toast(ic('crosshair') + ' ' + LOW_ROLLS[Math.floor(Math.random() * LOW_ROLLS.length)], 'info');
+    }
 
     // Тост по редкости
     if (winner.r === 'legend' || winner.r === 'mythic') {
@@ -2383,6 +2543,8 @@
     const plan = gaugePlan(theta);
     let cursor = 0;
     let elapsed = 0;
+    const totalMs = plan.reduce((a, s) => a + (s.delay || 0) + s.dur, 0);
+    snd.gaugeTicks(totalMs);   // шелест колеса в такт сегментам
     plan.forEach((seg) => {
       elapsed += (seg.delay || 0) + seg.dur;
       setTimeout(() => {
@@ -2557,13 +2719,15 @@
       big.innerHTML = `<span style="color:var(--accent)">${ic('check')} +${fmt(target.value - total)}</span>`;
       small.innerHTML = `<span style="color:var(--accent); font-weight:700;">Апгрейд удался!</span><br>«${target.emoji} ${target.name}» — ${fmt(target.value)} б.`;
       toast(ic('bolt') + ' ' + items.length + ' ' + pluralItems(items.length) + ' → ' + target.name + ' (+' + fmt(target.value - total) + ' б.)!', 'ok');
+      snd.win(true);
     } else {
       // Неудача — вся ставка сгорает
       state.inventory = state.inventory.filter(i => !ids.includes(i.id));
       upgradeSel = [];
       big.innerHTML = `<span style="color:var(--red)">${ic('flame')} −${fmt(total)}</span>`;
       small.innerHTML = `<span style="color:var(--red); font-weight:700;">Не повезло.</span><br>${items.length} ${pluralItems(items.length)} сгорело. Дым красивый, но всё…`;
-      toast(ic('flame') + ' Апгрейд провален. Ставка сгорела.', 'err');
+      toast(ic('flame') + ' ' + FAIL_ROASTS[Math.floor(Math.random() * FAIL_ROASTS.length)], 'err');
+      snd.upFail();
     }
 
     saveState();
@@ -2831,18 +2995,95 @@
     renderDeposit();
   });
 
-  // Единственный приятный звук сайта: мягкий мажорный аккорд при зачислении
+  /* ============================================================
+     ЗВУКОВОЙ ДВИЖОК: тиxo, приятно, отключается кнопкой в шапке
+     ============================================================ */
+  const snd = (() => {
+    let ctx = null, master = null;
+    function ensure() {
+      if (state.sound === false) return null;
+      if (!ctx) {
+        const AC = window.AudioContext || window.webkitAudioContext;
+        if (!AC) return null;
+        ctx = new AC();
+        master = ctx.createGain();
+        master.gain.value = 0.55;            // общий уровень — негромко
+        master.connect(ctx.destination);
+      }
+      if (ctx.state === 'suspended') ctx.resume(); // webkit-политика: старт по жесту
+      return master;
+    }
+    // короткий тихий «тик»
+    function blip(freq, when, dur, vol, type) {
+      if (!ensure()) return;
+      const o = ctx.createOscillator(), g = ctx.createGain();
+      o.type = type || 'sine'; o.frequency.value = freq;
+      g.gain.setValueAtTime(0.0001, when);
+      g.gain.exponentialRampToValueAtTime(vol, when + 0.006);
+      g.gain.exponentialRampToValueAtTime(0.0001, when + dur);
+      o.connect(g).connect(master);
+      o.start(when); o.stop(when + dur + 0.05);
+    }
+    // тики рулетки: плотно в начале, всё реже к остановке (эффект торможения)
+    function spin(durMs) {
+      if (state.sound === false || !ensure()) return;
+      const t0 = ctx.currentTime;
+      const N = 22;
+      for (let i = 0; i < N; i++) {
+        const t = durMs / 1000 * Math.pow(i / N, 1.3);
+        blip(1400 + Math.random() * 260, t0 + t, 0.05, 0.016);
+      }
+    }
+    // победа: мягкие тёплые ноты; big — короткая радостная фраза
+    function win(big) {
+      if (state.sound === false || !ensure()) return;
+      const t0 = ctx.currentTime;
+      const notes = big ? [523.25, 659.25, 783.99, 1046.5] : [587.33, 783.99];
+      notes.forEach((f, i) => {
+        blip(f, t0 + i * 0.09, 0.42, 0.06, 'triangle');
+      });
+    }
+    // колесо апгрейдера: низкий шелест, темп под сегменты
+    function gaugeTicks(durMs) {
+      if (state.sound === false || !ensure()) return;
+      const t0 = ctx.currentTime;
+      const N = 16;
+      for (let i = 0; i < N; i++) {
+        const t = durMs / 1000 * Math.pow(i / N, 1.15);
+        blip(540 + i * 16, t0 + t, 0.07, 0.02, 'triangle');
+      }
+    }
+    // провал апгрейда: грустное нисходящее, совсем тихо
+    function upFail() {
+      if (state.sound === false || !ensure()) return;
+      const t0 = ctx.currentTime;
+      [[392, 0], [293.66, 0.14], [233.08, 0.3]].forEach(([f, d]) => {
+        blip(f, t0 + d, 0.35, 0.045, 'sine');
+      });
+    }
+    // UI-клик: еле слышный
+    function click() {
+      if (state.sound === false || !ensure()) return;
+      blip(2100, ctx.currentTime, 0.03, 0.008);
+    }
+    // отдаём текущий контекст (для аккорда пополнения)
+    function ctxNow() { return ctx; }
+    return { ensure, spin, win, gaugeTicks, upFail, click, ctxNow };
+  })();
+
+  /* Пополнение: мягкий мажорный аккорд через общий движок */
   function depChime() {
     try {
-      audioCtx = audioCtx || new (window.AudioContext || window.webkitAudioContext)();
-      const t0 = audioCtx.currentTime;
+      if (state.sound === false || !snd.ensure()) return;
+      const ctx = snd.ctxNow();
+      const t0 = ctx.currentTime;
       [[523.25, 0], [659.25, 0.12], [783.99, 0.26]].forEach(([f, d]) => {
-        const o = audioCtx.createOscillator(), g = audioCtx.createGain();
+        const o = ctx.createOscillator(), g = ctx.createGain();
         o.type = 'sine'; o.frequency.value = f;
         g.gain.setValueAtTime(0.0001, t0 + d);
         g.gain.exponentialRampToValueAtTime(0.055, t0 + d + 0.03);
         g.gain.exponentialRampToValueAtTime(0.0001, t0 + d + 0.7);
-        o.connect(g).connect(audioCtx.destination);
+        o.connect(g).connect(ctx.destination);
         o.start(t0 + d); o.stop(t0 + d + 0.75);
       });
     } catch (e) { /* звук не критичен */ }
@@ -2955,6 +3196,7 @@
     buildGaugeTicks();
     renderGaugeSpeed();
     $('#fastBtn').classList.toggle('active', state.fast); // восстановить режим
+    renderSnd();
     renderCases();
     renderUpgradeInv();
     updateUpgradeUI();
